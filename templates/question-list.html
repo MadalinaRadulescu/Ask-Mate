@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <h1>Ask mate</h1>
+    <h2>Question list</h2>
+    <a href="/add-question">Add a question</a>
+    <table>
+        <thead>
+            <tr>
+                {% for header in list_question[0].keys() %}
+                <th>{{ header.replace("_"," ").capitalize() }}</th>
+                {% endfor %}
+                <th>Add an answer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dictionary in list_question %}
+                <tr>
+                    {% for key in dictionary %}
+                        {% if key == "vote_number" %}
+                            <td id="vote-table"> 
+                            <form action="{{url_for('modify_vote',question_id=dictionary.id)}}" method="post">
+                                <button name="vote" value="vote-up" id="vote-button-up">&#8593</button>
+                                <br>
+                                {{ dictionary[key] }}
+                                <br>
+                                <button name="vote" value="vote-down" id="vote-button-down">&#8595</button>
+                            </form>
+                            </td>
+                        {% elif key == "title" %}
+                            <td>
+                                <a href="{{ url_for('answer_question', question_id=dictionary.id) }}">{{ dictionary[key]|safe }}</a>
+                            </td>
+                        {% elif key == "image" %}
+                             <td>
+                        <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="no icon">
+                            </td>
+                        {% else %}
+                            <td>{{ dictionary[key]|safe }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>
+                        <a href="{{ url_for('add_answer_to_question', question_id=dictionary.id) }}">Add answer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

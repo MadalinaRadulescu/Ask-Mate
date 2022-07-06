@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add question</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <h1>Add question</h1>
+    <form action="/add-question" method="post" enctype="multipart/form-data"  >
+        {%for title in titles%}
+        <label for={{title}}>{{title.replace("_"," ").capitalize()}}<br></label>
+        {% if title == "image" %}
+        <label for="file"></label><br>
+        <input type="file" name="File" id="file"> <br><br>
+        {% else %}
+        <input type="text" name={{title}}><br><br>
+        {% endif %}
+        {%endfor%}
+        <button type="submit">Add a new question</button>
+    </form>
+</body>
+</html>

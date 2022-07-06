@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add answer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <h1>Add answer</h1>
+    <form action="{{url_for('add_answer_to_question',question_id=id)}}" method="post">
+        {%for title in titles%}
+        <label for={{title}}>{{title.replace("_"," ").capitalize()}}<br></label>
+        <input type="text" name={{title}}><br>
+            {%endfor%}
+            <button type="submit" onclick="return confirm('Are you sure?')">Add a new answer</button>
+    </form>
+</body>
+</html>
