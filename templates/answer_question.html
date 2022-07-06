@@ -11,15 +11,15 @@
     {% if dic["id"]==id %}
     <p id="question_for_answers">Question:<br><br> {{dic["title"]}}</p>
      <form style="display: inline-block;" action="{{url_for('delete_question',question_id=id)}}" method="post" onclick="return confirm('Are you sure?')">
-        <button name="delete_question" value="delete_question" id="delete_question" >Delete this Question</button>
+        <button name="delete_question" value="delete_question" id="delete_question" style="background: #8e7cc3;color:white;" >Delete this Question</button>
         </form>
         <form style="display: inline-block;" action="{{url_for('edit_question',question_id=id)}}" method="get" >
-        <button name="edit_question" value="edit_question" id="edit_question" >Edit Question</button>
+        <button name="edit_question" value="edit_question" id="button-add" style="background: #8e7cc3;color:white;" >Edit Question</button>
         </form>
         <form style="display: inline-block;" action="{{url_for('question_list')}}" method="get" >
-        <button name="main-menu" value="main-menu" id="main-menu-button" >Go to main menu</button>
+        <button name="main-menu" value="main-menu" id="main-menu-button" style="background: #8e7cc3;color:white;">Go to main menu</button>
         </form>
-        
+    <img src="https://lh3.googleusercontent.com/xEB2O8HS1b1F7lLnCsmuZwcJ_W9-grGYB_nff7b63b7yfZaFq7BkRL96RzKdrreNhEaW5xJc9XvDzFZm_RlgP9K6_EqFypQC-a_iXfrIlIgALkgi-GKp1abKI2sXPUwoL2WAKr4Z=w2400" id="answer-photo">
     <p id="message_for_question">Message: {{ dic["message"] }}</p>
     {% endif %}
     {% endfor %}
@@ -38,10 +38,7 @@
                     </form>
                     
                     <br>
-                    <form action="{{url_for('delete_answer',answer_id=answer_dic.id,question_id=id)}}" method="get" onclick="return confirm('Are you sure?')">
-                    <button name="delete_answer" value="delete_answer" id="delete_answer" >Delete this Answer </button>
-                    </form>
-                    
+                    <div class="main">  <a href="{{url_for('delete_answer',answer_id=answer_dic.id,question_id=id)}}" id="add-href"  method="get" onclick="return confirm('Are you sure?')">Delete this answer</a> </div>
                         
                 {% endif %}
                 <br>

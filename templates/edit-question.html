@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Question</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
-<body>
+<body id="edit-question">
     <h1>Edit a question</h1>
    <form action="{{ url_for('edit_question',question_id=question_id) }}" method="post" enctype="multipart/form-data">
-        {% for title in titles[4:] %}
+        {% for title in titles %}
         <label for={{ title }}>{{title.replace("_"," ").capitalize()}}<br></label>
         {% for dic in question_list_dic if dic["id"] == question_id %}
-            {% if title == "image" %}
-            <label for="file"></label><br>
-            <input type="file" name="File" id="file"> <br><br>
+        {% if title == "image" %}
+        <label for="file" ></label><br>
+        <input type="file" name="File" id="file" > <br><br>
         {% else %}
         <textarea name={{ title }} rows="4" cols="40">{{ dic[title]|safe }}</textarea><br>
             {% endif %}
             {% endfor %}
             {% endfor %}
-            <button type="submit" onclick="return confirm('Are you sure?')">Edit question!</button>
+            <button type="submit" id="button-add" style="background: #8e7cc3;color:white;" onclick="return confirm('Are you sure?')">Edit Question!</button>
 </body>
 </html>

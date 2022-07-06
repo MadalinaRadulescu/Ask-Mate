@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <h1>Ask mate</h1>
-    <h2>Question list</h2>
-    <a href="/add-question">Add a question</a>
+    <h1 id="title-title">Question list | sprint 1</h1>
+    <br>
+      <div class="main">  <a href="{{url_for('add_question') }}" id="add-href">Add a question</a> </div>
+
+    <br>
     <table>
         <thead>
             <tr>

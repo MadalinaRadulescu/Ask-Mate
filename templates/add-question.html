@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Add question</h1>
+    <img src="https://lh3.googleusercontent.com/UtBd5AKPUbq5RqkMYYbyx4p4ouOPVCDUDsRlkfkHroqlblJh6s1oMer8uhQFFUDYCJR1JZhrMTO7bVKp3hf2nBA8Iqc_EFOhqD2_DX64MEL5rYKya-JXD1__Wmz0Y0uM82GFa3dW=w2400" id="template-photo">
     <form action="/add-question" method="post" enctype="multipart/form-data"  >
         {%for title in titles%}
         <label for={{title}}>{{title.replace("_"," ").capitalize()}}<br></label>
@@ -17,7 +18,7 @@
         <input type="text" name={{title}}><br><br>
         {% endif %}
         {%endfor%}
-        <button type="submit">Add a new question</button>
+        <button type="submit" id="button-add" style="background: #8e7cc3;color:white;">Add a new question</button>
     </form>
 </body>
 </html>

@@ -59,20 +59,19 @@ def edit_question(question_id):
     if request.method =="POST":
         for dic in question_list_dic:
             if dic["id"] == str(question_id):
+                for title in data_processing.QUESTION_HEADER[4:]:
+                    dic[title] = request.form.get(title)
                 try:
                     f = request.files["File"]
                     image = secure_filename(f.filename)
                     f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
                 except FileNotFoundError or KeyError:
                     image = "no_image.jpg"
-                    dic["image"] =image
-                print(dic)
-                for title in data_processing.QUESTION_HEADER[4:]:
-                    dic[title] = request.form.get(title)
-           
+                dic["image"] =image
+
         data_processing.rewrite_csv(data_processing.QUESITON,question_list_dic)
         return redirect(url_for("question_list"))
-    return render_template("edit-question.html",question_id=question_id,titles=data_processing.QUESTION_HEADER,question_list_dic=question_list_dic)
+    return render_template("edit-question.html",question_id=question_id,titles=data_processing.QUESTION_HEADER[4:],question_list_dic=question_list_dic)
 
 
 @app.route("/question/<question_id>/new-answer",methods=["GET","POST"])
