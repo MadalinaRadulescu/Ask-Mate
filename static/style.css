@@ -3,14 +3,14 @@ body,table{font-family: 'Lucida Sans', 'Courier New',monospace}
 
 
 th {
-  background-color: rgb(217, 130, 120);
+  background-color: #fc7363;
   color: #DADED4;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  font-size: 100%;
+  font-size: 120%;
 }
 tr:nth-child(even) {background-color: #f0ecfb;} 
-tr:hover {background-color: #fc7363;;}
+tr:hover {background-color: #eea59d;;}
 
 label{font-size: 200%;}
 
@@ -48,11 +48,11 @@ body{background-color: #e5e1ee};
 
 .main {
 
-  width: 150px;
-  height: 50px;
+  width: 140px;
+  height: 20px;
   font-weight: bold;
   font-size: 12px;
-  background-color: #ff5946;
+  background-color: #8e7cc3;
   cursor: pointer;
   box-shadow: 5px 5px 0 0;
   transition: 0.3s;
@@ -64,16 +64,16 @@ body{background-color: #e5e1ee};
 #add-href {
   position: absolute;
   text-decoration: none;
-  color: #000;
+  color: white;
   z-index: 1000;
 }
 .main::after {
   content: "";
   top: 0;
   left: 0;
-  width: 150px;
-  height: 50px;
-  background: linear-gradient(to right, #e5e1ee, #ff5946);
+  width: 140px;
+  height: 20px;
+  background: linear-gradient(to right, #e5e1ee, #8e7cc3);
   opacity: 0;
   transition: 0.3s;
 }
@@ -90,16 +90,16 @@ input,textarea{background-color: #e5e1ee;}
 #template-photo{
             position: absolute;
             top: 0px;
-            right: 400px;
+            right: 100px;
             width: 700px;
             
             
 }
 #answer-photo{
             position: absolute;
-            top: 400px;
-            right: 200px;
-            width: 400px;
+            top: 430px;
+            right: 100px;
+            width: 300px;
             
             
 }
