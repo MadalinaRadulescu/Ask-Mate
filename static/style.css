@@ -105,3 +105,13 @@ input,textarea{background-color: #e5e1ee;}
 }
 #question_for_answers{font-size: 250%;}
 
+#filter-names{font-size: 100%;}
+
+#main-title{font-size: 300%; text-align: center;}
+#main-link{font-size: 200%; position: absolute; right: 450px}
+
+#main-photo{
+            position: absolute;
+            top: 300px;
+            width: 700px;
+}

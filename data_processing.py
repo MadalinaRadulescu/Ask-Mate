@@ -1,5 +1,6 @@
 import csv
 from typing import List
+from datetime import datetime
 
 QUESITON = "question.csv"
 ANSWER = "answer.csv"
@@ -21,6 +22,10 @@ ANSWER_HEADER = [
     "image",
 ]
 
+def today_day():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
 
 def get_all_dic(filename):
     list_dictionary_question = []
@@ -32,8 +37,11 @@ def get_all_dic(filename):
 
 
 def sorting_dictionary_list(list1, title, desc_or_asc):
-    return sorted(list1, key=lambda dic: dic[title], reverse=desc_or_asc)
-
+    if desc_or_asc == "desc":
+        return sorted(list1, key=lambda dic: dic[(title)], reverse=False)
+    else:
+        return sorted(list1, key=lambda dic: dic[(title)], reverse=True)
+    
 
 def add_to_csv(filename, dictionary):
     with open(filename, "a") as csv_file:

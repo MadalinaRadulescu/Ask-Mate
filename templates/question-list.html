@@ -9,8 +9,32 @@
     <h1 id="title-title">Question list | sprint 1</h1>
     <br>
       <div class="main">  <a href="{{url_for('add_question') }}" id="add-href">Add a question</a> </div>
-
     <br>
+    <form action="/list">
+                <label for="sort-by" id="filter-names" >Filter by:</label>
+                    <select name="sort-by" type="submit" style="background: #e5e1ee;color:grey;">
+                        <option value="None"></option>
+                        <option value="title">Title</option>
+                        <option value="id">Id</option>
+                        <option value="submission_time">Submission time</option>
+                        <option value="view_number">View number</option>
+                        <option value="vote_number">Vote number</option>
+                        
+                        
+                    </select>
+    
+                <label for="asc-desc" id="filter-names">Ascending/Descending</label>
+                    <select name="asc-desc" type="submit" style="background: #e5e1ee;color:grey;">
+                        <option value="None"></option>
+                        <option value="asc">Descending</option>
+                        <option value="desc">Ascending</option>
+                        
+                    
+                    </select>
+            <button type="submit" id="button" style="background: #8e7cc3;color:white;">Search</button>
+  </form>
+    <br>
+
     <table>
         <thead>
             <tr>

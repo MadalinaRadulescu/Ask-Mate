@@ -1,3 +1,4 @@
+from codecs import ascii_decode
 from flask import Flask, render_template, redirect, request, url_for
 import data_processing
 import os
@@ -17,8 +18,24 @@ def main_page():
 
 @app.route("/list")
 def question_list():
-    list_question = data_processing.sorting_dictionary_list(
-        data_processing.get_all_dic(data_processing.QUESITON), "submission_time", False
+    sort_by = request.args.get("sort-by")
+    asc_desc = request.args.get("asc-desc")
+    if sort_by:
+        list_question =data_processing.sorting_dictionary_list(
+            data_processing.get_all_dic(data_processing.QUESITON), sort_by, False
+        )
+    if asc_desc:
+         list_question =data_processing.sorting_dictionary_list(
+            data_processing.get_all_dic(data_processing.QUESITON), "submission_time", asc_desc
+        )
+    if sort_by and asc_desc:
+        list_question =data_processing.sorting_dictionary_list(
+            data_processing.get_all_dic(data_processing.QUESITON), sort_by, asc_desc
+        )
+
+    else:
+        list_question =data_processing.sorting_dictionary_list(
+        data_processing.get_all_dic(data_processing.QUESITON), "id", False
     )
     return render_template("question-list.html", list_question=list_question)
 
@@ -45,9 +62,7 @@ def add_question():
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
             question_dic["id"] = str(int(max([dic["id"] for dic in list_question])) + 1)
-            question_dic["submission_time"] = str(
-                int(max([dic["submission_time"] for dic in list_question])) + 1000
-            )
+            question_dic["submission_time"] = data_processing.today_day()
             question_dic["view_number"] = str(0)
             question_dic["vote_number"] = str(0)
             question_dic[title] = request.form.get(title)
@@ -73,6 +88,7 @@ def edit_question(question_id):
         for dic in question_list_dic:
             if dic["id"] == str(question_id):
                 for title in data_processing.QUESTION_HEADER[4:]:
+                    dic["submission_time"] = data_processing.today_day()
                     dic[title] = request.form.get(title)
                 try:
                     f = request.files["File"]
@@ -99,9 +115,7 @@ def add_answer_to_question(question_id):
     if request.method == "POST":
         for title in data_processing.ANSWER_HEADER:
             answer_dic["id"] = str(int(max([dic["id"] for dic in answer_list])) + 1)
-            answer_dic["submission_time"] = str(
-                int(max([dic["submission_time"] for dic in answer_list])) + 1000
-            )
+            answer_dic["submission_time"] = data_processing.today_day()
             answer_dic["vote_number"] = "0"
             answer_dic["question_id"] = question_id
             answer_dic[title] = request.form.get(title)
