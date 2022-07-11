@@ -73,15 +73,24 @@ def answer_for_question_sql(cursor,id):
     cursor.execute(query,user_input)
     return cursor.fetchall()
 
-def updatate_voting(id, up_down, list_of_dic):
-    for dic in list_of_dic:
-        if str(id) in list(dic.values())[0]:
-            if up_down == "vote-up":
-                dic["vote_number"] = int(dic["vote_number"]) + 1
-            if up_down == "vote-down":
-                dic["vote_number"] = int(dic["vote_number"]) - 1
-    return list_of_dic
-
+@database_common.connection_handler
+def update_voting(cursor,id,up_down,table):
+    print(up_down)
+    if up_down == "vote-up":
+        query = f"""
+        UPDATE {table}
+        SET vote_number = vote_number + 1
+        WHERE id = {id};
+        """
+        cursor.execute(query,table)  
+      
+    if up_down == "vote-down":
+        query = f"""
+        UPDATE {table}
+        SET vote_number = vote_number - 1
+        WHERE id = {id};
+        """
+        cursor.execute(query,table)
 
 
 
@@ -94,9 +103,19 @@ def rewrite_csv(filename, list_of_dic):
             writer.writerow(dic)
 
 
-def remove_dic_from_list(id, list_dic, value):
-    updated_list_dic = []
-    for dic in list_dic:
-        if dic[value] != str(id):
-            updated_list_dic.append(dic)
-    return updated_list_dic
+# def remove_dic_from_list(id, list_dic, value):
+#     updated_list_dic = []
+#     for dic in list_dic:
+#         if dic[value] != str(id):
+#             updated_list_dic.append(dic)
+#     return updated_list_dic
+
+
+@database_common.connection_handler
+def delete_from_sql(cursor,id,table):
+    query =f"""
+    DELETE FROM {table}
+    WHERE id = {id}
+    """
+    cursor.execute(query)
+

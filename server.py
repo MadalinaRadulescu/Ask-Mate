@@ -133,10 +133,8 @@ def add_answer_to_question(question_id):
 def modify_vote(question_id):
     if request.method == "POST":
         vote = request.form.get("vote")
-        updated_list_dic = data_processing.updatate_voting(
-            question_id, vote, data_processing.get_all_dic(data_processing.QUESITON)
-        )
-        data_processing.rewrite_csv(data_processing.QUESITON, updated_list_dic)
+        data_processing.update_voting(question_id,vote,data_processing.QUESITON)
+       
 
     return redirect("/list")
 
@@ -145,10 +143,7 @@ def modify_vote(question_id):
 def modify_answer_vote(question_id, answer_id):
     if request.method == "POST":
         vote = request.form.get("vote")
-        updated_list_dic = data_processing.updatate_voting(
-            answer_id, vote, data_processing.get_all_dic(data_processing.ANSWER)
-        )
-        data_processing.rewrite_csv(data_processing.ANSWER, updated_list_dic)
+        data_processing.update_voting(answer_id,vote,data_processing.ANSWER)
 
     return redirect(url_for("answer_question", question_id=question_id))
 
