@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add answer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body id="add-answer">
+    <h1>Add answer</h1>
+    <img src="https://lh3.googleusercontent.com/jaHqC3R3y1bcH56Cp5F8M_irZJ6ZpY4IYDQ_eypWvU-a8WZNjsWW6x714cZk3qOgBD1vfrGXlIit0W8TtQOdyQtNwvUsEHrer5-vmlu6dgqcCYHA9PsNNAvRTeRv_6nIP10CSD-Q=w2400" id="template-photo">
+    <form action="{{url_for('add_answer_to_question',question_id=id)}}" method="post">
+        {%for title in titles%}
+        <label for={{title}}>{{title.replace("_"," ").capitalize()}}<br></label>
+        <input type="text" name={{title}}><br>
+            {%endfor%}
+            <br>
+            <div class="container">
+            <button type="submit" id="button" style="background: #8e7cc3;color:white;" onclick="return confirm('Are you sure?')">Add a new answer</button>
+            </div>
+    </form>
+</body>
+</html>

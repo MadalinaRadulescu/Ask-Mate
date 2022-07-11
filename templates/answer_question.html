@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Answer question</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" 
+    />
+</head>
+<body>
+    <h1>Answer question</h1>
+    {% for dic in list_question %}
+    {% if dic["id"]==id %}
+    <p id="question_for_answers">
+        Question:<br><br> 
+        {{dic["title"]}}
+    </p>
+     <form style="display: inline-block;"
+      action="{{url_for('delete_question',question_id=id)}}" 
+      method="post"
+       onclick="return confirm('Are you sure?')"
+       >
+        <button name="delete_question"
+         value="delete_question"
+          id="delete_question" 
+          style="background: #8e7cc3;color:white;" 
+          >
+          Delete this Question
+        </button>
+        </form>
+        <form style="display: inline-block;" action="{{url_for('edit_question',question_id=id)}}" method="get" >
+        <button name="edit_question" value="edit_question" id="button-add" style="background: #8e7cc3;color:white;" >Edit Question</button>
+        </form>
+        <form style="display: inline-block;" action="{{url_for('question_list')}}" method="get" >
+        <button name="main-menu" value="main-menu" id="main-menu-button" style="background: #8e7cc3;color:white;">Go to main menu</button>
+        </form>
+    <img src="https://lh3.googleusercontent.com/xEB2O8HS1b1F7lLnCsmuZwcJ_W9-grGYB_nff7b63b7yfZaFq7BkRL96RzKdrreNhEaW5xJc9XvDzFZm_RlgP9K6_EqFypQC-a_iXfrIlIgALkgi-GKp1abKI2sXPUwoL2WAKr4Z=w2400" id="answer-photo">
+    <p id="message_for_question">Message: {{ dic["message"] }}</p>
+    {% endif %}
+    {% endfor %}
+    <ol>
+    <p id="answer_is">The answer is:</p>
+        {%for answer in good_answer_list %}
+                <li id="answer_is">{{answer}}
+                {% for answer_dic in answer_list_dic %} 
+                    {% if answer in answer_dic["message"] %}
+                
+                    
+                    <form action="{{url_for('modify_answer_vote',answer_id=answer_dic.id,question_id=id)}}" method="post">
+                        Number of vote: {{answer_dic["vote_number"]}}
+                        <button name="vote" value="vote-up" id="vote-button-up">&#8593</button>  
+                        <button name="vote" value="vote-down" id="vote-button-down">&#8595</button> 
+                    </form>
+                    
+                    <br>
+                    <div class="main">  <a href="{{url_for('delete_answer',answer_id=answer_dic.id,question_id=id)}}" id="add-href"  method="get" onclick="return confirm('Are you sure?')">Delete this answer</a> </div>
+                        
+                {% endif %}
+                <br>
+                {% endfor %}
+               
+                    </li>
+    {% endfor %} 
+    </ol>
+   
+   
+</body>
+
+</html>
