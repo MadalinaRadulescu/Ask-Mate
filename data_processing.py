@@ -2,6 +2,12 @@ import csv
 from typing import List
 from datetime import datetime
 
+from typing import List, Dict
+from psycopg2 import sql
+from psycopg2.extras import RealDictCursor
+
+import database_common
+
 QUESITON = "question.csv"
 ANSWER = "answer.csv"
 QUESTION_HEADER = [
@@ -27,6 +33,17 @@ def today_day():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
+@database_common.connection_handler
+def get_all_dic_sql(cursor):
+    query = """
+        SELECT *
+        FROM question
+        """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+print(get_all_dic_sql())
+
 def get_all_dic(filename):
     list_dictionary_question = []
     with open(filename, "r") as csv_file:
@@ -42,6 +59,8 @@ def sorting_dictionary_list(list1, title, desc_or_asc):
     else:
         return sorted(list1, key=lambda dic: dic[(title)], reverse=True)
 
+
+print(sorting_dictionary_list(get_all_dic_sql(),"id","asc"))
 
 def add_to_csv(filename, dictionary):
     with open(filename, "a") as csv_file:
