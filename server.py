@@ -21,22 +21,24 @@ def question_list():
     sort_by = request.args.get("sort-by")
     asc_desc = request.args.get("asc-desc")
     if sort_by:
-        list_question =data_processing.sorting_dictionary_list(
+        list_question = data_processing.sorting_dictionary_list(
             data_processing.get_all_dic(data_processing.QUESITON), sort_by, False
         )
     if asc_desc:
-         list_question =data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic(data_processing.QUESITON), "submission_time", asc_desc
+        list_question = data_processing.sorting_dictionary_list(
+            data_processing.get_all_dic(data_processing.QUESITON),
+            "submission_time",
+            asc_desc,
         )
     if sort_by and asc_desc:
-        list_question =data_processing.sorting_dictionary_list(
+        list_question = data_processing.sorting_dictionary_list(
             data_processing.get_all_dic(data_processing.QUESITON), sort_by, asc_desc
         )
 
     else:
-        list_question =data_processing.sorting_dictionary_list(
-        data_processing.get_all_dic(data_processing.QUESITON), "id", False
-    )
+        list_question = data_processing.sorting_dictionary_list(
+            data_processing.get_all_dic(data_processing.QUESITON), "id", False
+        )
     return render_template("question-list.html", list_question=list_question)
 
 
