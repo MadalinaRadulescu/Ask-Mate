@@ -103,13 +103,6 @@ def rewrite_csv(filename, list_of_dic):
             writer.writerow(dic)
 
 
-# def remove_dic_from_list(id, list_dic, value):
-#     updated_list_dic = []
-#     for dic in list_dic:
-#         if dic[value] != str(id):
-#             updated_list_dic.append(dic)
-#     return updated_list_dic
-
 
 @database_common.connection_handler
 def delete_from_sql(cursor,id,table):
@@ -118,4 +111,3 @@ def delete_from_sql(cursor,id,table):
     WHERE id = {id}
     """
     cursor.execute(query)
-

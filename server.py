@@ -151,25 +151,13 @@ def modify_answer_vote(question_id, answer_id):
 @app.route("/question/<question_id>/delete", methods=["GET", "POST"])
 def delete_question(question_id):
     if request.method == "POST":
-        updated_dic_list = data_processing.remove_dic_from_list(
-            question_id, data_processing.get_all_dic(data_processing.QUESITON), "id"
-        )
-        updated_answer_dic_list = data_processing.remove_dic_from_list(
-            question_id,
-            data_processing.get_all_dic(data_processing.ANSWER),
-            "question_id",
-        )
-        data_processing.rewrite_csv(data_processing.QUESITON, updated_dic_list)
-        data_processing.rewrite_csv(data_processing.ANSWER, updated_answer_dic_list)
+        data_processing.delete_from_sql(question_id,data_processing.QUESITON)
     return redirect("/list")
 
 
 @app.route("/question/<question_id>/answer/<answer_id>/delete", methods=["GET", "POST"])
 def delete_answer(question_id, answer_id):
-    updated_answer_dic_list = data_processing.remove_dic_from_list(
-        answer_id, data_processing.get_all_dic(data_processing.ANSWER), "id"
-    )
-    data_processing.rewrite_csv(data_processing.ANSWER, updated_answer_dic_list)
+    data_processing.delete_from_sql(answer_id,data_processing.ANSWER)
     return redirect("/list")
 
 
