@@ -22,22 +22,22 @@ def question_list():
     asc_desc = request.args.get("asc-desc")
     if sort_by:
         list_question = data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic_sql(), sort_by, False
+            data_processing.get_all_dic(data_processing.QUESITON), sort_by, False
         )
     if asc_desc:
         list_question = data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic_sql(),
+            data_processing.get_all_dic(data_processing.QUESITON),
             "submission_time",
             asc_desc,
         )
     if sort_by and asc_desc:
         list_question = data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic_sql(), sort_by, asc_desc
+            data_processing.get_all_dic(data_processing.QUESITON), sort_by, asc_desc
         )
 
     else:
         list_question = data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic_sql(), "id", False
+            data_processing.get_all_dic(data_processing.QUESITON), "id", False
         )
     return render_template("question-list.html", list_question=list_question)
 
@@ -46,11 +46,11 @@ def question_list():
 def answer_question(question_id):
     answer_list_dic = data_processing.get_all_dic(data_processing.ANSWER)
     list_question = data_processing.get_all_dic(data_processing.QUESITON)
-    good_answer_list = data_processing.answer_for_question(question_id, answer_list_dic)
+    good_answer_list_dic = data_processing.answer_for_question_sql(question_id)
 
     return render_template(
         "answer_question.html",
-        good_answer_list=good_answer_list,
+        good_answer_list_dic=good_answer_list_dic,
         answer_list_dic=answer_list_dic,
         list_question=list_question,
         id=question_id,
@@ -63,7 +63,7 @@ def add_question():
     list_question = data_processing.get_all_dic(data_processing.QUESITON)
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
-            question_dic["id"] = str(int(max([dic["id"] for dic in list_question])) + 1)
+            question_dic["id"] = data_processing.new_max_id()
             question_dic["submission_time"] = data_processing.today_day()
             question_dic["view_number"] = str(0)
             question_dic["vote_number"] = str(0)
@@ -75,7 +75,7 @@ def add_question():
         except FileNotFoundError or KeyError:
             image = "no_image.jpg"
         question_dic["image"] = image
-        data_processing.add_to_csv(data_processing.QUESITON, question_dic)
+        data_processing.add_to_sql(question_dic,data_processing.QUESITON)
         return redirect("/list")
 
     return render_template(

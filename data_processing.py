@@ -8,8 +8,8 @@ from psycopg2.extras import RealDictCursor
 
 import database_common
 
-QUESITON = "question.csv"
-ANSWER = "answer.csv"
+QUESITON = "question"
+ANSWER = "answer"
 QUESTION_HEADER = [
     "id",
     "submission_time",
@@ -34,23 +34,13 @@ def today_day():
 
 
 @database_common.connection_handler
-def get_all_dic_sql(cursor):
-    query = """
+def get_all_dic(cursor,file):
+    query = f"""
         SELECT *
-        FROM question
+        FROM {file}
         """
     cursor.execute(query)
     return cursor.fetchall()
-
-print(get_all_dic_sql())
-
-def get_all_dic(filename):
-    list_dictionary_question = []
-    with open(filename, "r") as csv_file:
-        csv_reader = csv.DictReader(csv_file, delimiter=",")
-        for row in csv_reader:
-            list_dictionary_question.append(row)
-    return list_dictionary_question
 
 
 def sorting_dictionary_list(list1, title, desc_or_asc):
@@ -60,25 +50,28 @@ def sorting_dictionary_list(list1, title, desc_or_asc):
         return sorted(list1, key=lambda dic: dic[(title)], reverse=True)
 
 
-print(sorting_dictionary_list(get_all_dic_sql(),"id","asc"))
-
-def add_to_csv(filename, dictionary):
-    with open(filename, "a") as csv_file:
-        writer_csv = csv.DictWriter(csv_file, fieldnames=dictionary.keys())
-        writer_csv.writerow(dictionary)
+def new_max_id():
+    return str(int(max([dic["id"] for dic in get_all_dic(QUESITON)])) + 1)
 
 
-def answer_for_question(id, answer_dic_list):
-    good_answer_list = []
-    for dic in answer_dic_list:
-        if str(id) in list(dic.values())[3]:
-            good_answer_list.append(dic["message"])
-    return (
-        good_answer_list
-        if len(good_answer_list) > 0
-        else ["This question has no answer"]
-    )
+@database_common.connection_handler
+def add_to_sql(cursor,dict,table):
+    placeholder = ", ".join(["%s"] * len(dict))
+    query = "insert into {table} ({columns}) values ({values});".format( columns=",".join(dict.keys()), values=placeholder,table=table)
+    cursor.execute(query, list(dict.values()))
 
+
+
+@database_common.connection_handler
+def answer_for_question_sql(cursor,id):
+    query="""
+    SELECT message
+    FROM answer
+    WHERE question_id = %(id)s
+    """
+    user_input = {"id":id}
+    cursor.execute(query,user_input)
+    return cursor.fetchall()
 
 def updatate_voting(id, up_down, list_of_dic):
     for dic in list_of_dic:
@@ -88,6 +81,8 @@ def updatate_voting(id, up_down, list_of_dic):
             if up_down == "vote-down":
                 dic["vote_number"] = int(dic["vote_number"]) - 1
     return list_of_dic
+
+
 
 
 def rewrite_csv(filename, list_of_dic):

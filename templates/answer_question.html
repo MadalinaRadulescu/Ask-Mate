@@ -39,10 +39,10 @@
     {% endfor %}
     <ol>
     <p id="answer_is">The answer is:</p>
-        {%for answer in good_answer_list %}
-                <li id="answer_is">{{answer}}
+        {%for dic_answers in good_answer_list_dic %}
+                <li id="answer_is">{{dic_answers["message"]}}
                 {% for answer_dic in answer_list_dic %} 
-                    {% if answer in answer_dic["message"] %}
+                    {% if dic_answers["message"] in answer_dic["message"] %}
                 
                     
                     <form action="{{url_for('modify_answer_vote',answer_id=answer_dic.id,question_id=id)}}" method="post">
