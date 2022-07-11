@@ -64,7 +64,7 @@ def add_question():
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
             question_dic["id"] = data_processing.new_max_id()
-            question_dic["submission_time"] = data_processing.today_day()
+            question_dic["submission_time"] = str(data_processing.today_day())
             question_dic["view_number"] = str(0)
             question_dic["vote_number"] = str(0)
             question_dic[title] = request.form.get(title)
@@ -85,28 +85,25 @@ def add_question():
 
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def edit_question(question_id):
-    question_list_dic = data_processing.get_all_dic(data_processing.QUESITON)
+    
     if request.method == "POST":
-        for dic in question_list_dic:
-            if dic["id"] == str(question_id):
-                for title in data_processing.QUESTION_HEADER[4:]:
-                    dic["submission_time"] = data_processing.today_day()
-                    dic[title] = request.form.get(title)
-                try:
-                    f = request.files["File"]
-                    image = secure_filename(f.filename)
-                    f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
-                except FileNotFoundError or KeyError:
-                    image = "no_image.jpg"
-                dic["image"] = image
+        data_processing.update_sql(question_id,data_processing.QUESITON,"submission_time",f"'{data_processing.today_day()}'")
+        for title in data_processing.QUESTION_HEADER[4:]:
+            data_processing.update_sql(question_id,data_processing.QUESITON,title,f"'{request.form.get(title)}'")
+        try:
+            f = request.files["File"]
+            image = secure_filename(f.filename)
+            f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
+        except FileNotFoundError or KeyError:
+            image = "no_image.jpg"
+        data_processing.update_sql(question_id,data_processing.QUESITON,"image",f"'{image}'")
 
-        data_processing.rewrite_csv(data_processing.QUESITON, question_list_dic)
         return redirect(url_for("question_list"))
     return render_template(
         "edit-question.html",
         question_id=question_id,
         titles=data_processing.QUESTION_HEADER[4:],
-        question_list_dic=question_list_dic,
+        question_dic=data_processing.select_from_sql(question_id,data_processing.QUESITON),
     )
 
 
@@ -121,7 +118,7 @@ def add_answer_to_question(question_id):
             answer_dic["vote_number"] = "0"
             answer_dic["question_id"] = question_id
             answer_dic[title] = request.form.get(title)
-        data_processing.add_to_csv(data_processing.ANSWER, answer_dic)
+        data_processing.add_to_sql(answer_dic,data_processing.ANSWER)
         return redirect(url_for("answer_question", question_id=question_id))
 
     return render_template(

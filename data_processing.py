@@ -93,17 +93,6 @@ def update_voting(cursor,id,up_down,table):
         cursor.execute(query,table)
 
 
-
-def rewrite_csv(filename, list_of_dic):
-    with open(filename, "r+") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=list_of_dic[0].keys())
-        csv_file.truncate()
-        writer.writeheader()
-        for dic in list_of_dic:
-            writer.writerow(dic)
-
-
-
 @database_common.connection_handler
 def delete_from_sql(cursor,id,table):
     query =f"""
@@ -111,3 +100,31 @@ def delete_from_sql(cursor,id,table):
     WHERE id = {id}
     """
     cursor.execute(query)
+
+# placeholder = ", ".join(["%s"] * len(dict))
+#     query = "insert into {table} ({columns}) values ({values});".format( columns=",".join(dict.keys()), values=placeholder,table=table)
+
+@database_common.connection_handler
+def update_sql(cursor,id,table,column,user_input):
+    query =f"""
+    UPDATE {table}
+    SET {column} = {user_input}
+    WHERE id = {id} 
+    """
+    cursor.execute(query)
+
+
+@database_common.connection_handler
+def select_from_sql(cursor,id,table):
+    query =f"""
+    SELECT title,message,image
+    FROM {table}
+    WHERE id = {id} 
+    """
+    cursor.execute(query)
+    return cursor.fetchone()
+
+
+
+
+print(str(today_day()))
