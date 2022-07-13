@@ -1,3 +1,3 @@
 
 SELECT * 
-FROM answer
+FROM comment

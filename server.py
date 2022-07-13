@@ -168,6 +168,7 @@ def delete_answer(question_id, answer_id):
     data_processing.delete_from_sql(answer_id, data_processing.ANSWER)
     return redirect("/list")
 
+
 @app.route("/question/<question_id>/new-comment",methods=["GET","POST"])
 def add_question_comment(question_id):
     if request.method == "POST":
@@ -188,11 +189,11 @@ def add_question_comment(question_id):
         header=data_processing.COMMENT_HEADER[3],
         )
 
+
 @app.route("/answer/<answer_id>/new-comment",methods=["GET","POST"])
 def add_answer_comment(answer_id):
     question_id = data_processing.get_question_id_by_answer_id(answer_id)["question_id"]
     if request.method == "POST":
-        
         comment_dic ={
             "id": data_processing.new_max_id(data_processing.get_all_dic(data_processing.COMMENT)),
             "question_id":None,
@@ -208,7 +209,33 @@ def add_answer_comment(answer_id):
         question_id=question_id,
         header=data_processing.COMMENT_HEADER[3]
         )
-    
+
+
+@app.route("/answer/<answer_id>/edit",methods=["GET","POST"])
+def edit_answer(answer_id):
+    if request.method == "POST":
+        question_id = data_processing.get_question_id(answer_id,data_processing.ANSWER)["question_id"]
+        data_processing.update_sql(answer_id,data_processing.ANSWER,"message",request.form.get("message")
+        )
+        image = "no_image.jpg"
+        if request.files["File"]:
+            f = request.files["File"]
+            image = secure_filename(f.filename)
+            f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
+        data_processing.update_sql(answer_id,data_processing.ANSWER,"image",request.form.get("message")
+        )
+
+        return redirect(url_for('answer_question',question_id=question_id))
+    return render_template("edit-answer.html",answer_id=answer_id,headers=data_processing.ANSWER_HEADER,list_dic_answers=data_processing.get_all_dic(data_processing.ANSWER))
+
+
+@app.route("/comment/<comment_id>/edit",methods=["GET","POST"])
+def edit_comments(comment_id):
+    if request.method == "POST":
+        question_id = data_processing.get_question_id(comment_id,data_processing.COMMENT)["question_id"]
+        data_processing.update_sql(comment_id,data_processing.COMMENT,"message",request.form.get("message"))
+        return redirect(url_for('answer_question',question_id=question_id))
+    return render_template("edit-comments.html",headers=data_processing.COMMENT_HEADER,comment_id=comment_id)
 
 
 if __name__ == "__main__":

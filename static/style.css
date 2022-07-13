@@ -20,16 +20,6 @@ a {
 }
 
 
-/* label{font-size: 200%;}
-
-
-
-#comment-answer{font-size: 80%;} */
-
-
-/* #message_for_question{font-size: 120%;}
-#answer_is{font-size: 150%;}
-#vote-table{text-align: center;} */
 
 #vote-button-up{ 
   background-color:#b6c48e ;
@@ -91,34 +81,4 @@ a {
 }
 .main:hover::after {
   opacity: 1;
-} */
-
-/* 
-#template-photo{
-            position: absolute;
-            top: 0px;
-            right: 100px;
-            width: 700px;
-            
-            
-}
-#answer-photo{
-            position: absolute;
-            top: 430px;
-            right: 100px;
-            width: 300px;
-            
-            
-}
-#question_for_answers{font-size: 150%;}
-
-#filter-names{font-size: 100%;}
-
-#main-title{font-size: 300%; text-align: center;}
-#main-link{font-size: 200%; position: absolute; right: 450px}
-
-#main-photo{
-            position: absolute;
-            top: 300px;
-            width: 700px;
 } */

@@ -139,10 +139,10 @@ def select_from_sql(cursor, id, table):
 
 
 @database_common.connection_handler
-def get_question_id_by_answer_id(cursor,answer_id):
-    query = """
+def get_question_id(cursor,answer_id,table):
+    query = f"""
     SELECT question_id
-    FROM answer
+    FROM {table}
     WHERE id = %(answer_id)s
     """
     cursor.execute(query,{"answer_id":answer_id})
