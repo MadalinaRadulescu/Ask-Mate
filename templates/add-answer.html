@@ -6,8 +6,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body id="add-answer">
+    <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px;">
+    <br>
     <h1>Add answer</h1>
-    <img src="https://lh3.googleusercontent.com/jaHqC3R3y1bcH56Cp5F8M_irZJ6ZpY4IYDQ_eypWvU-a8WZNjsWW6x714cZk3qOgBD1vfrGXlIit0W8TtQOdyQtNwvUsEHrer5-vmlu6dgqcCYHA9PsNNAvRTeRv_6nIP10CSD-Q=w2400" id="template-photo">
+    <br>
+    <!-- <img src="#" id="template-photo"> -->
     <form action="{{url_for('add_answer_to_question',question_id=id)}}" method="post">
         {%for title in titles%}
         <label for={{title}}>{{title.replace("_"," ").capitalize()}}<br></label>
@@ -15,7 +18,7 @@
             {%endfor%}
             <br>
             <div class="container">
-            <button type="submit" id="button" style="background: #8e7cc3;color:white;" onclick="return confirm('Are you sure?')">Add a new answer</button>
+            <button type="submit" id="button" style="background: #4b4949;color:white;" onclick="return confirm('Are you sure?')">Add a new answer</button>
             </div>
     </form>
 </body>

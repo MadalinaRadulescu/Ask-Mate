@@ -6,19 +6,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
-    <h1>Add question</h1>
-    <img src="https://lh3.googleusercontent.com/UtBd5AKPUbq5RqkMYYbyx4p4ouOPVCDUDsRlkfkHroqlblJh6s1oMer8uhQFFUDYCJR1JZhrMTO7bVKp3hf2nBA8Iqc_EFOhqD2_DX64MEL5rYKya-JXD1__Wmz0Y0uM82GFa3dW=w2400" id="template-photo">
+    <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px;">
+    <br>
+        <h1>Add question</h1>
+    <br>
     <form action="/add-question" method="post" enctype="multipart/form-data"  >
         {%for title in titles%}
-        <label for={{title}}>{{title.replace("_"," ").capitalize()}}<br></label>
+        <label for="{{title}}">{{title.replace("_"," ").capitalize()}}<br></label>
         {% if title == "image" %}
         <label for="file"></label><br>
         <input type="file" name="File" id="file"> <br><br>
         {% else %}
-        <input type="text" name={{title}}><br><br>
+        <input type="text" name="{{title}}"><br><br>
         {% endif %}
         {%endfor%}
-        <button type="submit" id="button-add" style="background: #8e7cc3;color:white;">Add a new question</button>
+        <button type="submit" id="button-add" style="background: #4b4949;color:white;">Add a new question</button>
     </form>
 </body>
 </html>
