@@ -1,5 +1,4 @@
 import csv
-from typing import List
 from datetime import datetime
 
 from typing import List, Dict
@@ -11,6 +10,7 @@ import database_common
 QUESITON = "question"
 ANSWER = "answer"
 COMMENT = "comment"
+TAG = "tag"
 
 QUESTION_HEADER = [
     "id",
@@ -53,11 +53,22 @@ def get_all_dic(cursor, file):
     return cursor.fetchall()
 
 
-def sorting_dictionary_list(list1, title, desc_or_asc):
-    if desc_or_asc == "desc":
-        return sorted(list1, key=lambda dic: dic[(title)], reverse=False)
-    else:
-        return sorted(list1, key=lambda dic: dic[(title)], reverse=True)
+
+@database_common.connection_handler
+def sorting_sql(cursor,table,column,desc_or_asc):
+    if column == "None" or column == None:
+        column = "submission_time"
+    if desc_or_asc =="None" or desc_or_asc== None:
+        desc_or_asc = "DESC"
+
+    query = F"""
+        SELECT *
+        FROM {table}
+        ORDER BY {column} {desc_or_asc}
+        """
+    cursor.execute(query)
+    return cursor.fetchall()
+
 
 
 def new_max_id(list_dic):
@@ -88,31 +99,19 @@ def answer_for_question_sql(cursor, id):
 
 @database_common.connection_handler
 def update_voting(cursor, id, up_down, table):
-    print(up_down)
-    if up_down == "vote-up":
-        query = f"""
-        UPDATE {table}
-        SET vote_number = vote_number + 1
-        WHERE id = {id};
-        """
-        cursor.execute(query, table)
-
-    if up_down == "vote-down":
-        query = f"""
-        UPDATE {table}
-        SET vote_number = vote_number - 1
-        WHERE id = {id};
-        """
-        cursor.execute(query, table)
+    vote = 1 if up_down == "vote-up" else -1
+    print(vote)
+    query = f"UPDATE {table} SET vote_number = vote_number + %(vote)s WHERE id = {id};"
+    cursor.execute(query, {"vote": vote})
 
 
 @database_common.connection_handler
-def delete_from_sql(cursor, id, table):
+def delete_from_sql(cursor, id, table,column):
     query = f"""
     DELETE FROM {table}
-    WHERE id = {id}
+    WHERE {column} = %(id)s
     """
-    cursor.execute(query)
+    cursor.execute(query,{"id":id})
 
 
 @database_common.connection_handler
@@ -136,8 +135,6 @@ def select_from_sql(cursor, id, table):
     return cursor.fetchone()
 
 
-
-
 @database_common.connection_handler
 def get_question_id(cursor,answer_id,table):
     query = f"""
@@ -147,5 +144,26 @@ def get_question_id(cursor,answer_id,table):
     """
     cursor.execute(query,{"answer_id":answer_id})
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_answer_id(cursor,comment_id):
+    query = """
+    SELECT answer_id
+    FROM comment
+    WHERE id = %(comment_id)s
+    """
+    cursor.execute(query,{"comment_id":comment_id})
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_all_tags(cursor):
+    query="""
+    SELECT name
+    FROM tag
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 

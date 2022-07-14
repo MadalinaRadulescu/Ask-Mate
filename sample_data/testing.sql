@@ -1,3 +1,2 @@
-
-SELECT * 
-FROM comment
+SELECT *
+FROM tag

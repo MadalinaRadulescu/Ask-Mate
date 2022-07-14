@@ -12,32 +12,15 @@ app.config["UPLOAD_FOLDER"] = "static/images"
 
 @app.route("/")
 def main_page():
-    return render_template("main.html")
+    return render_template("main.html",list_question=data_processing.sorting_sql(data_processing.QUESITON,"None","None")[:5])
 
 
 @app.route("/list")
 def question_list():
     sort_by = request.args.get("sort-by")
     asc_desc = request.args.get("asc-desc")
-    if sort_by:
-        list_question = data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic(data_processing.QUESITON), sort_by, False
-        )
-    if asc_desc:
-        list_question = data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic(data_processing.QUESITON),
-            "submission_time",
-            asc_desc,
-        )
-    if sort_by and asc_desc:
-        list_question = data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic(data_processing.QUESITON), sort_by, asc_desc
-        )
-
-    else:
-        list_question = data_processing.sorting_dictionary_list(
-            data_processing.get_all_dic(data_processing.QUESITON), "id", False
-        )
+    list_question=data_processing.sorting_sql(data_processing.QUESITON,sort_by,asc_desc)
+        
     return render_template("question-list.html", list_question=list_question)
 
 
@@ -46,13 +29,15 @@ def answer_question(question_id):
     answer_list_dic = data_processing.get_all_dic(data_processing.ANSWER)
     list_question = data_processing.get_all_dic(data_processing.QUESITON)
     good_answer_list_dic = data_processing.answer_for_question_sql(question_id)
+    tag_list_dic = data_processing.get_all_dic(data_processing.TAG)
 
     return render_template(
         "answer_question.html",
         good_answer_list_dic=good_answer_list_dic,
         list_question=list_question,
         id=int(question_id),
-        comments_list = data_processing.get_all_dic(data_processing.COMMENT)
+        comments_list = data_processing.get_all_dic(data_processing.COMMENT),
+        tag_list_dic = tag_list_dic,
     )
 
 
@@ -158,15 +143,30 @@ def modify_answer_vote(question_id, answer_id):
 
 @app.route("/question/<question_id>/delete", methods=["GET", "POST"])
 def delete_question(question_id):
-    if request.method == "POST":
-        data_processing.delete_from_sql(question_id, data_processing.QUESITON)
+   
+    data_processing.delete_from_sql(question_id, data_processing.COMMENT,"question_id")
+    data_processing.delete_from_sql(question_id, data_processing.ANSWER,"question_id")
+    data_processing.delete_from_sql(question_id, data_processing.QUESITON,"id")
     return redirect("/list")
 
+@app.route("/comments/<comment_id>/delete", methods=["GET","POST"])
+def delete_comment_question(comment_id):
+    question_id = data_processing.get_question_id(comment_id,data_processing.COMMENT)["question_id"]
+    data_processing.delete_from_sql(comment_id, data_processing.COMMENT,"id")
+    return redirect(url_for('answer_question',question_id=question_id))
+
+@app.route("/answer/comments/<comment_id>/delete", methods=["GET","POST"])
+def delete_comment_answer(comment_id):
+    answer_id = data_processing.get_answer_id(comment_id)["answer_id"]
+    question_id = data_processing.get_question_id(answer_id,data_processing.ANSWER)["question_id"]
+    data_processing.delete_from_sql(comment_id, data_processing.COMMENT,"id")
+    return redirect(url_for('answer_question',question_id=question_id))
 
 @app.route("/question/<question_id>/answer/<answer_id>/delete", methods=["GET", "POST"])
 def delete_answer(question_id, answer_id):
-    data_processing.delete_from_sql(answer_id, data_processing.ANSWER)
-    return redirect("/list")
+    data_processing.delete_from_sql(answer_id, data_processing.COMMENT,"answer_id")
+    data_processing.delete_from_sql(answer_id, data_processing.ANSWER,"id")
+    return redirect(url_for('answer_question',question_id=question_id))
 
 
 @app.route("/question/<question_id>/new-comment",methods=["GET","POST"])
@@ -192,11 +192,11 @@ def add_question_comment(question_id):
 
 @app.route("/answer/<answer_id>/new-comment",methods=["GET","POST"])
 def add_answer_comment(answer_id):
-    question_id = data_processing.get_question_id_by_answer_id(answer_id)["question_id"]
+    question_id = data_processing.get_question_id(answer_id,data_processing.ANSWER)["question_id"]
     if request.method == "POST":
         comment_dic ={
             "id": data_processing.new_max_id(data_processing.get_all_dic(data_processing.COMMENT)),
-            "question_id":None,
+            "question_id":question_id,
             "answer_id": answer_id,
             "message" : request.form.get("message"),
             "submission_time": data_processing.today_day(),
@@ -237,6 +237,11 @@ def edit_comments(comment_id):
         return redirect(url_for('answer_question',question_id=question_id))
     return render_template("edit-comments.html",headers=data_processing.COMMENT_HEADER,comment_id=comment_id)
 
+@app.route("/question/<question_id>/new-tag",methods=["GET","post"])
+def add_new_tag(question_id):
+
+    pass
+    
 
 if __name__ == "__main__":
     app.run(debug=True,
