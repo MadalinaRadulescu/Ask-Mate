@@ -7,11 +7,11 @@ body{width: 100vw; height: 100vh;}
 th {
   background-color: #4b4949;
   color: #DADED4;
-  font-size: 80%;
+  text-align: center;
 }
 
-tr {background-color: whitesmoke
-
+tr {background-color: whitesmoke;
+text-align: center;
 }
  
 
