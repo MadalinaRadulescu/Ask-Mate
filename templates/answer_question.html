@@ -44,12 +44,21 @@
     <p>Tags: 
     {% for tag in tag_list_dic %}
         {% if tag.question_id == id %}
-            {{ tag.name }} 
+            {{ tag.name }} <a href="{{ url_for('delete_tag',question_id=id,tag_id=tag.id) }}"><i class="bi bi-trash"></i></a>
         {% endif %}
     {% endfor %}
-        <a href="{{url_for('add_question_comment',question_id=id)}}"><i class="bi bi-plus-square"> Not implemented</i></a>
-    </p>
-    
+    <form action=" {{ url_for('add_new_tag', question_id=id) }}" method="post">
+        <label for="new-tag">
+        <input type="text" list="tags" name="new-tag">
+            <datalist id="tags">
+                {% for tag in used_tags %}
+                    <option value="{{ tag.name }}">{{ tag.name }}</option>
+                {% endfor %}
+        </datalist>
+            <button type="submit">Add Tag</button>
+        </label>
+        </form>
+    <br>     
     <details>
     <summary>Comments for this question: <br> <a href="{{url_for('add_question_comment',question_id=id)}}"><i class="bi bi-plus-square"></i></a> </summary> 
     <br>

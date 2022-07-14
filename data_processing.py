@@ -39,6 +39,7 @@ COMMENT_HEADER = [
     "edited_count",
 ]
 
+
 def today_day():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -53,15 +54,14 @@ def get_all_dic(cursor, file):
     return cursor.fetchall()
 
 
-
 @database_common.connection_handler
-def sorting_sql(cursor,table,column,desc_or_asc):
+def sorting_sql(cursor, table, column, desc_or_asc):
     if column == "None" or column == None:
         column = "submission_time"
-    if desc_or_asc =="None" or desc_or_asc== None:
+    if desc_or_asc == "None" or desc_or_asc == None:
         desc_or_asc = "DESC"
 
-    query = F"""
+    query = f"""
         SELECT *
         FROM {table}
         ORDER BY {column} {desc_or_asc}
@@ -70,10 +70,8 @@ def sorting_sql(cursor,table,column,desc_or_asc):
     return cursor.fetchall()
 
 
-
 def new_max_id(list_dic):
     return str(int(max([dic["id"] for dic in list_dic])) + 1)
-
 
 
 @database_common.connection_handler
@@ -106,12 +104,12 @@ def update_voting(cursor, id, up_down, table):
 
 
 @database_common.connection_handler
-def delete_from_sql(cursor, id, table,column):
+def delete_from_sql(cursor, id, table, column):
     query = f"""
     DELETE FROM {table}
     WHERE {column} = %(id)s
     """
-    cursor.execute(query,{"id":id})
+    cursor.execute(query, {"id": id})
 
 
 @database_common.connection_handler
@@ -121,7 +119,7 @@ def update_sql(cursor, id, table, column, user_input):
     SET {column} = %(user_input)s
     WHERE id = %(id)s
     """
-    cursor.execute(query,{"user_input":user_input,"id": id})
+    cursor.execute(query, {"user_input": user_input, "id": id})
 
 
 @database_common.connection_handler
@@ -136,34 +134,32 @@ def select_from_sql(cursor, id, table):
 
 
 @database_common.connection_handler
-def get_question_id(cursor,answer_id,table):
+def get_question_id(cursor, answer_id, table):
     query = f"""
     SELECT question_id
     FROM {table}
     WHERE id = %(answer_id)s
     """
-    cursor.execute(query,{"answer_id":answer_id})
+    cursor.execute(query, {"answer_id": answer_id})
     return cursor.fetchone()
 
 
 @database_common.connection_handler
-def get_answer_id(cursor,comment_id):
+def get_answer_id(cursor, comment_id):
     query = """
     SELECT answer_id
     FROM comment
     WHERE id = %(comment_id)s
     """
-    cursor.execute(query,{"comment_id":comment_id})
+    cursor.execute(query, {"comment_id": comment_id})
     return cursor.fetchone()
 
 
 @database_common.connection_handler
 def get_all_tags(cursor):
-    query="""
+    query = """
     SELECT name
     FROM tag
     """
     cursor.execute(query)
     return cursor.fetchall()
-
-
