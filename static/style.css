@@ -1,6 +1,7 @@
 body,table{font-family: monospace;
+  font-size: 110%;
 }
-body,table{width: 100vw; height: 100vh;}
+body{width: 100vw; height: 100vh;}
 
 
 th {

@@ -155,9 +155,6 @@ def modify_answer_vote(question_id, answer_id):
 
 @app.route("/question/<question_id>/delete", methods=["GET", "POST"])
 def delete_question(question_id):
-
-    data_processing.delete_from_sql(question_id, data_processing.COMMENT, "question_id")
-    data_processing.delete_from_sql(question_id, data_processing.ANSWER, "question_id")
     data_processing.delete_from_sql(question_id, data_processing.QUESITON, "id")
     return redirect("/list")
 
@@ -183,7 +180,6 @@ def delete_comment_answer(comment_id):
 
 @app.route("/question/<question_id>/answer/<answer_id>/delete", methods=["GET", "POST"])
 def delete_answer(question_id, answer_id):
-    data_processing.delete_from_sql(answer_id, data_processing.COMMENT, "answer_id")
     data_processing.delete_from_sql(answer_id, data_processing.ANSWER, "id")
     return redirect(url_for("answer_question", question_id=question_id))
 
