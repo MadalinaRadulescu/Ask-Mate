@@ -66,10 +66,11 @@ def new_max_id(list_dic):
 
 @database_common.connection_handler
 def add_to_sql(cursor, dict, table):
-    placeholder = ", ".join(["%s"] * len(dict))
     cursor.execute(
         "insert into {table} ({columns}) values ({values});".format(
-            columns=",".join(dict.keys()), values=placeholder, table=table
+            columns=",".join(dict.keys()),
+            values=", ".join(["%s"] * len(dict)),
+            table=table,
         ),
         list(dict.values()),
     )
