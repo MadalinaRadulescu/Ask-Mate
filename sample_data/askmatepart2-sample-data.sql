@@ -121,3 +121,19 @@ SELECT pg_catalog.setval('tag_id_seq', 3, true);
 INSERT INTO question_tag VALUES (1, 1);
 INSERT INTO question_tag VALUES (2, 3);
 INSERT INTO question_tag VALUES (3, 3);
+
+
+ALTER TABLE tag
+ADD question_id INT
+
+UPDATE tag
+SET question_id = 1
+WHERE id = 1
+
+UPDATE tag
+SET question_id = 2
+WHERE id = 2
+
+UPDATE tag
+SET question_id = 3
+WHERE id = 3

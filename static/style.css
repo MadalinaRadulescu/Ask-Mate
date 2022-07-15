@@ -84,3 +84,10 @@ a {
   opacity: 1;
 } 
 
+#story-img{
+            position: absolute;
+            top: 0px;
+            right: 100px;
+            width: 700px;
+            
+}
