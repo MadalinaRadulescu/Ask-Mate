@@ -1,2 +1,2 @@
 SELECT *
-FROM tag
+FROM question

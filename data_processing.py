@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+from subprocess import list2cmdline
 
 from typing import List, Dict
 from psycopg2 import sql
