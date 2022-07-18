@@ -3,7 +3,7 @@ import data_processing
 from bonus_questions import SAMPLE_QUESTIONS
 import os
 from werkzeug.utils import secure_filename
-
+import util
 from flask_session import Session
 
 
@@ -303,9 +303,18 @@ def bonus_questions():
 
 @app.route("/registration", methods=['GET', 'POST'])
 def registration():
+    new_user = {}
     if request.method == 'POST':
-        print(request.form.get("username"))
-        print(request.form.get("password"))
+        new_user['id'] = data_processing.new_max_id(data_processing.get_all_dic(data_processing.USERS))
+        new_user['username'] = request.form.get("username")
+        new_user["registration_date"] = data_processing.today_day()
+        new_user["questions_posted"] = 0
+        new_user["answers_posted"] = 0
+        new_user["comments_posted"] = 0
+        new_user["reputation"] = 0
+        new_user["password"] = util.hash_password(request.form.get("password"))
+        data_processing.add_to_sql(new_user, data_processing.USERS)
+        return redirect(url_for("main_page"))
     return render_template('registration.html')
 
 

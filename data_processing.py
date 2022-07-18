@@ -12,6 +12,7 @@ QUESITON = "question"
 ANSWER = "answer"
 COMMENT = "comment"
 TAG = "tag"
+USERS = "users"
 
 QUESTION_HEADER = [
     "id",

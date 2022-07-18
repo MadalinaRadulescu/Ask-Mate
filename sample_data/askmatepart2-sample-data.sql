@@ -147,7 +147,7 @@ SET image = NULL
 CREATE TABLE users(
     id serial NOT NULL,
     username text,
-    registration_date int,
+    registration_date timestamp without time zone,
     questions_posted int,
     answers_posted int,
     comments_posted int,
