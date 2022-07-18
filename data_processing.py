@@ -136,3 +136,10 @@ def get_answer_id(cursor, comment_id):
 def get_all_tags(cursor):
     cursor.execute(""" SELECT name FROM tag """)
     return cursor.fetchall()
+
+@database_common.connection_handler
+def update_views(cursor, question_id):
+    cursor.execute(
+        "UPDATE question SET view_number = view_number + 1 WHERE id = %(id)s;",
+        {"id": question_id},
+    )

@@ -39,6 +39,7 @@ def answer_question(question_id):
     list_question = data_processing.get_all_dic(data_processing.QUESITON)
     good_answer_list_dic = data_processing.answer_for_question_sql(question_id)
     tag_list_dic = data_processing.get_all_dic(data_processing.TAG)
+    data_processing.update_views(question_id)
 
     return render_template(
         "answer_question.html",

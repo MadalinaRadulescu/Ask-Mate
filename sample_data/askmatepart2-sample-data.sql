@@ -137,3 +137,6 @@ WHERE id = 2
 UPDATE tag
 SET question_id = 3
 WHERE id = 3
+
+
+SELECT * FROM tag
