@@ -139,4 +139,8 @@ SET question_id = 3
 WHERE id = 3
 
 
-SELECT * FROM tag
+SELECT * FROM question
+
+
+UPDATE  question
+SET image = NULL

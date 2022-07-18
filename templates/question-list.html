@@ -74,7 +74,9 @@
                             </td>
                         {% elif key == "image" %}
                              <td>
-                        <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="no icon">
+                                {%if dictionary.image == 'None'%}
+                                  <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="   ">
+                                {%endif%}
                             </td>
                         {% else %}
                             <td>{{ dictionary[key]|safe }} </td>

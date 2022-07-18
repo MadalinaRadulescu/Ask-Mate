@@ -97,7 +97,7 @@ def edit_question(question_id):
                 title,
                 request.form.get(title),
             )
-        image = "no_image.jpg"
+        image = None
         if request.files["File"]:
             f = request.files["File"]
             image = secure_filename(f.filename)

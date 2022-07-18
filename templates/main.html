@@ -9,7 +9,7 @@
     
 </head>
 <body>
-<img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px;">
+<img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="   " style="height: 50px;">
     <br>
       
     <br>
@@ -44,9 +44,12 @@
                             <td>
                                 <a href="{{ url_for('answer_question', question_id=dictionary.id) }}">{{ dictionary[key]|safe }}</a>
                             </td>
-                        {% elif key == "image" %}
+                        {% elif key == "image"  %}
+
                              <td>
-                        <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="no icon">
+                                {%if dictionary.image == 'None'%}
+                                <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="  ">
+                                {%endif%}
                             </td>
                         {% else %}
                             <td>{{ dictionary[key]|safe }} </td>
