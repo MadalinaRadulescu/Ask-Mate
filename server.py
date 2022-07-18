@@ -1,5 +1,4 @@
 from flask import Flask, render_template, redirect, request, url_for
-# from requests import session
 import data_processing
 from bonus_questions import SAMPLE_QUESTIONS
 import os
