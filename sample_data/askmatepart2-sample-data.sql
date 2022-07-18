@@ -141,4 +141,9 @@ WHERE id = 3;
 
 SELECT * FROM question
 
+<<<<<<< HEAD
 
+=======
+UPDATE  question
+SET image = NULL
+>>>>>>> 0674e82e329690092fbc1cb9db833a8497a85249
