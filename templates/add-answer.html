@@ -15,12 +15,12 @@
     <form action="{{url_for('add_answer_to_question',question_id=id)}}" method="post">
         {%for title in titles%}
         <label for={{title}}>{{title.replace("_"," ").capitalize()}}<br></label>
-        <input type="text" name={{title}}><br>
-            {%endfor%}
-            <br>
-            <div class="container">
+            <input type="text" name={{title}}><br>
+        {%endfor%}
+        <br>
+        <div >
             <button type="submit" id="button" style="background: #4b4949;color:white;" onclick="return confirm('Are you sure?')">Add a new answer</button>
-            </div>
+        </div>
     </form>
 </body>
 </html>
