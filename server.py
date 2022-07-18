@@ -218,7 +218,7 @@ def add_answer_comment(answer_id):
             "id": data_processing.new_max_id(
                 data_processing.get_all_dic(data_processing.COMMENT)
             ),
-            "question_id": question_id,
+            "question_id": None,
             "answer_id": answer_id,
             "message": request.form.get("message"),
             "submission_time": data_processing.today_day(),
