@@ -1,11 +1,10 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
 import data_processing
 from bonus_questions import SAMPLE_QUESTIONS
 import os
 from werkzeug.utils import secure_filename
 
 from flask_session import Session
-
 
 
 app = Flask(__name__)
@@ -301,9 +300,14 @@ def delete_tag(question_id, tag_id):
 def bonus_questions():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
-@app.route("/registration")
+
+@app.route("/registration", methods=['GET', 'POST'])
 def registration():
+    if request.method == 'POST':
+        print(request.form.get("username"))
+        print(request.form.get("password"))
     return render_template('registration.html')
+
 
 @app.route("/login")
 def login():

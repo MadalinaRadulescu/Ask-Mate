@@ -141,9 +141,16 @@ WHERE id = 3;
 
 SELECT * FROM question
 
-<<<<<<< HEAD
-
-=======
 UPDATE  question
 SET image = NULL
->>>>>>> 0674e82e329690092fbc1cb9db833a8497a85249
+
+CREATE TABLE users(
+    id serial NOT NULL,
+    username text,
+    registration_date int,
+    questions_posted int,
+    answers_posted int,
+    comments_posted int,
+    reputation int,
+    password varchar(255)
+    );
