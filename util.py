@@ -1,6 +1,5 @@
 import bcrypt
 
-
 def hash_password(plain_text_password):
     hashed_password = bcrypt.hashpw(plain_text_password.encode('utf_8'), bcrypt.gensalt())
     return hashed_password.decode('utf-8')
