@@ -2,6 +2,8 @@ from codecs import ascii_decode
 from crypt import methods
 from flask import Flask, render_template, redirect, request, url_for
 import data_processing
+from bonus_questions import SAMPLE_QUESTIONS
+
 import os
 from werkzeug.utils import secure_filename
 
@@ -291,6 +293,11 @@ def add_new_tag(question_id):
 def delete_tag(question_id, tag_id):
     data_processing.delete_from_sql(tag_id, data_processing.TAG, "id")
     return redirect(url_for("answer_question", question_id=question_id))
+
+@app.route("/bonus-questions")
+def bonus_questions():
+    return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
+
 
 
 if __name__ == "__main__":
