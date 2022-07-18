@@ -300,6 +300,10 @@ def delete_tag(question_id, tag_id):
 def bonus_questions():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
+@app.route("/registration")
+def registration():
+    return render_template('registration.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
