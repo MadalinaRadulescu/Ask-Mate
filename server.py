@@ -1,11 +1,16 @@
 from codecs import ascii_decode
 from crypt import methods
 from flask import Flask, render_template, redirect, request, url_for
+from requests import session
 import data_processing
 from bonus_questions import SAMPLE_QUESTIONS
 
 import os
 from werkzeug.utils import secure_filename
+
+from flask_session import Session
+
+
 
 app = Flask(__name__)
 
