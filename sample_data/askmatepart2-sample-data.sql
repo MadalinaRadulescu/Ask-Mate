@@ -143,7 +143,6 @@ SELECT * FROM question
 
 UPDATE  question
 SET image = NULL
-<<<<<<< HEAD
 
 CREATE TABLE users(
     id serial NOT NULL,
@@ -155,5 +154,6 @@ CREATE TABLE users(
     reputation int,
     password varchar(255)
     );
-=======
->>>>>>> 6f41b2d (prepare to pull)
+
+
+SELECT 
