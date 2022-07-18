@@ -304,6 +304,10 @@ def bonus_questions():
 def registration():
     return render_template('registration.html')
 
+@app.route("/login")
+def login():
+    return render_template('login.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
