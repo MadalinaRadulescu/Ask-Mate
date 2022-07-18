@@ -65,7 +65,7 @@ def add_question():
             question_dic["view_number"] = str(0)
             question_dic["vote_number"] = str(0)
             question_dic[title] = request.form.get(title)
-        image = "no_image.jpg"
+        image = None
         if request.files["File"]:
             f = request.files["File"]
             image = secure_filename(f.filename)
