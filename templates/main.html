@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
+    
+    
+</head>
+<body>
+<img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px;">
+    <br>
+      
+    <br>
+    <div class="main">  <a href="/list" id="add-href">Go to all quesiton</a> </div>
+    <br>
+    <br>
+<!-- <hr> <a href="#" > <i class="bi bi-caret-up-square"></i></a> <a href="#"> <i class="bi bi-caret-down-square"></i></a></th> -->
+    <table>
+        <thead>
+            <tr>
+                {% for header in list_question[0].keys() %}
+                <th>{{ header.replace("_"," ").capitalize() }} 
+                {% endfor %}
+                <th>User choice</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dictionary in list_question %}
+                <tr>
+                    {% for key in dictionary %}
+                        {% if key == "vote_number" %}
+                            <td id="vote-table"> 
+                            <form action=" {{ url_for('modify_vote',question_id=dictionary.id) }} " method="post">
+                                <button name="vote" value="vote-up" id="vote-button-up">&#8593</button>
+                            <br>
+                                {{ dictionary[key] }}
+                            <br>
+                                <button name="vote" value="vote-down" id="vote-button-down">&#8595</button>
+                            </form>
+                            </td>
+                        {% elif key == "title" %}
+                            <td>
+                                <a href="{{ url_for('answer_question', question_id=dictionary.id) }}">{{ dictionary[key]|safe }}</a>
+                            </td>
+                        {% elif key == "image" %}
+                             <td>
+                        <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="no icon">
+                            </td>
+                        {% else %}
+                            <td>{{ dictionary[key]|safe }} </td>
+                            
+                        {% endif %}
+                                   
+                    {% endfor %}
+                    
+                    <td>
+                        <a href="{{ url_for('add_answer_to_question', question_id=dictionary.id) }}"><i class="bi bi-plus-square"></i></a>
+                        <hr>
+                       <a href="{{url_for('delete_question',question_id=dictionary.id)}}" ><i class="bi bi-trash"></i></a>
+	
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,6 @@
+__pycache__/
+.DS_Store
+.new_sprint
+.vscode/
+.env
+*.py[cod]

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add answer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body id="add-answer">
+    <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px;">
+    <br>
+    <h1>Add answer to question</h1>
+    <img src="https://lh3.googleusercontent.com/IbHhHO_tRocLJIPR9bB5qmdzlNRJehLFnKA8pGcMULf5tapxvYfIJQ74Iz4rru-AJQO7dOcnpMKtLmmk9kmhBX2e4f1-izYKJLzilEIjIJC-L35VCS8scGOsvaPRpfwmRBuLbW2K=w2400" id="story-img">
+    <br>
+    <!-- <img src="#" id="template-photo"> -->
+    <form action="{{url_for('add_answer_to_question',question_id=id)}}" method="post">
+        {%for title in titles%}
+        <label for={{title}}>{{title.replace("_"," ").capitalize()}}<br></label>
+        <input type="text" name={{title}}><br>
+            {%endfor%}
+            <br>
+            <div class="container">
+            <button type="submit" id="button" style="background: #4b4949;color:white;" onclick="return confirm('Are you sure?')">Add a new answer</button>
+            </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit comments</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px;">
+    <h1>Edit comments</h1>
+    <img src="https://lh3.googleusercontent.com/IbHhHO_tRocLJIPR9bB5qmdzlNRJehLFnKA8pGcMULf5tapxvYfIJQ74Iz4rru-AJQO7dOcnpMKtLmmk9kmhBX2e4f1-izYKJLzilEIjIJC-L35VCS8scGOsvaPRpfwmRBuLbW2K=w2400" id="story-img">
+    {{headers[3]}}
+    <br>
+    <form action="{{ url_for('edit_comments',comment_id=comment_id) }}" method="post">
+    <textarea name="message" id="" cols="30" rows="10"></textarea>
+    <br>
+    <button type="submit">Edit comment</button>
+    </form>
+
+</body>
+</html>
