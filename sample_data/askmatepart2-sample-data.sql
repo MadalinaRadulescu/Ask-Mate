@@ -139,8 +139,7 @@ SET question_id = 3
 WHERE id = 3
 
 
-SELECT * FROM user
-
+SELECT * FROM question
 
 UPDATE  question
 SET image = NULL

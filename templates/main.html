@@ -13,10 +13,9 @@
     <br>
       
     <br>
-    <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">Go to all quesiton</a> </div>
+    <div class="main" style="display:inline-block">  <a href="/list" id="add-href">&nbspGo to all quesiton</a> </div>
     
-    <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">New user</a> </div>
-    <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">Login</a> </div>
+    <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
     <br>
     <br>
     <table>
@@ -49,7 +48,7 @@
                         {% elif key == "image"  %}
 
                              <td>
-                                {%if dictionary.image == 'None'%}
+                                {%if dictionary.image != 'None'%}
                                 <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="  ">
                                 {%endif%}
                             </td>
