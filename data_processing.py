@@ -137,6 +137,7 @@ def get_all_tags(cursor):
     cursor.execute(""" SELECT name FROM tag """)
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def update_views(cursor, question_id):
     cursor.execute(
