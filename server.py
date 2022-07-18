@@ -1,15 +1,12 @@
 from codecs import ascii_decode
 from crypt import methods
-from flask import Flask, render_template, redirect, request, url_for
-# from requests import session
+from flask import Flask, render_template, redirect, request, url_for, session
+# from flask_session import session
 import data_processing
 from bonus_questions import SAMPLE_QUESTIONS
 
 import os
 from werkzeug.utils import secure_filename
-
-from flask_session import Session
-
 
 
 app = Flask(__name__)
@@ -305,8 +302,9 @@ def delete_tag(question_id, tag_id):
 def bonus_questions():
     return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
 
-@app.route("/registration")
+@app.route("/registration", methods=["GET", "POST"])
 def registration():
+    print(request.form.get('username'))
     return render_template('registration.html')
 
 @app.route("/login")
