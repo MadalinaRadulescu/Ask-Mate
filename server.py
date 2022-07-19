@@ -255,8 +255,8 @@ def edit_answer(answer_id):
             image = secure_filename(f.filename)
             f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
         data_processing.update_sql(
-            answer_id, data_processing.ANSWER, "image", request.form.get("message")
-        )
+            answer_id, data_processing.ANSWER, "image", image)
+        
 
         return redirect(url_for("answer_question", question_id=question_id))
     return render_template(
