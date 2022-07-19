@@ -1,11 +1,8 @@
-import csv
+
 from datetime import datetime
 from subprocess import list2cmdline
-
 from typing import List, Dict
-from psycopg2 import sql
-from psycopg2.extras import RealDictCursor
-
+import psycopg2
 import database_common
 import util
 QUESITON = "question"
@@ -154,6 +151,14 @@ def get_user_and_password(cursor, user):
         {"user": user},
     )
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_users_list(cursor):
+    cursor.execute(
+        "SELECT username, registration_date, questions_posted, answers_posted, comments_posted, reputation FROM users",
+    )
+    return cursor.fetchall()
 
 
 

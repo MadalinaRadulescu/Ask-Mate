@@ -44,6 +44,13 @@ a {
   margin: 4px 2px;
   cursor: pointer;}
 
+.position{ 
+  position: absolute;
+  margin-top: 20px;
+  margin-right: 20px;
+  top: 0;
+  right: 0;
+}
 .main {
   width: 140px;
   height: 20px;
