@@ -48,7 +48,6 @@ def question_list():
 
 @app.route("/question/<question_id>", methods=["GET", "POST"])
 def answer_question(question_id):
-    #answer_list_dic = data_processing.get_all_dic(data_processing.ANSWER)
     list_question = data_processing.get_all_dic(data_processing.QUESITON)
     good_answer_list_dic = data_processing.answer_for_question_sql(question_id)
     tag_list_dic = data_processing.get_all_dic(data_processing.TAG)
@@ -68,7 +67,6 @@ def answer_question(question_id):
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     question_dic = {}
-    list_question = data_processing.get_all_dic(data_processing.QUESITON)
     user_dic = data_processing.get_user_and_password(session["username"])
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
@@ -102,7 +100,6 @@ def add_question():
 
 @app.route("/question/<question_id>/edit", methods=["GET", "POST"])
 def edit_question(question_id):
-
     if request.method == "POST":
         data_processing.update_sql(
             question_id,
@@ -140,7 +137,7 @@ def edit_question(question_id):
 @app.route("/question/<question_id>/new-answer", methods=["GET", "POST"])
 def add_answer_to_question(question_id):
     answer_dic = {}
-    answer_list = data_processing.get_all_dic(data_processing.ANSWER)
+    # answer_list = data_processing.get_all_dic(data_processing.ANSWER)
     user_dic = data_processing.get_user_and_password(session["username"])
     if request.method == "POST":
         for title in data_processing.ANSWER_HEADER:
