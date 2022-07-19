@@ -18,16 +18,17 @@
     <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">&nbspGo to all quesiton</a> </div>
     <br>
 
-    
+    <div class="position">
     {%if logged_message == "You are not logged in"%}
-        {{ logged_message }}<br>
-        <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
+        {{ logged_message }}<br><br>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div><br>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
+    </div>
     {%else%}
     <div class="position">
         {{ logged_message }}<br><br>
         <div class="main" style="display:inline-block">  <a href="{{url_for('users_list') }}" id="add-href">&nbsp&nbsp&nbsp&nbspUsers List</a> </div>
         <div class="main " style="display:inline-block">  <a href="{{url_for('logout') }}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspLogout</a> </div>
-        <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
     </div>
     {%endif%}
     <br>

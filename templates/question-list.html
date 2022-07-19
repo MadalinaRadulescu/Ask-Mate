@@ -14,11 +14,13 @@
       
     <br>
     <div class="main">  <a href="{{url_for('add_question') }}" id="add-href">Add a question</a> </div>
+    <div class="position" >
     {%if logged_message%}
         <div class="main">  <a href="{{url_for('logout') }}" id="add-href">Logout</a> </div>
     {%else%}
         <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
     {%endif%}
+    </div>
     <br>
     <br>
     <form action="/list"  style="display: inline-block;">

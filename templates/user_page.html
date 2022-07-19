@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>User Page</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                {% for header in users_details.keys() %}
+                <th>{{ header.replace("_"," ").capitalize() }} 
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    {{users_details.id}}
+                </td>
+                <td>
+                    {{users_details.username}}
+                </td>
+                <td>
+                    {{users_details.registration_date}}
+                </td>
+                <td>
+                    {{users_details.questions_posted}}
+                </td>
+                <td>
+                    {{users_details.answers_posted}}
+                </td>
+                <td>
+                    {{users_details.comments_posted}}
+                </td>
+                <td>
+                    {{users_details.reputation}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

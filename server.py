@@ -46,7 +46,7 @@ def question_list():
 
 @app.route("/question/<question_id>", methods=["GET", "POST"])
 def answer_question(question_id):
-    answer_list_dic = data_processing.get_all_dic(data_processing.ANSWER)
+    #answer_list_dic = data_processing.get_all_dic(data_processing.ANSWER)
     list_question = data_processing.get_all_dic(data_processing.QUESITON)
     good_answer_list_dic = data_processing.answer_for_question_sql(question_id)
     tag_list_dic = data_processing.get_all_dic(data_processing.TAG)
@@ -66,7 +66,7 @@ def answer_question(question_id):
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     question_dic = {}
-    list_question = data_processing.get_all_dic(data_processing.QUESITON)
+    # list_question = data_processing.get_all_dic(data_processing.QUESITON)
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
             question_dic["id"] = data_processing.new_max_id(
@@ -360,11 +360,18 @@ def logout():
     session.pop("username", None)
     return redirect(url_for("main_page"))
 
+
 @app.route("/users")
 def users_list():
     users_list = data_processing.get_users_list()
     return render_template('users_list.html', users_list=users_list)
 
 
+@app.route("/users/<user_id>/")
+def user_page(user_id):
+    user_details = data_processing.get_user_by_id(user_id)
+    return render_template('user_page.html', user_id=int(user_id), user_details=user_details)
+
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5002)

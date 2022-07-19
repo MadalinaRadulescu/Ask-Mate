@@ -24,7 +24,15 @@
             {%for dict in users_list%}
                 <tr>
                     {%for key in dict.keys()%}
-                        <td>{{dict[key]}}</td>
+                        {%if key == "username"%}
+                        <td>
+                            <a href="{{ url_for('user_page', user_id=dict.id) }}">{{dict[key]}}</a>
+                        </td>
+                        {%else%}
+                        <td>
+                            {{dict[key]}}
+                        </td>
+                        {%endif%}
                     {%endfor%}
                 </tr>
             {%endfor%}

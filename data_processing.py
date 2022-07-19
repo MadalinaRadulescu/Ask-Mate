@@ -160,6 +160,14 @@ def get_users_list(cursor):
     )
     return cursor.fetchall()
 
+@database_common.connection_handler
+def get_user_by_id(cursor, user_id):
+    cursor.execute(
+        "SELECT id, username, registration_date, questions_posted, answers_posted, comments_posted, reputation FROM users WHERE id = %(id)s;",
+        {"id": user_id},
+    )
+    return cursor.fetchone()
+
 
 
 
