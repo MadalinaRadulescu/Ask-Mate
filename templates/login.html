@@ -9,16 +9,16 @@
         <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px; position: relative; left: 620px;">
         <div class="login-box">
             <h2>Login</h2>
-            <form>
+            <form action="{{ url_for('login') }}" method="post">
                 <div class="user-box">
-                    <input type="text" name="" required="">
+                    <input type="text" name="username" required="">
                     <label>email</label>
                 </div>
                 <div class="user-box">
-                    <input type="password" name="" required="">
+                    <input type="password" name="password" required="">
                     <label>password</label>
                 </div>
-                    <a href="#">
+                    <a href="javascript:;" onclick="parentNode.submit();">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -30,6 +30,5 @@
     </body>
 </html>
 
-<!-- HTML !-->
-<button class="button-12" role="button">Button 12</button>
+
 
