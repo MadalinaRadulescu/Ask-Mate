@@ -156,4 +156,12 @@ CREATE TABLE users(
     );
 
 
+ALTER TABLE question
+ADD author int;
+ALTER TABLE answer
+ADD author int;
+ALTER TABLE comment
+ADD author int;
+
+
 SELECT * FROM users

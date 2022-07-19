@@ -150,7 +150,7 @@ def update_views(cursor, question_id):
 @database_common.connection_handler
 def get_user_and_password(cursor, user):
     cursor.execute(
-        "SELECT username, password FROM users WHERE username = %(user)s;",
+        "SELECT id, username, password FROM users WHERE username = %(user)s;",
         {"user": user},
     )
     return cursor.fetchone()

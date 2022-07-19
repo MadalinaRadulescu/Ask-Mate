@@ -76,6 +76,11 @@ def add_question():
             question_dic["view_number"] = str(0)
             question_dic["vote_number"] = str(0)
             question_dic[title] = request.form.get(title)
+
+            try:
+                question_dic["author"] = data_processing.get_user_and_password(session["username"])["id"]
+            except:
+                question_dic["author"] = None
         image = None
         if request.files["File"]:
             f = request.files["File"]
