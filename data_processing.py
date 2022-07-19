@@ -5,6 +5,7 @@ from typing import List, Dict
 import psycopg2
 import database_common
 import util
+
 QUESITON = "question"
 ANSWER = "answer"
 COMMENT = "comment"
