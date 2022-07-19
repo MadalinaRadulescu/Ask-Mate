@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, request, url_for, session
+from crypt import methods
+from flask import Flask, render_template, redirect, request, url_for, escape, session
 import data_processing
 from bonus_questions import SAMPLE_QUESTIONS
 import os
@@ -10,15 +11,20 @@ from flask_session import Session
 app = Flask(__name__)
 
 app.config["UPLOAD_FOLDER"] = "static/images"
-
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route("/")
 def main_page():
+    if "username" in session:
+        logged_message = "Logged in as %s" % escape(session["username"])
+    else:
+        logged_message = "You are not logged in"
     return render_template(
         "main.html",
         list_question=data_processing.sorting_sql(
             data_processing.QUESITON, "None", "None"
         )[:5],
+        logged_message=logged_message,
     )
 
 
@@ -254,9 +260,7 @@ def edit_answer(answer_id):
             f = request.files["File"]
             image = secure_filename(f.filename)
             f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
-        data_processing.update_sql(
-            answer_id, data_processing.ANSWER, "image", image)
-        
+        data_processing.update_sql(answer_id, data_processing.ANSWER, "image", image)
 
         return redirect(url_for("answer_question", question_id=question_id))
     return render_template(
@@ -305,15 +309,17 @@ def delete_tag(question_id, tag_id):
 
 @app.route("/bonus-questions")
 def bonus_questions():
-    return render_template('bonus_questions.html', questions=SAMPLE_QUESTIONS)
+    return render_template("bonus_questions.html", questions=SAMPLE_QUESTIONS)
 
 
-@app.route("/registration", methods=['GET', 'POST'])
+@app.route("/registration", methods=["GET", "POST"])
 def registration():
     new_user = {}
-    if request.method == 'POST':
-        new_user['id'] = data_processing.new_max_id(data_processing.get_all_dic(data_processing.USERS))
-        new_user['username'] = request.form.get("username")
+    if request.method == "POST":
+        new_user["id"] = data_processing.new_max_id(
+            data_processing.get_all_dic(data_processing.USERS)
+        )
+        new_user["username"] = request.form.get("username")
         new_user["registration_date"] = data_processing.today_day()
         new_user["questions_posted"] = 0
         new_user["answers_posted"] = 0
@@ -322,13 +328,20 @@ def registration():
         new_user["password"] = util.hash_password(request.form.get("password"))
         data_processing.add_to_sql(new_user, data_processing.USERS)
         return redirect(url_for("main_page"))
-    return render_template('registration.html')
+    return render_template("registration.html")
 
 
-@app.route("/login")
+@app.route("/login",methods=["GET","POST"])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('main_page'))
+    return render_template("login.html")
 
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('main_page'))
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
