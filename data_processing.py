@@ -81,7 +81,7 @@ def add_to_sql(cursor, dict, table):
 @database_common.connection_handler
 def answer_for_question_sql(cursor, id):
     cursor.execute(
-        """ SELECT id,vote_number,message FROM answer WHERE question_id = %(id)s """,
+        """ SELECT id,vote_number,message,image FROM answer WHERE question_id = %(id)s """,
         {"id": id},
     )
     return cursor.fetchall()

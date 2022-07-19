@@ -154,3 +154,6 @@ CREATE TABLE users(
     reputation int,
     password varchar(255)
     );
+
+
+SELECT * FROM answer
