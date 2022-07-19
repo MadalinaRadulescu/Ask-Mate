@@ -130,6 +130,13 @@ def add_answer_to_question(question_id):
             answer_dic["vote_number"] = "0"
             answer_dic["question_id"] = question_id
             answer_dic[title] = request.form.get(title)
+        image = None
+        if request.files["File"]:
+            f = request.files["File"]
+            image = secure_filename(f.filename)
+            f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
+        answer_dic["image"] = image
+
         data_processing.add_to_sql(answer_dic, data_processing.ANSWER)
         return redirect(url_for("answer_question", question_id=question_id))
 

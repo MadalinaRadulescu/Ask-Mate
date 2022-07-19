@@ -156,4 +156,4 @@ CREATE TABLE users(
     );
 
 
-SELECT 
+SELECT * FROM answer

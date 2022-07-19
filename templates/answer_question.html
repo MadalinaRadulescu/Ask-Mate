@@ -30,7 +30,7 @@
         <form style="display: inline-block;" action="{{url_for('question_list')}}" method="get" >
             <button name="main-menu" value="main-menu" id="main-menu-button" style="background: #4b4949;color:white;">Go to main menu</button>
         </form>
-        <a href="{{ url_for('add_answer_to_question', question_id=id) }}">Add an answer{{"  "}}<i class="bi bi-plus-square"></i></a>
+        
     
     {% for dic in list_question %}
         {% if dic["id"] == id %}
@@ -38,6 +38,8 @@
         Question:<br><br> 
         {{dic["title"]}}
     </p>
+     <br>
+    <a href="{{ url_for('add_answer_to_question', question_id=id) }}">Add an answer{{"  "}}<i class="bi bi-plus-square"></i></a>
     <p id="message_for_question">Message: {{ dic["message"] }}</p>
         {% endif %}
     {% endfor %}
@@ -55,7 +57,7 @@
                     <option value="{{ tag.name }}">{{ tag.name }}</option>
                 {% endfor %}
         </datalist>
-            <button type="submit">Add Tag</button>
+            <button type="submit" style="background: #4b4949;color:white;">Add Tag</button>
         </label>
         </form>
     <br>     
@@ -84,6 +86,9 @@
     <p id="answer_is">The answer is:</p>
         {%for dic_answers in good_answer_list_dic %}
                 <li id="answer_is">{{dic_answers["message"]}}
+            {%if dic_answers.image != 'None'%}
+                <img src="/static/images/{{ dic_answers.image }}" width="40" alt="  ">
+            {%endif%}
                 <br>          
                     <form action="{{url_for('modify_answer_vote',answer_id=dic_answers.id,question_id=id)}}" method="post">
                         Number of vote: {{dic_answers["vote_number"]}}

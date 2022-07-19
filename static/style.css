@@ -145,7 +145,9 @@ a {
 .login-box .user-box input:valid ~ label {
   top: -20px;
   left: 0;
-  color: #03e9f4;
+  color: white;
+  /* font color after click username or pass */
+
   font-size: 12px;
 }
 
@@ -153,7 +155,8 @@ a {
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  color: #03e9f4;
+  color: white;
+    /* font color  submit */
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -164,13 +167,15 @@ a {
 }
 
 .login-box a:hover {
-  background: #03e9f4;
-  color: #fff;
+  /* after hoover COLORS */
+  background: white;
+  color: #4b4949;
   border-radius: 5px;
-  box-shadow: 0 0 5px #03e9f4,
-              0 0 25px #03e9f4,
-              0 0 50px #03e9f4,
-              0 0 100px #03e9f4;
+  /* after hoover AURA color */
+  box-shadow: 0 0 5px whitesmoke,
+              0 0 25px whitesmoke,
+              0 0 50px whitesmoke,
+              0 0 100px whitesmoke;
 }
 
 .login-box a span {
@@ -179,11 +184,12 @@ a {
 }
 
 .login-box a span:nth-child(1) {
+  /* bara sus color */
   top: 0;
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #03e9f4);
+  background: linear-gradient(90deg, transparent, whitesmoke);
   animation: btn-anim1 1s linear infinite;
 }
 
@@ -201,7 +207,7 @@ a {
   right: 0;
   width: 2px;
   height: 100%;
-  background: linear-gradient(180deg, transparent, #03e9f4);
+  background: linear-gradient(180deg, transparent, whitesmoke);
   animation: btn-anim2 1s linear infinite;
   animation-delay: .25s
 }
@@ -220,7 +226,7 @@ a {
   right: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(270deg, transparent, #03e9f4);
+  background: linear-gradient(270deg, transparent, whitesmoke);
   animation: btn-anim3 1s linear infinite;
   animation-delay: .5s
 }
@@ -239,7 +245,7 @@ a {
   left: 0;
   width: 2px;
   height: 100%;
-  background: linear-gradient(360deg, transparent, #03e9f4);
+  background: linear-gradient(360deg, transparent, whitesmoke);
   animation: btn-anim4 1s linear infinite;
   animation-delay: .75s
 }
@@ -252,3 +258,5 @@ a {
     bottom: 100%;
   }
 }
+
+
