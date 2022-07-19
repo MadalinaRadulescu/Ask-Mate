@@ -8,6 +8,10 @@ body {
   height: 100vh;
 }
 
+table {
+    width: 100%;
+}
+
 th {
   background-color: #4b4949;
   color: #daded4;

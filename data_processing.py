@@ -161,6 +161,14 @@ def get_users_list(cursor):
     return cursor.fetchall()
 
 
+@database_common.connection_handler
+def update_user_interactions(cursor, column, user_id):
+    cursor.execute(
+        f"UPDATE users SET {column} = {column} + 1 WHERE id = %(user_id)s",
+        {
+            "column": column, "user_id": user_id
+        }
+    )
 
 
 

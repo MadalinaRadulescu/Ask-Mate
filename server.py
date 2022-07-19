@@ -67,6 +67,7 @@ def answer_question(question_id):
 def add_question():
     question_dic = {}
     list_question = data_processing.get_all_dic(data_processing.QUESITON)
+    user_dic = data_processing.get_user_and_password(session["username"])
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
             question_dic["id"] = data_processing.new_max_id(
@@ -77,10 +78,13 @@ def add_question():
             question_dic["vote_number"] = str(0)
             question_dic[title] = request.form.get(title)
 
-            try:
-                question_dic["author"] = data_processing.get_user_and_password(session["username"])["id"]
-            except:
-                question_dic["author"] = None
+        try:
+            question_dic["author"] = user_dic["id"]
+            data_processing.update_user_interactions("questions_posted", user_dic["id"])
+            
+        except:
+            question_dic["author"] = None
+        
         image = None
         if request.files["File"]:
             f = request.files["File"]
@@ -367,4 +371,4 @@ def users_list():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5002)
