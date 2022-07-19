@@ -349,7 +349,7 @@ def login():
         if user:
             if util.verify_password(request.form['password'], user["password"]):
                 session["username"] = request.form["username"]
-                return redirect(url_for("question_list"))
+                return redirect(url_for("main_page"))
         else:
             not_alert= False
     return render_template("login.html", not_alert=not_alert)
@@ -360,6 +360,11 @@ def logout():
     session.pop("username", None)
     return redirect(url_for("main_page"))
 
+@app.route("/users")
+def users_list():
+    users_list = data_processing.get_users_list()
+    return render_template('users_list.html', users_list=users_list)
+
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5000)

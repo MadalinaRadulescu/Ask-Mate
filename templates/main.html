@@ -12,16 +12,23 @@
 <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="   " style="height: 50px;">
     <br>
     <br>
-      {{ logged_message }}
+      
     <br>
     <br>
     <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">&nbspGo to all quesiton</a> </div>
+    <br>
+
     
-    <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
     {%if logged_message == "You are not logged in"%}
+        {{ logged_message }}<br>
         <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
     {%else%}
-        <div class="main">  <a href="{{url_for('logout') }}" id="add-href">Logout</a> </div>
+    <div class="position">
+        {{ logged_message }}<br><br>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('users_list') }}" id="add-href">&nbsp&nbsp&nbsp&nbspUsers List</a> </div>
+        <div class="main " style="display:inline-block">  <a href="{{url_for('logout') }}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspLogout</a> </div>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
+    </div>
     {%endif%}
     <br>
     <br>
