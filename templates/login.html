@@ -27,6 +27,12 @@
                 </a>
             </form>
         </div>
+        {%if not_alert == False%}
+
+            <script>
+                alert("Not a valid user or password!")
+            </script>
+        {%endif%}
     </body>
 </html>
 

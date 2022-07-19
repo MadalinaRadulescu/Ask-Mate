@@ -7,7 +7,7 @@ from psycopg2 import sql
 from psycopg2.extras import RealDictCursor
 
 import database_common
-
+import util
 QUESITON = "question"
 ANSWER = "answer"
 COMMENT = "comment"
@@ -145,3 +145,17 @@ def update_views(cursor, question_id):
         "UPDATE question SET view_number = view_number + 1 WHERE id = %(id)s;",
         {"id": question_id},
     )
+
+
+@database_common.connection_handler
+def get_user_and_password(cursor, user):
+    cursor.execute(
+        "SELECT username, password FROM users WHERE username = %(user)s;",
+        {"user": user},
+    )
+    return cursor.fetchone()
+
+
+
+
+

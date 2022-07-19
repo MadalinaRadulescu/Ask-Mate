@@ -18,7 +18,11 @@
     <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">&nbspGo to all quesiton</a> </div>
     
     <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
-    <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
+    {%if logged_message == "You are not logged in"%}
+        <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
+    {%else%}
+        <div class="main">  <a href="{{url_for('logout') }}" id="add-href">Logout</a> </div>
+    {%endif%}
     <br>
     <br>
     <table>

@@ -13,6 +13,7 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "static/images"
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
+
 @app.route("/")
 def main_page():
     if "username" in session:
@@ -30,13 +31,17 @@ def main_page():
 
 @app.route("/list")
 def question_list():
+    if "username" in session:
+        logged_message = True
+    else:
+        logged_message = False
     sort_by = request.args.get("sort-by")
     asc_desc = request.args.get("asc-desc")
     list_question = data_processing.sorting_sql(
         data_processing.QUESITON, sort_by, asc_desc
     )
 
-    return render_template("question-list.html", list_question=list_question)
+    return render_template("question-list.html", list_question=list_question, logged_message=logged_message)
 
 
 @app.route("/question/<question_id>", methods=["GET", "POST"])
@@ -331,17 +336,25 @@ def registration():
     return render_template("registration.html")
 
 
-@app.route("/login",methods=["GET","POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect(url_for('main_page'))
-    return render_template("login.html")
+    not_alert= True
+    if request.method == "POST":
+        user = data_processing.get_user_and_password(request.form["username"])
+        if user:
+            if util.verify_password(request.form['password'], user["password"]):
+                session["username"] = request.form["username"]
+                return redirect(url_for("question_list"))
+        else:
+            not_alert= False
+    return render_template("login.html", not_alert=not_alert)
 
-@app.route('/logout')
+
+@app.route("/logout")
 def logout():
-    session.pop('username', None)
-    return redirect(url_for('main_page'))
+    session.pop("username", None)
+    return redirect(url_for("main_page"))
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
