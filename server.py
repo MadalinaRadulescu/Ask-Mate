@@ -33,15 +33,17 @@ def main_page():
 def question_list():
     if "username" in session:
         logged_message = True
+        show_message = "Logged in as %s" % escape(session["username"])
     else:
         logged_message = False
+        show_message = "You are not logged in"
     sort_by = request.args.get("sort-by")
     asc_desc = request.args.get("asc-desc")
     list_question = data_processing.sorting_sql(
         data_processing.QUESITON, sort_by, asc_desc
     )
 
-    return render_template("question-list.html", list_question=list_question, logged_message=logged_message)
+    return render_template("question-list.html", list_question=list_question, logged_message=logged_message,show_message=show_message)
 
 
 @app.route("/question/<question_id>", methods=["GET", "POST"])

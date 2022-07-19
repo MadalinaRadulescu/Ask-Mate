@@ -57,9 +57,10 @@ a {
   position: absolute;
   margin-top: 20px;
   margin-right: 20px;
-  top: 0;
+  top: 60px;
   right: 0;
 }
+
 .main {
   width: 140px;
   height: 20px;
