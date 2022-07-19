@@ -20,9 +20,11 @@
 
     <div class="position">
     {%if logged_message == "You are not logged in"%}
-        {{ logged_message }}<br><br>
-        <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div><br>
-        <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
+    <div class="position">
+        {{ logged_message }}
+        <br>
+        <br>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
     </div>
     {%else%}
     <div class="position">

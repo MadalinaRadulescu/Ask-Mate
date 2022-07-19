@@ -33,15 +33,17 @@ def main_page():
 def question_list():
     if "username" in session:
         logged_message = True
+        show_message = "Logged in as %s" % escape(session["username"])
     else:
         logged_message = False
+        show_message = "You are not logged in"
     sort_by = request.args.get("sort-by")
     asc_desc = request.args.get("asc-desc")
     list_question = data_processing.sorting_sql(
         data_processing.QUESITON, sort_by, asc_desc
     )
 
-    return render_template("question-list.html", list_question=list_question, logged_message=logged_message)
+    return render_template("question-list.html", list_question=list_question, logged_message=logged_message,show_message=show_message)
 
 
 @app.route("/question/<question_id>", methods=["GET", "POST"])
@@ -66,7 +68,8 @@ def answer_question(question_id):
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     question_dic = {}
-    # list_question = data_processing.get_all_dic(data_processing.QUESITON)
+    list_question = data_processing.get_all_dic(data_processing.QUESITON)
+    user_dic = data_processing.get_user_and_password(session["username"])
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
             question_dic["id"] = data_processing.new_max_id(
@@ -76,11 +79,12 @@ def add_question():
             question_dic["view_number"] = str(0)
             question_dic["vote_number"] = str(0)
             question_dic[title] = request.form.get(title)
-
-            try:
-                question_dic["author"] = data_processing.get_user_and_password(session["username"])["id"]
-            except:
-                question_dic["author"] = None
+        try:
+            question_dic["author"] = user_dic["id"]
+            data_processing.update_user_interactions("questions_posted", user_dic["id"])
+            
+        except:
+            question_dic["author"] = None
         image = None
         if request.files["File"]:
             f = request.files["File"]
@@ -137,6 +141,7 @@ def edit_question(question_id):
 def add_answer_to_question(question_id):
     answer_dic = {}
     answer_list = data_processing.get_all_dic(data_processing.ANSWER)
+    user_dic = data_processing.get_user_and_password(session["username"])
     if request.method == "POST":
         for title in data_processing.ANSWER_HEADER:
             answer_dic["id"] = data_processing.new_max_id(
@@ -146,6 +151,11 @@ def add_answer_to_question(question_id):
             answer_dic["vote_number"] = "0"
             answer_dic["question_id"] = question_id
             answer_dic[title] = request.form.get(title)
+        try:
+            answer_dic["author"] = user_dic["id"]
+            data_processing.update_user_interactions("answers_posted", user_dic["id"])
+        except:
+            answer_dic["author"] = None
         image = None
         if request.files["File"]:
             f = request.files["File"]
@@ -213,6 +223,7 @@ def delete_answer(question_id, answer_id):
 @app.route("/question/<question_id>/new-comment", methods=["GET", "POST"])
 def add_question_comment(question_id):
     if request.method == "POST":
+        user_dic = data_processing.get_user_and_password(session["username"])
         comment_dic = {
             "id": data_processing.new_max_id(
                 data_processing.get_all_dic(data_processing.COMMENT)
@@ -222,6 +233,11 @@ def add_question_comment(question_id):
             "message": request.form.get("message"),
             "submission_time": data_processing.today_day(),
         }
+        try:
+            comment_dic["author"] = user_dic["id"]
+            data_processing.update_user_interactions("comments_posted", user_dic["id"])
+        except:
+            comment_dic["author"] = None
         data_processing.add_to_sql(comment_dic, data_processing.COMMENT)
         return redirect(url_for("answer_question", question_id=question_id))
     return render_template(
@@ -237,6 +253,7 @@ def add_answer_comment(answer_id):
         "question_id"
     ]
     if request.method == "POST":
+        user_dic = data_processing.get_user_and_password(session["username"])
         comment_dic = {
             "id": data_processing.new_max_id(
                 data_processing.get_all_dic(data_processing.COMMENT)
@@ -246,6 +263,11 @@ def add_answer_comment(answer_id):
             "message": request.form.get("message"),
             "submission_time": data_processing.today_day(),
         }
+        try:
+            comment_dic["author"] = user_dic["id"]
+            data_processing.update_user_interactions("comments_posted", user_dic["id"])
+        except:
+            comment_dic["author"] = None
         data_processing.add_to_sql(comment_dic, data_processing.COMMENT)
         return redirect(url_for("answer_question", question_id=question_id))
     return render_template(
