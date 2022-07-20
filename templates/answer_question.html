@@ -18,6 +18,7 @@
         <div class="main" style="display:inline-block">  <a href="{{url_for('tag_page')}}" id="add-href">Tags</a> </div>
         <div class="main" style="display:inline-block">  <a href="{{url_for('delete_question',question_id=id)}}" id="delete-question">Delete</a> </div>
         <div class="main" style="display:inline-block">  <a href="{{url_for('edit_question',question_id=id)}}" id="edit-question">Edit</a> </div>
+        <div class="main" style="display:inline-block">  <a href="{{ url_for('add_answer_to_question', question_id=id) }}"  id="add-answer">Answer</a> </div>
         <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}"  id="main-href">Main</a> </div>
     </div>
     <div class="question-and-answer">
@@ -29,7 +30,7 @@
                     {{dic["title"]}}
                 </p>
                 <br>
-                <a 
+                <!-- <a 
                     href="{{ url_for('add_answer_to_question', question_id=id) }}"
                 >
                     Add an answer{{"  "}}
@@ -37,7 +38,7 @@
                             class="bi bi-plus-square"
                         >
                         </i>
-                </a>
+                </a> -->
                 <p 
                     id="message_for_question"
                 >   
@@ -171,7 +172,8 @@
                                 &#8595;
                             </button> 
                         </form>
-                        <form class="verify" name="verify_button" action="{{ url_for("verify_answer", question_id=id, answer_id=dic_answers.id ) }}">
+                        <p>Author accepted answer:</p> 
+                        <form class="verify" name="verify_button" action="{{ url_for('verify_answer', question_id=id, answer_id=dic_answers.id ) }}">
 
                             <button type="submit" data-answer-id="{{ dic_answers.id }}" style="border: none; font-size: 20px; background-color: white">
                                 <i class="bi {{ 'bi-check-square-fill' if dic_answers.accepted else 'bi-check-square' }}"></i>
