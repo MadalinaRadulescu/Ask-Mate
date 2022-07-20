@@ -304,3 +304,38 @@ input:-webkit-autofill:focus {
 .button-container a{
   color: whitesmoke;
 }
+
+
+.container-buttons-question-list  {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.position{ 
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.message-logged{
+  text-align: right;
+  padding-right: 20px;
+}
+
+.users-only-buttons{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.header-question-right{
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.container-buttons-question-list{
+  text-align: center;
+}

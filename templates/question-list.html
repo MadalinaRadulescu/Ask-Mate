@@ -13,23 +13,35 @@
     <br>
       
     <br>
-    <div class="main">  <a href="{{url_for('add_question') }}" id="add-href">Add a question</a> </div>
-    <br>
-    <div class="main" style="display:inline-block"><a href = "{{ url_for('main_page')}}" id="add-href">&nbsp Go to main page</a></div>
-    <div class="main" style="display:inline-block">  <a href="{{url_for('tag_page')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTags</a> </div>
+    <div class="container-buttons-question-list">
+        <div class="main" >  <a href="{{url_for('add_question') }}" id="add-href">Add a question</a> </div>
+        <div class="main" > <a href = "{{ url_for('main_page')}}" id="add-href">Go to main page</a></div>
+        <div class="main" >  <a href="{{url_for('tag_page')}}" id="add-href">Tags</a> </div>
+    </div>
     <br>
     <div class="position">
-        {{ show_message }}
-    <br>
-    <br>
-    {%if logged_message%}
-        <div class="main" style="display:inline-block">  <a href="{{url_for('logout') }}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp Logout</a> </div>
         
-        <div class="main" style="display:inline-block">  <a href="{{url_for('users_list') }}" id="add-href">&nbsp&nbsp&nbsp&nbsp Users List</a> </div>
+    <br>
+    <br>
+    <div class="header-question-right">
+    <div class="users-only-buttons">
+    {%if logged_message%}
+    
+        <div class="main" style="display:inline-block">  <a href="{{url_for('logout') }}" id="add-href">Logout</a> </div>
+        
+        <div class="main" style="display:inline-block">  <a href="{{url_for('users_list') }}" id="add-href">Users List</a> </div>
     {%else%}
-        <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Login</a> </div>
-        <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
-    {%endif%}
+        <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">Login</a> </div>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">New user</a> </div>
+    
+    {%endif%}   
+    </div> 
+        <div class="message-logged">
+            <br>
+            <br>
+        {{ show_message }}
+        </div>
+    </div>
     </div>
     <br>
     <br>
