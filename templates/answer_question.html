@@ -6,123 +6,271 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.0/font/bootstrap-icons.css">
 </head>
-<body>
-    <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px;">
-    <br>
-    <br>
-     <form style="display: inline-block;"
-      action="{{url_for('delete_question',question_id=id)}}" 
-      method="post"
-       onclick="return confirm('Are you sure?')"
-       >
-        <button name="delete_question"
-         value="delete_question"
-          id="delete_question" 
-          style="background: #4b4949;color:white;" 
-          >
-          Delete this Question
-        </button>
+    <body>
+        <img 
+            src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" 
+            alt="" 
+            style="height: 50px;"
+        />
+        <br />
+        <br />
+        <form 
+            style="display: inline-block;"
+            action="{{url_for('delete_question',question_id=id)}}" 
+            method="post"
+            onclick="return confirm('Are you sure?')"
+        >
+            <button 
+                name="delete_question"
+                value="delete_question"
+                id="delete_question" 
+                style="background: #4b4949;color:white;" 
+            >
+                Delete this Question
+            </button>
         </form>
-        <form style="display: inline-block;" action="{{url_for('edit_question',question_id=id)}}" method="get" >
-            <button name="edit_question" value="edit_question" id="button-add" style="background: #4b4949;color:white;" >Edit Question</button>
+        <form 
+            style="display: inline-block;" 
+            action="{{url_for('edit_question',question_id=id)}}" 
+            method="get" 
+        >
+            <button 
+                name="edit_question" 
+                value="edit_question" 
+                id="button-add" 
+                style="background: #4b4949;color:white;" 
+            >
+                Edit Question
+            </button>
         </form>
-        
-        <form style="display: inline-block;" action="{{url_for('question_list')}}" method="get" >
-            <button name="main-menu" value="main-menu" id="main-menu-button" style="background: #4b4949;color:white;">Go to main menu</button>
-        </form>
-        
-    
-    {% for dic in list_question %}
-        {% if dic["id"] == id %}
-    <p id="question_for_answers">
-        Question:<br><br> 
-        {{dic["title"]}}
-    </p>
-     <br>
-    <a href="{{ url_for('add_answer_to_question', question_id=id) }}">Add an answer{{"  "}}<i class="bi bi-plus-square"></i></a>
-    <p id="message_for_question">Message: {{ dic["message"] }}</p>
-        {% endif %}
-    {% endfor %}
-    <p>Tags: 
-    {% for tag in tag_list_dic %}
-        {% if tag.question_id == id %}
-            {{ tag.name }} <a href="{{ url_for('delete_tag',question_id=id,tag_id=tag.id) }}"><i class="bi bi-trash"></i></a>
-        {% endif %}
-    {% endfor %}
-    <form action=" {{ url_for('add_new_tag', question_id=id) }}" method="post">
-        <label for="new-tag">
-        <input type="text" list="tags" name="new-tag">
-            <datalist id="tags">
-                {% for tag in used_tags %}
-                    <option value="{{ tag.name }}">{{ tag.name }}</option>
-                {% endfor %}
-        </datalist>
-            <button type="submit" style="background: #4b4949;color:white;">Add Tag</button>
-        </label>
-        </form>
-    <br>     
-    <details>
-    <summary>Comments for this question: <br> <a href="{{url_for('add_question_comment',question_id=id)}}"><i class="bi bi-plus-square"></i></a> </summary> 
-    <br>
-    <br>
-    
-    <ol>
-    {% for comment in comments_list%}
-        {% if comment.question_id == id %}
             
-           <li>{{comment.submission_time}} {{comment.message}}  <br> <br>
-        <a href="{{url_for('edit_comments',comment_id=comment.id)}}"><i class="bi bi-pencil-square"></i></a>
-        <a href="{{url_for('delete_comment_question',comment_id=comment.id)}}"><i class="bi bi-trash"></i></a>
-            </li>
-            <br>
-        {%endif%}
-    {%endfor%}
-    </details>
-    </ol>
-    <br>
-    
-    <ol>
-    
-    <p id="answer_is">The answer is:</p>
-        {%for dic_answers in good_answer_list_dic %}
-                <li id="answer_is">{{dic_answers["message"]}}
-            {%if dic_answers.image != 'None'%}
-                <img src="/static/images/{{ dic_answers.image }}" width="40" alt="  ">
-            {%endif%}
-                <br>          
-                    <form action="{{url_for('modify_answer_vote',answer_id=dic_answers.id,question_id=id)}}" method="post">
-                        Number of vote: {{dic_answers["vote_number"]}}
-                        <button name="vote" value="vote-up" id="vote-button-up">&#8593</button>  
-                        <button name="vote" value="vote-down" id="vote-button-down">&#8595</button> 
-                    </form>
-               
-                <a href="{{url_for('edit_answer',answer_id=dic_answers.id)}}"  method="get">
-                   <i class="bi bi-pencil-square"></i></a>
-                <a href="{{url_for('delete_answer',answer_id=dic_answers.id,question_id=id)}}" method="get" onclick="return confirm('Are you sure?')">
-                    <i class="bi bi-trash"></i></a>
-             
-                <br>
-                
-                <details>
+        <form 
+            style="display: inline-block;" 
+            action="{{url_for('question_list')}}" 
+            method="get" 
+        >
+            <button 
+                name="main-menu" 
+                value="main-menu" 
+                id="main-menu-button" 
+                style="background: #4b4949;color:white;"
+            >
+                Go to main menu
+            </button>
+        </form>
+            
         
-                <summary id="comment-answer">Show comments for this answer:   <br> <a href="{{url_for('add_answer_comment',answer_id=dic_answers.id)}}"><i class="bi bi-plus-square"></i></a></summary> 
-                
-                    {% for comment in comments_list %}
-                        {% if comment.answer_id  == dic_answers["id"]%}
-                        <ol>
-                            <li id="comment-answer">{{ comment.submission_time }}  {{ comment.message }}</li>
-                            <br>
-                            <a href="{{ url_for('delete_comment_answer',comment_id=comment.id) }}"><i class="bi bi-trash"></i></a>
-                        </ol>
-                        <br>
-                        {% endif %}
+        {% for dic in list_question %}
+            {% if dic["id"] == id %}
+                <p id="question_for_answers">
+                Question:<br><br> 
+                    {{dic["title"]}}
+                </p>
+                <br>
+                <a 
+                    href="{{ url_for('add_answer_to_question', question_id=id) }}"
+                >
+                    Add an answer{{"  "}}
+                        <i 
+                            class="bi bi-plus-square"
+                        >
+                        </i>
+                </a>
+                <p 
+                    id="message_for_question"
+                >   
+                    Message: {{ dic["message"] }}
+                </p>
+            {% endif %}
+        {% endfor %}
+            Tags:
+            {% for tag in tag_list_dic %}
+                {% if tag.question_id == id %}
+                    {{ tag.name }} 
+                    <a 
+                        href="{{ url_for('delete_tag',question_id=id,tag_id=tag.id) }}"
+                    >
+                        <i 
+                            class="bi bi-trash"
+                        >
+                        </i>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        <form 
+            action=" {{ url_for('add_new_tag', question_id=id) }}" 
+            method="post"
+        >
+            <label 
+                for="new-tag"
+            >
+                <input 
+                    type="text" 
+                    list="tags" 
+                    name="new-tag"
+                >
+                <datalist 
+                    id="tags"
+                >
+                    {% for tag in used_tags %}
+                        <option value="{{ tag.name }}">{{ tag.name }}</option>
                     {% endfor %}
-                    </li>
-                </details>
-    {% endfor %} 
-    </ol>
-   
-   
-</body>
-
+                </datalist>
+                <button 
+                    type="submit" 
+                    style="background: #4b4949;color:white;"
+                >
+                    Add Tag
+                </button>
+            </label>
+        </form>
+        <br />     
+        <details>
+            <summary>
+                Comments for this question: 
+                <br> 
+                <a 
+                    href="{{url_for('add_question_comment',question_id=id)}}"
+                >
+                    <i 
+                        class="bi bi-plus-square"
+                    >
+                    </i>
+                </a> 
+            </summary> 
+        <br />
+        <br />
+        
+            <ol>
+                {% for comment in comments_list%}
+                    {% if comment.question_id == id %}
+                
+                <li>
+                    {{comment.submission_time}} {{comment.message}}  
+                    <br />
+                    <br />
+                    <a 
+                        href="{{url_for('edit_comments',comment_id=comment.id)}}"
+                    >
+                        <i 
+                            class="bi bi-pencil-square"
+                        >
+                        </i>
+                    </a>
+                    <a 
+                        href="{{url_for('delete_comment_question',comment_id=comment.id)}}"
+                    >
+                        <i class="bi bi-trash"
+                        >
+                        </i>
+                    </a>
+                </li>
+                <br>
+                    {%endif%}
+                {%endfor%}
+            </ol>
+        </details>
+        <br>
+        
+        <ol>
+        
+        <p 
+            id="answer_is"
+        >
+            The answer is:
+        </p>
+            {%for dic_answers in good_answer_list_dic %}
+                    <li 
+                        id="answer_is"
+                    >
+                        {{dic_answers["message"]}}
+                {%if dic_answers.image != 'None'%}
+                    <img src="/static/images/{{ dic_answers.image }}" width="40" alt="  ">
+                {%endif%}
+                    <br>          
+                        <form 
+                            action="{{url_for('modify_answer_vote',answer_id=dic_answers.id,question_id=id)}}" 
+                            method="post"
+                        >
+                                Number of vote: {{dic_answers["vote_number"]}}
+                            <button 
+                                name="vote" 
+                                value="vote-up" 
+                                id="vote-button-up"
+                            >
+                                &#8593
+                            </button>  
+                            <button 
+                                name="vote" 
+                                value="vote-down" 
+                                id="vote-button-down"
+                            >
+                                &#8595
+                            </button> 
+                        </form>
+                
+                    <a 
+                        href="{{url_for('edit_answer',answer_id=dic_answers.id)}}"  
+                        method="get"
+                    >
+                        <i 
+                            class="bi bi-pencil-square"
+                        >
+                        </i>
+                    </a>
+                    <a 
+                        href="{{url_for('delete_answer',answer_id=dic_answers.id,question_id=id)}}" 
+                        method="get" 
+                        onclick="return confirm('Are you sure?')"
+                    >
+                        <i 
+                            class="bi bi-trash"
+                        >
+                        </i>
+                    </a>
+                    <br>
+                    <details>
+                        <summary 
+                            id="comment-answer"
+                        >  
+                            Show comments for this answer:   
+                        <br /> 
+                            <a 
+                                href="{{url_for('add_answer_comment',answer_id=dic_answers.id)}}"
+                            >
+                                <i 
+                                    class="bi bi-plus-square"
+                                >
+                                </i>
+                            </a>
+                        </summary> 
+                    
+                        {% for comment in comments_list %}
+                            {% if comment.answer_id  == dic_answers["id"]%}
+                            <ol>
+                                <li 
+                                    id="comment-answer"
+                                >
+                                    {{ comment.submission_time }}  {{ comment.message }}
+                                </li>
+                                <br />
+                                    <a 
+                                        href="{{ url_for('delete_comment_answer',comment_id=comment.id) }}"
+                                    >
+                                        <i 
+                                            class="bi bi-trash"
+                                        >
+                                        </i>
+                                    </a>
+                            </ol>
+                            <br>
+                            {% endif %}
+                        {% endfor %}
+                        
+                    </details>
+            {% endfor %} 
+        </ol>
+    
+    
+    </body>
 </html>

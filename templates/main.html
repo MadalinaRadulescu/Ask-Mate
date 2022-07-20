@@ -8,79 +8,85 @@
     
     
 </head>
-<body>
-<img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="   " style="height: 50px;">
-    
-    <br>
-    <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">&nbspGo to all quesiton</a> </div>
-   
-    <div class="position">
-    {%if logged_message == "You are not logged in"%}
-    <div class="position">
-        {{ logged_message }}
+    <body>
+    <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="   " style="height: 50px;">
         <br>
         <br>
-        <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
-    </div>
-    {%else%}
-    <div class="position">
-        {{ logged_message }}<br>
-        <div class="main" style="display:inline-block">  <a href="{{url_for('users_list') }}" id="add-href">&nbsp&nbsp&nbsp&nbspUsers List</a> </div>
-        <div class="main " style="display:inline-block">  <a href="{{url_for('logout') }}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspLogout</a> </div>
-    </div>
-    {%endif%}
-    <br>
-    <br>
-    <table>
-        <thead>
-            <tr>
-                {% for header in list_question[0].keys() %}
-                <th>{{ header.replace("_"," ").capitalize() }} 
-                {% endfor %}
-                <th>User choice</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for dictionary in list_question %}
-                <tr>
-                    {% for key in dictionary %}
-                        {% if key == "vote_number" %}
-                            <td id="vote-table"> 
-                            <form action=" {{ url_for('modify_vote',question_id=dictionary.id) }} " method="post">
-                                <button name="vote" value="vote-up" id="vote-button-up">&#8593</button>
-                            <br>
-                                {{ dictionary[key] }}
-                            <br>
-                                <button name="vote" value="vote-down" id="vote-button-down">&#8595</button>
-                            </form>
-                            </td>
-                        {% elif key == "title" %}
-                            <td>
-                                <a href="{{ url_for('answer_question', question_id=dictionary.id) }}">{{ dictionary[key]|safe }}</a>
-                            </td>
-                        {% elif key == "image"  %}
+        
+        <br>
+        <br>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">&nbspGo to all quesiton</a> </div>
+        <br>
 
-                             <td>
-                                {%if dictionary.image != 'None'%}
-                                <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="  ">
-                                {%endif%}
-                            </td>
-                        {% else %}
-                            <td>{{ dictionary[key]|safe }} </td>
-                            
-                        {% endif %}
-                                   
+        
+        {%if logged_message == "You are not logged in"%}
+        <div class="position">
+            {{ logged_message }}
+            <br>
+            <br>
+            <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
+            <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
+        </div>
+        {%else%}
+        <div class="position">
+            {{ logged_message }}<br><br>
+            <div class="main" style="display:inline-block">  <a href="{{url_for('users_list') }}" id="add-href">&nbsp&nbsp&nbsp&nbspUsers List</a> </div>
+            <div class="main " style="display:inline-block">  <a href="{{url_for('logout') }}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspLogout</a> </div>
+            
+        </div>
+        {%endif%}
+        <br>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    {% for header in list_question[0].keys() %}
+                    <th>{{ header.replace("_"," ").capitalize() }} 
                     {% endfor %}
-                    
-                    <td>
-                        <a href="{{ url_for('add_answer_to_question', question_id=dictionary.id) }}"><i class="bi bi-plus-square"></i></a>
-                        <hr>
-                       <a href="{{url_for('delete_question',question_id=dictionary.id)}}" ><i class="bi bi-trash"></i></a>
-	
-                    </td>
+                    <th>User choice</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+            </thead>
+            <tbody>
+                {% for dictionary in list_question %}
+                    <tr>
+                        {% for key in dictionary %}
+                            {% if key == "vote_number" %}
+                                <td id="vote-table"> 
+                                <form action=" {{ url_for('modify_vote',question_id=dictionary.id) }} " method="post">
+                                    <button name="vote" value="vote-up" id="vote-button-up">&#8593</button>
+                                <br>
+                                    {{ dictionary[key] }}
+                                <br>
+                                    <button name="vote" value="vote-down" id="vote-button-down">&#8595</button>
+                                </form>
+                                </td>
+                            {% elif key == "title" %}
+                                <td>
+                                    <a href="{{ url_for('answer_question', question_id=dictionary.id) }}">{{ dictionary[key]|safe }}</a>
+                                </td>
+                            {% elif key == "image"  %}
+
+                                <td>
+                                    {%if dictionary.image != 'None'%}
+                                    <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="  ">
+                                    {%endif%}
+                                </td>
+                            {% else %}
+                                <td>{{ dictionary[key]|safe }} </td>
+                                
+                            {% endif %}
+                                    
+                        {% endfor %}
+                        
+                        <td>
+                            <a href="{{ url_for('add_answer_to_question', question_id=dictionary.id) }}"><i class="bi bi-plus-square"></i></a>
+                            <hr>
+                        <a href="{{url_for('delete_question',question_id=dictionary.id)}}" ><i class="bi bi-trash"></i></a>
+        
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
 </html>
