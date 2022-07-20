@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from subprocess import list2cmdline
 from typing import List, Dict
@@ -161,6 +160,7 @@ def get_users_list(cursor):
     )
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def get_user_by_id(cursor, user_id):
     cursor.execute(
@@ -174,10 +174,13 @@ def get_user_by_id(cursor, user_id):
 def update_user_interactions(cursor, column, user_id):
     cursor.execute(
         f"UPDATE users SET {column} = {column} + 1 WHERE id = %(user_id)s",
-        {
-            "column": column, "user_id": user_id
-        }
+        {"column": column, "user_id": user_id},
     )
 
 
-
+@database_common.connection_handler
+def get_user_posts(cursor, user_id, table):
+    cursor.execute(
+        f""" SELECT * FROM {table} WHERE author = %(id)s """, {"id": user_id}
+    )
+    return cursor.fetchall()
