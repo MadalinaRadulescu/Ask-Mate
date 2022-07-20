@@ -43,7 +43,12 @@ def question_list():
         data_processing.QUESITON, sort_by, asc_desc
     )
 
-    return render_template("question-list.html", list_question=list_question, logged_message=logged_message,show_message=show_message)
+    return render_template(
+        "question-list.html",
+        list_question=list_question,
+        logged_message=logged_message,
+        show_message=show_message,
+    )
 
 
 @app.route("/question/<question_id>", methods=["GET", "POST"])
@@ -80,7 +85,7 @@ def add_question():
         try:
             question_dic["author"] = user_dic["id"]
             data_processing.update_user_interactions("questions_posted", user_dic["id"])
-            
+
         except:
             question_dic["author"] = None
         image = None
@@ -174,6 +179,20 @@ def modify_vote(question_id):
     if request.method == "POST":
         vote = request.form.get("vote")
         data_processing.update_voting(question_id, vote, data_processing.QUESITON)
+        user_id = data_processing.get_author_id(question_id,"question")["author"]
+        if user_id:
+            if vote == "vote-up":
+                if session:
+                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
+                        data_processing.update_user_reputation(user_id,5)
+                else:
+                    data_processing.update_user_reputation(user_id,5)
+            else:
+                if session:
+                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
+                        data_processing.update_user_reputation(user_id,-2)
+                else:
+                    data_processing.update_user_reputation(user_id,-2)
 
     return redirect("/list")
 
@@ -183,6 +202,21 @@ def modify_answer_vote(question_id, answer_id):
     if request.method == "POST":
         vote = request.form.get("vote")
         data_processing.update_voting(answer_id, vote, data_processing.ANSWER)
+        user_id = data_processing.get_author_id(answer_id,"answer")["author"]
+        if user_id:
+            if vote == "vote-up":
+                if session:
+                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
+                        data_processing.update_user_reputation(user_id,10)
+                else:
+                    data_processing.update_user_reputation(user_id,10)
+                
+            else:
+                if session:
+                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
+                        data_processing.update_user_reputation(user_id,-2)
+                else:
+                    data_processing.update_user_reputation(user_id,-2)
 
     return redirect(url_for("answer_question", question_id=question_id))
 
@@ -363,15 +397,15 @@ def registration():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    not_alert= True
+    not_alert = True
     if request.method == "POST":
         user = data_processing.get_user_and_password(request.form["username"])
         if user:
-            if util.verify_password(request.form['password'], user["password"]):
+            if util.verify_password(request.form["password"], user["password"]):
                 session["username"] = request.form["username"]
                 return redirect(url_for("main_page"))
         else:
-            not_alert= False
+            not_alert = False
     return render_template("login.html", not_alert=not_alert)
 
 
@@ -384,13 +418,36 @@ def logout():
 @app.route("/users")
 def users_list():
     users_list = data_processing.get_users_list()
-    return render_template('users_list.html', users_list=users_list)
+    return render_template("users_list.html", users_list=users_list)
 
 
 @app.route("/users/<user_id>")
+@app.route("/users/<user_id>/")
 def user_page(user_id):
     user_details = data_processing.get_user_by_id(user_id)
-    return render_template('user_page.html', user_id=int(user_id), user_details=user_details)
+    user_questions_posts = data_processing.get_user_posts(
+        user_id, data_processing.QUESITON
+    )
+    user_answers_posts = data_processing.get_user_posts(user_id, data_processing.ANSWER)
+    user_comments_posts = data_processing.get_user_posts(user_id, data_processing.COMMENT)
+    return render_template(
+        "user_page.html",
+        user_id=int(user_id),
+        user_details=user_details,
+        user_questions_posts=user_questions_posts,
+        user_answers_posts=user_answers_posts,
+        user_comments_posts=user_comments_posts
+    )
+
+
+@app.route("/get-question-id/<answer_id>")
+def get_question_id(answer_id):
+    return redirect(url_for("answer_question", question_id=data_processing.get_question_id(answer_id, data_processing.ANSWER)))
+
+@app.route("/tags")
+def tag_page():
+    all_tags = data_processing.get_tags()
+    return render_template("tag_page.html", all_tags=all_tags)
 
 
 @app.route("/question/<question_id>/answer/<answer_id>/verified")
