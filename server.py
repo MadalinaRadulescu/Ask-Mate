@@ -82,11 +82,11 @@ def add_question():
             question_dic["view_number"] = str(0)
             question_dic["vote_number"] = str(0)
             question_dic[title] = request.form.get(title)
+        if session:
+            user_dic = data_processing.get_user_and_password(session["username"])
         try:
-            if session:
-                user_dic = data_processing.get_user_and_password(session["username"])
-                question_dic["author"] = user_dic["id"]
-                data_processing.update_user_interactions("questions_posted", user_dic["id"])
+            question_dic["author"] = user_dic["id"]
+            data_processing.update_user_interactions("questions_posted", user_dic["id"])
 
         except:
             question_dic["author"] = None
@@ -144,8 +144,6 @@ def edit_question(question_id):
 @app.route("/question/<question_id>/new-answer", methods=["GET", "POST"])
 def add_answer_to_question(question_id):
     answer_dic = {}
-    # answer_list = data_processing.get_all_dic(data_processing.ANSWER)
-    user_dic = data_processing.get_user_and_password(session["username"])
     if request.method == "POST":
         for title in data_processing.ANSWER_HEADER:
             answer_dic["id"] = data_processing.new_max_id(
@@ -156,7 +154,10 @@ def add_answer_to_question(question_id):
             answer_dic["question_id"] = question_id
             answer_dic["accepted"] = False
             answer_dic[title] = request.form.get(title)
+        if session:
+            user_dic = data_processing.get_user_and_password(session["username"])
         try:
+           
             answer_dic["author"] = user_dic["id"]
             data_processing.update_user_interactions("answers_posted", user_dic["id"])
         except:
