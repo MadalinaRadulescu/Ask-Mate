@@ -282,6 +282,7 @@ input:-webkit-autofill:focus {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding-bottom: 50px;
   
 }
 
@@ -338,4 +339,17 @@ input:-webkit-autofill:focus {
 
 .container-buttons-question-list{
   text-align: center;
+}
+
+.button-container-question-details{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  padding-left: 18vw;
+  
+}
+
+
+.button-container-question-details a{
+  color: whitesmoke;
 }
