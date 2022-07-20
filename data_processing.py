@@ -220,3 +220,8 @@ def get_user_id_by_username(cursor,username):
         {"username":username}
     )
     return cursor.fetchone()
+
+@database_common.connection_handler
+def get_tags(cursor):
+    cursor.execute(""" SELECT DISTINCT name, count(tag.name) FROM tag GROUP BY tag.name""")
+    return cursor.fetchall()

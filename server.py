@@ -443,6 +443,11 @@ def user_page(user_id):
 def get_question_id(answer_id):
     return redirect(url_for("answer_question", question_id=data_processing.get_question_id(answer_id, data_processing.ANSWER)))
 
+@app.route("/tags")
+def tag_page():
+    all_tags = data_processing.get_tags()
+    return render_template("tag_page.html", all_tags=all_tags)
+
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5000)
