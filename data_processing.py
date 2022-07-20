@@ -184,3 +184,39 @@ def get_user_posts(cursor, user_id, table):
         f""" SELECT * FROM {table} WHERE author = %(id)s """, {"id": user_id}
     )
     return cursor.fetchall()
+def insert_tag(cursor,question_id, tag_text):
+    cursor.execute(
+        'INSERT INTO tag (name) VALUES (%(tag_text)s) RETURNING id;',
+        { "tag_text": tag_text }
+    )
+    new_id = cursor.fetchone()["id"]
+    cursor.execute(
+        "INSERT INTO question_tag (question_id, tag_id) VALUES (%(qid)s, %(tid)s);",
+        { "qid": question_id, "tid": new_id }
+    )
+
+
+@database_common.connection_handler
+def update_user_reputation(cursor, user_id, value):
+    cursor.execute(
+        "UPDATE users SET reputation = reputation + %(value)s WHERE id = %(user_id)s",
+        {"user_id":user_id,"value":value}
+    )
+
+
+@database_common.connection_handler
+def get_author_id(cursor, question_id,table):
+    cursor.execute(
+        f"SELECT author FROM {table} WHERE id = %(question_id)s",
+        {"question_id":question_id},
+    )
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def get_user_id_by_username(cursor,username):
+    cursor.execute(
+        "SELECT id FROM users WHERE username=%(username)s",
+        {"username":username}
+    )
+    return cursor.fetchone()
