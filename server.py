@@ -438,5 +438,10 @@ def user_page(user_id):
     )
 
 
+@app.route("/get-question-id/<answer_id>")
+def get_question_id(answer_id):
+    return redirect(url_for("answer_question", question_id=data_processing.get_question_id(answer_id, data_processing.ANSWER)))
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5002)

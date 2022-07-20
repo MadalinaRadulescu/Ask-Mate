@@ -49,9 +49,11 @@
     <table>
         <thead>
             <tr>
+                {% if user_questions_posts %}
                 {% for header in user_questions_posts[0].keys() %}
                 <th>{{ header.replace("_"," ").capitalize() }} 
                 {% endfor %}
+                {%endif%}
             </tr>
         </thead>
         <tbody>
@@ -84,9 +86,11 @@
     <table>
         <thead>
             <tr>
+                {% if user_answers_posts %}
                 {% for header in user_answers_posts[0].keys() %}
                 <th>{{ header.replace("_"," ").capitalize() }} 
                 {% endfor %}
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -119,9 +123,11 @@
     <table>
         <thead>
             <tr>
+                {% if user_comments_posts %}
                 {% for header in user_comments_posts[0].keys() %}
                 <th>{{ header.replace("_"," ").capitalize() }} 
                 {% endfor %}
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -129,9 +135,15 @@
             <tr>
             
                 {% for key in dictionary %}
+                {{ dictionary.question_id }}
                     {% if key == "message" %}
                         <td>
-                            <a href="{{ url_for('answer_question', question_id=dictionary.question_id) }}">{{ dictionary[key]|safe }}</a>
+                            {% if dictionary.question_id == None %}
+                                <a href="{{ url_for('get_question_id', answer_id=dictionary.answer_id) }}">{{ dictionary[key]|safe }}</a>
+                            {% else %}
+                                <a href="{{ url_for('answer_question', question_id=dictionary.question_id) }}">{{ dictionary[key]|safe }}</a>
+                                
+                            {% endif %}
                         </td>
                     {% elif key == "image" %}
                         <td>
