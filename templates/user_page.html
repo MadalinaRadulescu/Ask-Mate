@@ -21,27 +21,11 @@
         </thead>
         <tbody>
             <tr>
-                <td>
-                    {{user_details.id}}
-                </td>
-                <td>
-                    {{user_details.username}}
-                </td>
-                <td>
-                    {{user_details.registration_date}}
-                </td>
-                <td>
-                    {{user_details.questions_posted}}
-                </td>
-                <td>
-                    {{user_details.answers_posted}}
-                </td>
-                <td>
-                    {{user_details.comments_posted}}
-                </td>
-                <td>
-                    {{user_details.reputation}}
-                </td>
+                {% for header in user_details.keys() %}
+                    <td>
+                        {{ user_details[header] }}
+                    </td>
+                {% endfor %}
             </tr>
         </tbody>
     </table>

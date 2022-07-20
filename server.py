@@ -421,6 +421,7 @@ def users_list():
 
 
 @app.route("/users/<user_id>")
+@app.route("/users/<user_id>/")
 def user_page(user_id):
     user_details = data_processing.get_user_by_id(user_id)
     user_questions_posts = data_processing.get_user_posts(
