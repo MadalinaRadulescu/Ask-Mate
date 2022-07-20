@@ -173,6 +173,20 @@ def modify_vote(question_id):
     if request.method == "POST":
         vote = request.form.get("vote")
         data_processing.update_voting(question_id, vote, data_processing.QUESITON)
+        user_id = data_processing.get_author_id(question_id,"question")["author"]
+        if user_id:
+            if vote == "vote-up":
+                if session:
+                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
+                        data_processing.update_user_reputation(user_id,5)
+                else:
+                    data_processing.update_user_reputation(user_id,5)
+            else:
+                if session:
+                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
+                        data_processing.update_user_reputation(user_id,-2)
+                else:
+                    data_processing.update_user_reputation(user_id,-2)
 
     return redirect("/list")
 
@@ -182,6 +196,21 @@ def modify_answer_vote(question_id, answer_id):
     if request.method == "POST":
         vote = request.form.get("vote")
         data_processing.update_voting(answer_id, vote, data_processing.ANSWER)
+        user_id = data_processing.get_author_id(answer_id,"answer")["author"]
+        if user_id:
+            if vote == "vote-up":
+                if session:
+                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
+                        data_processing.update_user_reputation(user_id,10)
+                else:
+                    data_processing.update_user_reputation(user_id,10)
+                
+            else:
+                if session:
+                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
+                        data_processing.update_user_reputation(user_id,-2)
+                else:
+                    data_processing.update_user_reputation(user_id,-2)
 
     return redirect(url_for("answer_question", question_id=question_id))
 
@@ -393,4 +422,4 @@ def user_page(user_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5002)

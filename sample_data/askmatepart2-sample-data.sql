@@ -164,4 +164,4 @@ ALTER TABLE comment
 ADD author int;
 
 
-SELECT * FROM tag
+SELECT * FROM users
