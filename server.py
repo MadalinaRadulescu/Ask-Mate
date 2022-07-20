@@ -389,11 +389,11 @@ def users_list():
     return render_template('users_list.html', users_list=users_list)
 
 
-@app.route("/users/<user_id>/")
+@app.route("/users/<user_id>")
 def user_page(user_id):
     user_details = data_processing.get_user_by_id(user_id)
     return render_template('user_page.html', user_id=int(user_id), user_details=user_details)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5000)

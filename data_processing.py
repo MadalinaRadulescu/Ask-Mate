@@ -156,7 +156,7 @@ def get_user_and_password(cursor, user):
 @database_common.connection_handler
 def get_users_list(cursor):
     cursor.execute(
-        "SELECT username, registration_date, questions_posted, answers_posted, comments_posted, reputation FROM users",
+        "SELECT id, username, registration_date, questions_posted, answers_posted, comments_posted, reputation FROM users",
     )
     return cursor.fetchall()
 
