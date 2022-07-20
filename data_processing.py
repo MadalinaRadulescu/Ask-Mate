@@ -79,7 +79,7 @@ def add_to_sql(cursor, dict, table):
 @database_common.connection_handler
 def answer_for_question_sql(cursor, id):
     cursor.execute(
-        """ SELECT id,vote_number,message,image FROM answer WHERE question_id = %(id)s """,
+        """ SELECT id,vote_number,message,accepted,image FROM answer WHERE question_id = %(id)s """,
         {"id": id},
     )
     return cursor.fetchall()
@@ -161,6 +161,7 @@ def get_users_list(cursor):
     )
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def get_user_by_id(cursor, user_id):
     cursor.execute(
@@ -179,5 +180,20 @@ def update_user_interactions(cursor, column, user_id):
         }
     )
 
+@database_common.connection_handler
+def get_acceptance(cursor,answer_id):
+    cursor.execute("SELECT accepted FROM answer where id = %(answer_id)s", {"answer_id": answer_id})
+    return cursor.fetchone()
 
+
+@database_common.connection_handler
+def update_answer_acceptance(cursor, answer_id):
+    parameter = get_acceptance(answer_id)["accepted"]
+    cursor.execute(
+        f"UPDATE answer SET accepted = NOT %(parameter)s WHERE id = %(answer_id)s",
+        {
+            "answer_id": answer_id,
+            "parameter": parameter,
+        }
+    )
 

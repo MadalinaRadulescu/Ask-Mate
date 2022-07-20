@@ -198,17 +198,22 @@
                                 value="vote-up" 
                                 id="vote-button-up"
                             >
-                                &#8593
+                                &#8593;
                             </button>  
                             <button 
                                 name="vote" 
                                 value="vote-down" 
                                 id="vote-button-down"
                             >
-                                &#8595
+                                &#8595;
                             </button> 
                         </form>
-                
+                        <form class="verify" name="verify_button" action="{{ url_for("verify_answer", question_id=id, answer_id=dic_answers.id ) }}">
+
+                            <button type="submit" data-answer-id="{{ dic_answers.id }}" style="border: none; font-size: 20px; background-color: white">
+                                <i class="bi {{ 'bi-check-square-fill' if dic_answers.accepted else 'bi-check-square' }}"></i>
+                            </button>
+                        </form>
                     <a 
                         href="{{url_for('edit_answer',answer_id=dic_answers.id)}}"  
                         method="get"
@@ -270,7 +275,7 @@
                     </details>
             {% endfor %} 
         </ol>
-    
-    
+
+        <script src="/static/script.js"></script>
     </body>
 </html>

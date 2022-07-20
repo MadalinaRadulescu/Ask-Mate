@@ -139,10 +139,7 @@ SET question_id = 3
 WHERE id = 3;
 
 
-SELECT * FROM question
 
-UPDATE  question
-SET image = NULL
 
 CREATE TABLE users(
     id serial NOT NULL,
@@ -162,6 +159,6 @@ ALTER TABLE answer
 ADD author int;
 ALTER TABLE comment
 ADD author int;
-
-
+ALTER TABLE answer
+ADD accepted bool;
 SELECT * FROM users

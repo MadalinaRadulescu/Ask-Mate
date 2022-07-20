@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import Flask, render_template, redirect, request, url_for, escape, session
+from flask import Flask, render_template, redirect, request, url_for, escape, session, jsonify, json
 import data_processing
 from bonus_questions import SAMPLE_QUESTIONS
 import os
@@ -147,6 +147,7 @@ def add_answer_to_question(question_id):
             answer_dic["submission_time"] = data_processing.today_day()
             answer_dic["vote_number"] = "0"
             answer_dic["question_id"] = question_id
+            answer_dic["accepted"] = False
             answer_dic[title] = request.form.get(title)
         try:
             answer_dic["author"] = user_dic["id"]
@@ -390,6 +391,11 @@ def users_list():
 def user_page(user_id):
     user_details = data_processing.get_user_by_id(user_id)
     return render_template('user_page.html', user_id=int(user_id), user_details=user_details)
+
+
+@app.route("/question/<question_id>/answer/<answer_id>/verified")
+def verify_answer(question_id, answer_id):
+    return jsonify(data_processing.update_answer_acceptance(answer_id))
 
 
 if __name__ == "__main__":
