@@ -14,56 +14,17 @@
         />
         <br />
         <br />
-        <form 
-            style="display: inline-block;"
-            action="{{url_for('delete_question',question_id=id)}}" 
-            method="post"
-            onclick="return confirm('Are you sure?')"
-        >
-            <button 
-                name="delete_question"
-                value="delete_question"
-                id="delete_question" 
-                style="background: #4b4949;color:white;" 
-            >
-                Delete this Question
-            </button>
-        </form>
-        <form 
-            style="display: inline-block;" 
-            action="{{url_for('edit_question',question_id=id)}}" 
-            method="get" 
-        >
-            <button 
-                name="edit_question" 
-                value="edit_question" 
-                id="button-add" 
-                style="background: #4b4949;color:white;" 
-            >
-                Edit Question
-            </button>
-        </form>
-            
-        <form 
-            style="display: inline-block;" 
-            action="{{url_for('question_list')}}" 
-            method="get" 
-        >
-            <button 
-                name="main-menu" 
-                value="main-menu" 
-                id="main-menu-button" 
-                style="background: #4b4949;color:white;"
-            >
-                Go to main menu
-            </button>
-        </form>
-            
-        
+    <div class="button-container">
+        <div class="main" style="display:inline-block">  <a href="{{url_for('delete_question',question_id=id)}}" id="delete-question">Delete</a> </div>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('edit_question',question_id=id)}}" id="edit-question">Edit</a> </div>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}"  id="main-href">Main</a> </div>
+    </div>
+    <div class="question-and-answer">
+        <div class="question">
         {% for dic in list_question %}
             {% if dic["id"] == id %}
                 <p id="question_for_answers">
-                Question:<br><br> 
+                <h1>Question </h1> <br><br> 
                     {{dic["title"]}}
                 </p>
                 <br>
@@ -171,13 +132,14 @@
             </ol>
         </details>
         <br>
-        
+        </div>
+        <div class="answer">
         <ol>
         
         <p 
             id="answer_is"
         >
-            The answer is:
+           <h1> Answers</h1>
         </p>
             {%for dic_answers in good_answer_list_dic %}
                     <li 
@@ -270,7 +232,8 @@
                     </details>
             {% endfor %} 
         </ol>
-    
+        </div>
+    </div>
     
     </body>
 </html>
