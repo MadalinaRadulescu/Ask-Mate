@@ -4,8 +4,8 @@ table {
   font-size: 110%;
 }
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 99vw;
+  height: 99vh;
 }
 
 table {
@@ -102,8 +102,17 @@ a {
 #story-img {
   position: absolute;
   top: 0px;
-  right: 100px;
-  width: 700px;
+  right: 150px;
+  width: 500px;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  
+}
+
+.logo-photo{
+  position: relative;
+  top: 10px;
+  text-align: center;
 }
 
 .login-box {
@@ -307,7 +316,7 @@ input:-webkit-autofill:focus {
 }
 
 
-.container-buttons-question-list  {
+.container-buttons-question-list,.main-buttons  {
   padding-left: 20px;
   display: flex;
   flex-direction: row;
@@ -337,9 +346,6 @@ input:-webkit-autofill:focus {
   padding-right: 20px;
 }
 
-.container-buttons-question-list{
-  text-align: center;
-}
 
 .button-container-question-details{
   display: flex;
@@ -353,3 +359,4 @@ input:-webkit-autofill:focus {
 .button-container-question-details a{
   color: whitesmoke;
 }
+

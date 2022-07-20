@@ -72,7 +72,7 @@ def answer_question(question_id):
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     question_dic = {}
-    user_dic = data_processing.get_user_and_password(session["username"])
+   
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
             question_dic["id"] = data_processing.new_max_id(
@@ -83,8 +83,10 @@ def add_question():
             question_dic["vote_number"] = str(0)
             question_dic[title] = request.form.get(title)
         try:
-            question_dic["author"] = user_dic["id"]
-            data_processing.update_user_interactions("questions_posted", user_dic["id"])
+            if session:
+                user_dic = data_processing.get_user_and_password(session["username"])
+                question_dic["author"] = user_dic["id"]
+                data_processing.update_user_interactions("questions_posted", user_dic["id"])
 
         except:
             question_dic["author"] = None
@@ -125,7 +127,7 @@ def edit_question(question_id):
             image = secure_filename(f.filename)
             f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
         data_processing.update_sql(
-            question_id, data_processing.QUESITON, "image", f"'{image}'"
+            question_id, data_processing.QUESITON, "image", image,
         )
 
         return redirect(url_for("question_list"))
