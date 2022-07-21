@@ -13,35 +13,42 @@
         <br>
         <br>
         
-        <br>
-        <br>
-        <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">&nbspGo to all quesiton</a> </div>
-        <br>
-
-        <div class="main" style="display:inline-block">  <a href="{{url_for('tag_page')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTags</a> </div>
-        {%if logged_message == "You are not logged in"%}
-        <div class="position">
-            {{ logged_message }}
-            <br>
-            <br>
-            <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogin</a> </div>
-            <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspNew user</a> </div>
+        
+        <div class="container-buttons-question-list">
+        <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">Go to all quesiton</a> </div>
+        <div class="main" style="display:inline-block">  <a href="{{url_for('tag_page')}}" id="add-href">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tags</a> </div>
         </div>
-        {%else%}
-        <div class="position">
-            {{ logged_message }}<br><br>
-            <div class="main" style="display:inline-block">  <a href="{{url_for('users_list') }}" id="add-href">&nbsp&nbsp&nbsp&nbspUsers List</a> </div>
-            <div class="main " style="display:inline-block">  <a href="{{url_for('logout') }}" id="add-href">&nbsp&nbsp&nbsp&nbsp&nbspLogout</a> </div>
             
+        <div class="header-question-right">
+            {%if logged_message == "You are not logged in"%}
+                <div class="position">
+            <br>
+            <br>
+                    <div class="main" style="display:inline-block">  <a href="{{url_for('login')}}" id="add-href">Login</a> </div>
+                    <div class="main" style="display:inline-block">  <a href="{{url_for('registration')}}" id="add-href">New user</a> </div>
+                </div>
+            {%else%}
+                    <div class="position">
+                        <div class="main" style="display:inline-block">  <a href="{{url_for('users_list') }}" id="add-href">Users List</a> </div>
+                        <div class="main " style="display:inline-block">  <a href="{{url_for('logout') }}" id="add-href">Logout</a> </div>   
+            {%endif%}
+                    </div>
+            <br>
+            <div class="message-logged">
+                {{ logged_message }}
+            </div>
         </div>
-        {%endif%}
         <br>
         <br>
         <table>
             <thead>
                 <tr>
                     {% for header in list_question[0].keys() %}
-                    <th>{{ header.replace("_"," ").capitalize() }} 
+                        {% if header == "author" %}
+                        
+                        {% else %}
+                            <th>{{ header.replace("_"," ").capitalize() }} 
+                        {% endif %}
                     {% endfor %}
                     <th>User choice</th>
                 </tr>
@@ -71,6 +78,8 @@
                                     <img src="/static/images/{{ dictionary['image'] }}" width="40" alt="  ">
                                     {%endif%}
                                 </td>
+                            {% elif key == "author" %}
+                            
                             {% else %}
                                 <td>{{ dictionary[key]|safe }} </td>
                                 

@@ -14,10 +14,11 @@
         />
         <br />
         <br />
-    <div class="button-container">
+    <div class="button-container-question-details">
         <div class="main" style="display:inline-block">  <a href="{{url_for('tag_page')}}" id="add-href">Tags</a> </div>
         <div class="main" style="display:inline-block">  <a href="{{url_for('delete_question',question_id=id)}}" id="delete-question">Delete</a> </div>
         <div class="main" style="display:inline-block">  <a href="{{url_for('edit_question',question_id=id)}}" id="edit-question">Edit</a> </div>
+        <div class="main" style="display:inline-block">  <a href="{{ url_for('add_answer_to_question', question_id=id) }}"  id="add-answer">Answer</a> </div>
         <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}"  id="main-href">Main</a> </div>
     </div>
     <div class="question-and-answer">
@@ -29,15 +30,6 @@
                     {{dic["title"]}}
                 </p>
                 <br>
-                <a 
-                    href="{{ url_for('add_answer_to_question', question_id=id) }}"
-                >
-                    Add an answer{{"  "}}
-                        <i 
-                            class="bi bi-plus-square"
-                        >
-                        </i>
-                </a>
                 <p 
                     id="message_for_question"
                 >   
@@ -161,17 +153,25 @@
                                 value="vote-up" 
                                 id="vote-button-up"
                             >
-                                &#8593
+                                &#8593;
                             </button>  
                             <button 
                                 name="vote" 
                                 value="vote-down" 
                                 id="vote-button-down"
                             >
-                                &#8595
+                                &#8595;
                             </button> 
                         </form>
-                
+                        <p>Author accepted answer:</p> 
+                        <form class="verify" name="verify_button" action="{{ url_for('verify_answer', question_id=id, answer_id=dic_answers.id ) }}">
+
+                            <button type="submit" data-answer-id="{{ dic_answers.id }}" style="border: none; font-size: 20px; background-color: whitesmoke">
+                                <i class="bi {{ 'bi-check2-square' if dic_answers.accepted else 'bi-app' }}"></i>
+                            </button>
+                        </form>
+            
+                    <br>
                     <a 
                         href="{{url_for('edit_answer',answer_id=dic_answers.id)}}"  
                         method="get"
@@ -233,8 +233,10 @@
                     </details>
             {% endfor %} 
         </ol>
+        <script src="/static/script.js"></script>
+
         </div>
     </div>
-    
+
     </body>
 </html>

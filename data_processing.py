@@ -78,7 +78,7 @@ def add_to_sql(cursor, dict, table):
 @database_common.connection_handler
 def answer_for_question_sql(cursor, id):
     cursor.execute(
-        """ SELECT id,vote_number,message,image FROM answer WHERE question_id = %(id)s """,
+        """ SELECT id,vote_number,message,accepted,image FROM answer WHERE question_id = %(id)s """,
         {"id": id},
     )
     return cursor.fetchall()
@@ -179,20 +179,42 @@ def update_user_interactions(cursor, column, user_id):
 
 
 @database_common.connection_handler
+def get_acceptance(cursor, answer_id):
+    cursor.execute(
+        "SELECT accepted FROM answer where id = %(answer_id)s", {"answer_id": answer_id}
+    )
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
 def get_user_posts(cursor, user_id, table):
     cursor.execute(
         f""" SELECT * FROM {table} WHERE author = %(id)s """, {"id": user_id}
     )
     return cursor.fetchall()
-def insert_tag(cursor,question_id, tag_text):
+
+
+def insert_tag(cursor, question_id, tag_text):
     cursor.execute(
-        'INSERT INTO tag (name) VALUES (%(tag_text)s) RETURNING id;',
-        { "tag_text": tag_text }
+        "INSERT INTO tag (name) VALUES (%(tag_text)s) RETURNING id;",
+        {"tag_text": tag_text},
     )
     new_id = cursor.fetchone()["id"]
     cursor.execute(
         "INSERT INTO question_tag (question_id, tag_id) VALUES (%(qid)s, %(tid)s);",
-        { "qid": question_id, "tid": new_id }
+        {"qid": question_id, "tid": new_id},
+    )
+
+
+@database_common.connection_handler
+def update_answer_acceptance(cursor, answer_id):
+    parameter = get_acceptance(answer_id)["accepted"]
+    cursor.execute(
+        f"UPDATE answer SET accepted = NOT %(parameter)s WHERE id = %(answer_id)s",
+        {
+            "answer_id": answer_id,
+            "parameter": parameter,
+        },
     )
 
 
@@ -200,28 +222,30 @@ def insert_tag(cursor,question_id, tag_text):
 def update_user_reputation(cursor, user_id, value):
     cursor.execute(
         "UPDATE users SET reputation = reputation + %(value)s WHERE id = %(user_id)s",
-        {"user_id":user_id,"value":value}
+        {"user_id": user_id, "value": value},
     )
 
 
 @database_common.connection_handler
-def get_author_id(cursor, question_id,table):
+def get_author_id(cursor, question_id, table):
     cursor.execute(
         f"SELECT author FROM {table} WHERE id = %(question_id)s",
-        {"question_id":question_id},
+        {"question_id": question_id},
     )
     return cursor.fetchone()
 
 
 @database_common.connection_handler
-def get_user_id_by_username(cursor,username):
+def get_user_id_by_username(cursor, username):
     cursor.execute(
-        "SELECT id FROM users WHERE username=%(username)s",
-        {"username":username}
+        "SELECT id FROM users WHERE username=%(username)s", {"username": username}
     )
     return cursor.fetchone()
+
 
 @database_common.connection_handler
 def get_tags(cursor):
-    cursor.execute(""" SELECT DISTINCT name, count(tag.name) FROM tag GROUP BY tag.name""")
+    cursor.execute(
+        """ SELECT DISTINCT name, count(tag.name) FROM tag GROUP BY tag.name"""
+    )
     return cursor.fetchall()

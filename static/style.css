@@ -4,8 +4,8 @@ table {
   font-size: 110%;
 }
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 99vw;
+  height: 99vh;
 }
 
 table {
@@ -102,8 +102,17 @@ a {
 #story-img {
   position: absolute;
   top: 0px;
-  right: 100px;
-  width: 700px;
+  right: 150px;
+  width: 500px;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  
+}
+
+.logo-photo{
+  position: relative;
+  top: 10px;
+  text-align: center;
 }
 
 .login-box {
@@ -282,6 +291,7 @@ input:-webkit-autofill:focus {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  padding-bottom: 50px;
   
 }
 
@@ -304,3 +314,49 @@ input:-webkit-autofill:focus {
 .button-container a{
   color: whitesmoke;
 }
+
+
+.container-buttons-question-list,.main-buttons  {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.position{ 
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.message-logged{
+  text-align: right;
+  padding-right: 20px;
+}
+
+.users-only-buttons{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.header-question-right{
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  padding-right: 20px;
+}
+
+
+.button-container-question-details{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  padding-left: 18vw;
+  
+}
+
+
+.button-container-question-details a{
+  color: whitesmoke;
+}
+
