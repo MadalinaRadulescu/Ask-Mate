@@ -1,5 +1,15 @@
 from crypt import methods
-from flask import Flask, render_template, redirect, request, url_for, escape, session, jsonify, json
+from flask import (
+    Flask,
+    render_template,
+    redirect,
+    request,
+    url_for,
+    escape,
+    session,
+    jsonify,
+    json,
+)
 import data_processing
 from bonus_questions import SAMPLE_QUESTIONS
 import os
@@ -72,7 +82,7 @@ def answer_question(question_id):
 @app.route("/add-question", methods=["GET", "POST"])
 def add_question():
     question_dic = {}
-   
+
     if request.method == "POST":
         for title in data_processing.QUESTION_HEADER:
             question_dic["id"] = data_processing.new_max_id(
@@ -127,7 +137,10 @@ def edit_question(question_id):
             image = secure_filename(f.filename)
             f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
         data_processing.update_sql(
-            question_id, data_processing.QUESITON, "image", image,
+            question_id,
+            data_processing.QUESITON,
+            "image",
+            image,
         )
 
         return redirect(url_for("question_list"))
@@ -157,7 +170,7 @@ def add_answer_to_question(question_id):
         if session:
             user_dic = data_processing.get_user_and_password(session["username"])
         try:
-           
+
             answer_dic["author"] = user_dic["id"]
             data_processing.update_user_interactions("answers_posted", user_dic["id"])
         except:
@@ -182,20 +195,30 @@ def modify_vote(question_id):
     if request.method == "POST":
         vote = request.form.get("vote")
         data_processing.update_voting(question_id, vote, data_processing.QUESITON)
-        user_id = data_processing.get_author_id(question_id,"question")["author"]
+        user_id = data_processing.get_author_id(question_id, "question")["author"]
         if user_id:
             if vote == "vote-up":
                 if session:
-                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
-                        data_processing.update_user_reputation(user_id,5)
+                    if (
+                        user_id
+                        != data_processing.get_user_id_by_username(session["username"])[
+                            "id"
+                        ]
+                    ):
+                        data_processing.update_user_reputation(user_id, 5)
                 else:
-                    data_processing.update_user_reputation(user_id,5)
+                    data_processing.update_user_reputation(user_id, 5)
             else:
                 if session:
-                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
-                        data_processing.update_user_reputation(user_id,-2)
+                    if (
+                        user_id
+                        != data_processing.get_user_id_by_username(session["username"])[
+                            "id"
+                        ]
+                    ):
+                        data_processing.update_user_reputation(user_id, -2)
                 else:
-                    data_processing.update_user_reputation(user_id,-2)
+                    data_processing.update_user_reputation(user_id, -2)
 
     return redirect("/list")
 
@@ -205,21 +228,31 @@ def modify_answer_vote(question_id, answer_id):
     if request.method == "POST":
         vote = request.form.get("vote")
         data_processing.update_voting(answer_id, vote, data_processing.ANSWER)
-        user_id = data_processing.get_author_id(answer_id,"answer")["author"]
+        user_id = data_processing.get_author_id(answer_id, "answer")["author"]
         if user_id:
             if vote == "vote-up":
                 if session:
-                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
-                        data_processing.update_user_reputation(user_id,10)
+                    if (
+                        user_id
+                        != data_processing.get_user_id_by_username(session["username"])[
+                            "id"
+                        ]
+                    ):
+                        data_processing.update_user_reputation(user_id, 10)
                 else:
-                    data_processing.update_user_reputation(user_id,10)
-                
+                    data_processing.update_user_reputation(user_id, 10)
+
             else:
                 if session:
-                    if user_id != data_processing.get_user_id_by_username(session["username"])["id"]:
-                        data_processing.update_user_reputation(user_id,-2)
+                    if (
+                        user_id
+                        != data_processing.get_user_id_by_username(session["username"])[
+                            "id"
+                        ]
+                    ):
+                        data_processing.update_user_reputation(user_id, -2)
                 else:
-                    data_processing.update_user_reputation(user_id,-2)
+                    data_processing.update_user_reputation(user_id, -2)
 
     return redirect(url_for("answer_question", question_id=question_id))
 
@@ -407,6 +440,8 @@ def login():
             if util.verify_password(request.form["password"], user["password"]):
                 session["username"] = request.form["username"]
                 return redirect(url_for("main_page"))
+            else:
+                not_alert = False
         else:
             not_alert = False
     return render_template("login.html", not_alert=not_alert)
@@ -432,20 +467,30 @@ def user_page(user_id):
         user_id, data_processing.QUESITON
     )
     user_answers_posts = data_processing.get_user_posts(user_id, data_processing.ANSWER)
-    user_comments_posts = data_processing.get_user_posts(user_id, data_processing.COMMENT)
+    user_comments_posts = data_processing.get_user_posts(
+        user_id, data_processing.COMMENT
+    )
     return render_template(
         "user_page.html",
         user_id=int(user_id),
         user_details=user_details,
         user_questions_posts=user_questions_posts,
         user_answers_posts=user_answers_posts,
-        user_comments_posts=user_comments_posts
+        user_comments_posts=user_comments_posts,
     )
 
 
 @app.route("/get-question-id/<answer_id>")
 def get_question_id(answer_id):
-    return redirect(url_for("answer_question", question_id=data_processing.get_question_id(answer_id, data_processing.ANSWER)))
+    return redirect(
+        url_for(
+            "answer_question",
+            question_id=data_processing.get_question_id(
+                answer_id, data_processing.ANSWER
+            ),
+        )
+    )
+
 
 @app.route("/tags")
 def tag_page():
@@ -459,4 +504,7 @@ def verify_answer(question_id, answer_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(
+        debug=True,
+        port=5002,
+    )
