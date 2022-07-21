@@ -45,7 +45,7 @@ def today_day():
 
 @database_common.connection_handler
 def get_all_dic(cursor, file):
-    cursor.execute(f""" SELECT * FROM {file} """)
+    cursor.execute(f" SELECT * FROM {file} ")
     return cursor.fetchall()
 
 
@@ -115,7 +115,7 @@ def select_from_sql(cursor, id, table):
 @database_common.connection_handler
 def get_question_id(cursor, answer_id, table):
     cursor.execute(
-        f""" SELECT question_id FROM {table} WHERE id = %(answer_id)s """,
+        f" SELECT question_id FROM {table} WHERE id = %(answer_id)s ",
         {"answer_id": answer_id},
     )
     return cursor.fetchone()
@@ -246,6 +246,17 @@ def get_user_id_by_username(cursor, username):
 @database_common.connection_handler
 def get_tags(cursor):
     cursor.execute(
-        """ SELECT DISTINCT name, count(tag.name) FROM tag GROUP BY tag.name"""
+        " SELECT DISTINCT name, count(tag.name) FROM tag GROUP BY tag.name"
     )
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def count_edit_comments(cursor,comment_id):
+    cursor.execute(
+        " UPDATE comment SET edited_count = edited_count + 1 WHERE id=%(comment_id)s ",
+        {"comment_id":comment_id},
+    )
+
+
+

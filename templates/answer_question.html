@@ -100,7 +100,7 @@
                     {% if comment.question_id == id %}
                 
                 <li>
-                    {{comment.submission_time}} {{comment.message}}  
+                    {{comment.submission_time}} {{comment.message}} <br>  Edited: {{comment.edited_count}}
                     <br />
                     <br />
                     <a 
@@ -214,9 +214,17 @@
                                 <li 
                                     id="comment-answer"
                                 >
-                                    {{ comment.submission_time }}  {{ comment.message }}
+                                    {{ comment.submission_time }}  {{ comment.message }} <br> Edited: {{ comment.edited_count }}
                                 </li>
                                 <br />
+                                     <a 
+                                        href="{{url_for('edit_answer_comment',comment_id=comment.id)}}"
+                                    >
+                                        <i 
+                                            class="bi bi-pencil-square"
+                                        >
+                                        </i>
+                                    </a>
                                     <a 
                                         href="{{ url_for('delete_comment_answer',comment_id=comment.id) }}"
                                     >

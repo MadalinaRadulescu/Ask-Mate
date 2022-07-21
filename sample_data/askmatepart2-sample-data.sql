@@ -161,3 +161,8 @@ ALTER TABLE comment
 ADD author int;
 ALTER TABLE answer
 ADD accepted bool;
+
+
+SELECT * from comment
+
+UPDATE comment SET edited_count = 0

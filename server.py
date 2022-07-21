@@ -380,9 +380,28 @@ def edit_comments(comment_id):
         data_processing.update_sql(
             comment_id, data_processing.COMMENT, "message", request.form.get("message")
         )
+        data_processing.count_edit_comments(comment_id)
         return redirect(url_for("answer_question", question_id=question_id))
     return render_template(
         "edit-comments.html",
+        headers=data_processing.COMMENT_HEADER,
+        comment_id=comment_id,
+    )
+
+
+@app.route("/answer/comment/<comment_id>/edit", methods=["GET", "POST"])
+def edit_answer_comment(comment_id):
+    answer_id = data_processing.get_answer_id(comment_id)["answer_id"]
+    question_id = data_processing.get_question_id(answer_id,"answer")["question_id"]
+    if request.method == "POST":
+        
+        data_processing.update_sql(
+            comment_id, data_processing.COMMENT, "message", request.form.get("message")
+        )
+        data_processing.count_edit_comments(comment_id)
+        return redirect(url_for("answer_question", question_id=question_id))
+    return render_template(
+        "edit-answer-comment.html",
         headers=data_processing.COMMENT_HEADER,
         comment_id=comment_id,
     )
