@@ -355,8 +355,12 @@ input:-webkit-autofill:focus {
   
 }
 
-
 .button-container-question-details a{
+  color: whitesmoke;
+}
+
+.dark-mode, .dark-mode tr {
+  background-color: #121212;
   color: whitesmoke;
 }
 

@@ -2,9 +2,20 @@
     <head>
         <script type="text/javascript" src="{{ url_for('static', filename='bonusQuestions.js') }}" defer></script>
         <script type="text/javascript" src="{{ url_for('static', filename='doNotModifyThisFile.js') }}" defer></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
     </head>
     <body>
-        <h1>AskMate</h1>
+        <img 
+            src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" 
+            alt="" 
+            style="height: 50px;"
+        />
+        <br>
+        <br>
+        <div class="container-buttons-question-list">
+        <div class="main" > <a href = "{{ url_for('main_page')}}" id="add-href">Go to main page</a></div>
+        </div>
+        <br>
         <h2>All Questions:</h2>
         <button id="theme-button">Change Theme to Dark</button>
         <button id="increase-font-button">Increase page font</button>
@@ -17,10 +28,10 @@
         <table>
             <thead id="doNotModifyThisId_QuestionsTableHeader">
                 <tr>
-                    <td>Title</td>
-                    <td>Description</td>
-                    <td>Vote Count</td>
-                    <td>View Number</td>
+                    <td><b>Title</b></td>
+                    <td><b>Description</b></td>
+                    <td><b>Vote Count</b></td>
+                    <td><b>View Number</b></td>
                 </tr>
             </thead>
             <tbody id="doNotModifyThisId_QuestionsTableBody">

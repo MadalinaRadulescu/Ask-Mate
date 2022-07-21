@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import (
     Flask,
     render_template,
@@ -299,6 +298,7 @@ def add_question_comment(question_id):
             "question_id": question_id,
             "answer_id": None,
             "message": request.form.get("message"),
+            "edited_count":0,
             "submission_time": data_processing.today_day(),
         }
         try:
@@ -329,6 +329,7 @@ def add_answer_comment(answer_id):
             "question_id": None,
             "answer_id": answer_id,
             "message": request.form.get("message"),
+            "edited_count": 0,
             "submission_time": data_processing.today_day(),
         }
         try:

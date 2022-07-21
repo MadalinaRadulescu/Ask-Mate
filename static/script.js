@@ -3,7 +3,6 @@ const verifyButton = document.querySelectorAll(".verify")
 async function toggleButton(event, element) {
     event.preventDefault()
     const request = await fetch(event.target.action);
-    // const request = await fetch(`/api/question/${question_id}/${answer_id}`);
     if (request.ok) {
         const response = await request.json()
         
