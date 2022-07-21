@@ -7,8 +7,8 @@ async function toggleButton(event, element) {
     if (request.ok) {
         const response = await request.json()
         console.log(response)
-        element.querySelector("button i").classList.toggle("bi-check-square");
-        element.querySelector("button i").classList.toggle("bi-check-square-fill");
+        element.querySelector("button i").classList.toggle("bi-app");
+        element.querySelector("button i").classList.toggle("bi-check2-square");
     }
 }
 

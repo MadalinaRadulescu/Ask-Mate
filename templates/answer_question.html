@@ -166,10 +166,11 @@
                         <p>Author accepted answer:</p> 
                         <form class="verify" name="verify_button" action="{{ url_for('verify_answer', question_id=id, answer_id=dic_answers.id ) }}">
 
-                            <button type="submit" data-answer-id="{{ dic_answers.id }}" style="border: none; font-size: 20px; background-color: white">
-                                <i class="bi {{ 'bi-check-square-fill' if dic_answers.accepted else 'bi-check-square' }}"></i>
+                            <button type="submit" data-answer-id="{{ dic_answers.id }}" style="border: none; font-size: 20px; background-color: whitesmoke">
+                                <i class="bi {{ 'bi-check2-square' if dic_answers.accepted else 'bi-app' }}"></i>
                             </button>
                         </form>
+            
                     <br>
                     <a 
                         href="{{url_for('edit_answer',answer_id=dic_answers.id)}}"  
