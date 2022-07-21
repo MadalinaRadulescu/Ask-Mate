@@ -1,8 +1,8 @@
 // you receive an array of objects which you must sort in the by the key "sortField" in the "sortDirection"
 function getSortedItems(items, sortField, sortDirection) {
-    console.log(items)
-    console.log(sortField)
-    console.log(sortDirection)
+    // console.log(items)
+    // console.log(sortField)
+    // console.log(sortDirection)
 
     // === SAMPLE CODE ===
     // if you have not changed the original html uncomment the code below to have an idea of the
@@ -32,21 +32,34 @@ function getFilteredItems(items, filterValue) {
     // if you have not changed the original html uncomment the code below to have an idea of the
     // effect this function has on the table
     //
-    for (let i=0; i<filterValue.length; i++) {
-        items.pop()
+    // for (let i=0; i<filterValue.length; i++) {
+    //     items.pop()
+    // }
+    let result = []
+    for (let i=0; i <items.length; i++){
+        if (filterValue[0]==="!") {
+            if (!items[i]['Title'].includes(filterValue.slice(1))){
+                result.push(items[i])
+            }
+        } else if(items[i]['Title'].includes(filterValue)){
+            result.push(items[i])
+        }
+        
+
     }
 
-    return items
+
+    return result
 }
 
 function toggleTheme() {
-    console.log("toggle theme")
+    // console.log("toggle theme")
 }
 
 function increaseFont() {
-    console.log("increaseFont")
+    // console.log("increaseFont")
 }
 
 function decreaseFont() {
-    console.log("decreaseFont")
+    // console.log("decreaseFont")
 }

@@ -517,11 +517,6 @@ def tag_page():
     return render_template("tag_page.html", all_tags=all_tags)
 
 
-@app.route("/bonus-questions")
-def bonuss_questions():
-    return render_template("bonus_questions.html")
-
-
 @app.route("/question/<question_id>/answer/<answer_id>/verified")
 def verify_answer(question_id, answer_id):
     return jsonify(data_processing.update_answer_acceptance(answer_id))

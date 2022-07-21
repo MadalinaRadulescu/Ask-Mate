@@ -6,7 +6,7 @@ async function toggleButton(event, element) {
     // const request = await fetch(`/api/question/${question_id}/${answer_id}`);
     if (request.ok) {
         const response = await request.json()
-        console.log(response)
+        
         element.querySelector("button i").classList.toggle("bi-app");
         element.querySelector("button i").classList.toggle("bi-check2-square");
     }
