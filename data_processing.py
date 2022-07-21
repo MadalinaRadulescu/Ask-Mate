@@ -1,6 +1,4 @@
 from datetime import datetime
-from subprocess import list2cmdline
-from typing import List, Dict
 import psycopg2
 import database_common
 import util
