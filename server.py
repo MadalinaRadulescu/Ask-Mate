@@ -449,5 +449,10 @@ def tag_page():
     return render_template("tag_page.html", all_tags=all_tags)
 
 
+@app.route("/bonus-questions")
+def bonuss_questions():
+    return render_template("bonus_questions.html")
+
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)
