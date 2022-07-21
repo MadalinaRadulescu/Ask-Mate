@@ -298,6 +298,7 @@ def add_question_comment(question_id):
             "question_id": question_id,
             "answer_id": None,
             "message": request.form.get("message"),
+            "edited_count":0,
             "submission_time": data_processing.today_day(),
         }
         try:
@@ -328,6 +329,7 @@ def add_answer_comment(answer_id):
             "question_id": None,
             "answer_id": answer_id,
             "message": request.form.get("message"),
+            "edited_count": 0,
             "submission_time": data_processing.today_day(),
         }
         try:
@@ -379,9 +381,28 @@ def edit_comments(comment_id):
         data_processing.update_sql(
             comment_id, data_processing.COMMENT, "message", request.form.get("message")
         )
+        data_processing.count_edit_comments(comment_id)
         return redirect(url_for("answer_question", question_id=question_id))
     return render_template(
         "edit-comments.html",
+        headers=data_processing.COMMENT_HEADER,
+        comment_id=comment_id,
+    )
+
+
+@app.route("/answer/comment/<comment_id>/edit", methods=["GET", "POST"])
+def edit_answer_comment(comment_id):
+    answer_id = data_processing.get_answer_id(comment_id)["answer_id"]
+    question_id = data_processing.get_question_id(answer_id,"answer")["question_id"]
+    if request.method == "POST":
+        
+        data_processing.update_sql(
+            comment_id, data_processing.COMMENT, "message", request.form.get("message")
+        )
+        data_processing.count_edit_comments(comment_id)
+        return redirect(url_for("answer_question", question_id=question_id))
+    return render_template(
+        "edit-answer-comment.html",
         headers=data_processing.COMMENT_HEADER,
         comment_id=comment_id,
     )
@@ -495,6 +516,11 @@ def get_question_id(answer_id):
 def tag_page():
     all_tags = data_processing.get_tags()
     return render_template("tag_page.html", all_tags=all_tags)
+
+
+@app.route("/bonus-questions")
+def bonuss_questions():
+    return render_template("bonus_questions.html")
 
 
 @app.route("/question/<question_id>/answer/<answer_id>/verified")
