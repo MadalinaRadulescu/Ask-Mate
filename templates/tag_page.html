@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Tags Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-</head>
-<body>
-    <img src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" alt="" style="height: 50px;">
-    <br>
-    <br>
-    <div class="main" style="display:inline-block">  <a href="{{url_for('question_list')}}" id="add-href">&nbspGo to all quesiton</a> </div>
-    <h2>Tags:</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Tags</th>
-                <th>Number of questions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in all_tags %}
-            <tr>
-                    <td>
-                        {{  item["name"] }}
-                    </td>
-                    <td> {{item["count"]}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Tags Page</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+    </head>
+    <body>
+        <img
+            src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400"
+            alt=""
+            style="height: 50px"
+        />
+        <br />
+        <br />
+        <div class="main" style="display: inline-block">
+            <a href="{{ url_for('question_list') }}" id="add-href"
+                >&nbsp;Go to all quesiton</a
+            >
+        </div>
+        <h2>Tags:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tags</th>
+                    <th>Number of questions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in all_tags %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
 </html>
