@@ -1,7 +1,5 @@
 from datetime import datetime
-import psycopg2
 import database_common
-import util
 
 QUESITON = "question"
 ANSWER = "answer"
@@ -37,13 +35,26 @@ COMMENT_HEADER = [
 ]
 
 
+def upload_file(request, folder):
+    from werkzeug.utils import secure_filename
+    from os.path import join
+
+    image = None
+    if request.files["File"]:
+        f = request.files["File"]
+        image = secure_filename(f.filename)
+        f.save(join(folder, image))
+
+    return image
+
+
 def today_day():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 @database_common.connection_handler
 def get_all_dic(cursor, file):
-    cursor.execute(f" SELECT * FROM {file} ")
+    cursor.execute(f"SELECT * FROM {file};")
     return cursor.fetchall()
 
 
@@ -51,9 +62,11 @@ def get_all_dic(cursor, file):
 def sorting_sql(cursor, table, column, desc_or_asc):
     if column == "None" or column == None:
         column = "submission_time"
+
     if desc_or_asc == "None" or desc_or_asc == None:
         desc_or_asc = "DESC"
-    cursor.execute(f""" SELECT * FROM {table} ORDER BY {column} {desc_or_asc} """)
+
+    cursor.execute(f"SELECT * FROM {table} ORDER BY {column} {desc_or_asc};")
     return cursor.fetchall()
 
 
@@ -64,11 +77,7 @@ def new_max_id(list_dic):
 @database_common.connection_handler
 def add_to_sql(cursor, dict, table):
     cursor.execute(
-        "insert into {table} ({columns}) values ({values});".format(
-            columns=",".join(dict.keys()),
-            values=", ".join(["%s"] * len(dict)),
-            table=table,
-        ),
+        f"insert into {table} ({', '.join(dict.keys())}) values ({', '.join(['%s'] * len(dict))});",
         list(dict.values()),
     )
 
@@ -76,7 +85,7 @@ def add_to_sql(cursor, dict, table):
 @database_common.connection_handler
 def answer_for_question_sql(cursor, id):
     cursor.execute(
-        """ SELECT id,vote_number,message,accepted,image FROM answer WHERE question_id = %(id)s """,
+        "SELECT id, vote_number, message, accepted, image FROM answer WHERE question_id = %(id)s;",
         {"id": id},
     )
     return cursor.fetchall()
@@ -93,27 +102,30 @@ def update_voting(cursor, id, up_down, table):
 
 @database_common.connection_handler
 def delete_from_sql(cursor, id, table, column):
-    cursor.execute(f""" DELETE FROM {table} WHERE {column} = %(id)s """, {"id": id})
+    cursor.execute(
+        f"DELETE FROM {table} WHERE {column} = %(id)s;",
+        {"id": id},
+    )
 
 
 @database_common.connection_handler
 def update_sql(cursor, id, table, column, user_input):
     cursor.execute(
-        f""" UPDATE {table} SET {column} = %(user_input)s WHERE id = %(id)s """,
+        f"UPDATE {table} SET {column} = %(user_input)s WHERE id = %(id)s;",
         {"user_input": user_input, "id": id},
     )
 
 
 @database_common.connection_handler
 def select_from_sql(cursor, id, table):
-    cursor.execute(f""" SELECT title,message,image FROM {table} WHERE id = {id} """)
+    cursor.execute(f"SELECT title, message, image FROM {table} WHERE id = {id};")
     return cursor.fetchone()
 
 
 @database_common.connection_handler
 def get_question_id(cursor, answer_id, table):
     cursor.execute(
-        f" SELECT question_id FROM {table} WHERE id = %(answer_id)s ",
+        f"SELECT question_id FROM {table} WHERE id = %(answer_id)s;",
         {"answer_id": answer_id},
     )
     return cursor.fetchone()
@@ -122,7 +134,7 @@ def get_question_id(cursor, answer_id, table):
 @database_common.connection_handler
 def get_answer_id(cursor, comment_id):
     cursor.execute(
-        """ SELECT answer_id FROM comment WHERE id = %(comment_id)s """,
+        "SELECT answer_id FROM comment WHERE id = %(comment_id)s;",
         {"comment_id": comment_id},
     )
     return cursor.fetchone()
@@ -130,7 +142,7 @@ def get_answer_id(cursor, comment_id):
 
 @database_common.connection_handler
 def get_all_tags(cursor):
-    cursor.execute(""" SELECT name FROM tag """)
+    cursor.execute("SELECT name FROM tag;")
     return cursor.fetchall()
 
 
@@ -172,14 +184,15 @@ def get_user_by_id(cursor, user_id):
 def update_user_interactions(cursor, column, user_id):
     cursor.execute(
         f"UPDATE users SET {column} = {column} + 1 WHERE id = %(user_id)s",
-        {"column": column, "user_id": user_id},
+        {"user_id": user_id},
     )
 
 
 @database_common.connection_handler
 def get_acceptance(cursor, answer_id):
     cursor.execute(
-        "SELECT accepted FROM answer where id = %(answer_id)s", {"answer_id": answer_id}
+        "SELECT accepted FROM answer where id = %(answer_id)s",
+        {"answer_id": answer_id},
     )
     return cursor.fetchone()
 
@@ -187,7 +200,8 @@ def get_acceptance(cursor, answer_id):
 @database_common.connection_handler
 def get_user_posts(cursor, user_id, table):
     cursor.execute(
-        f""" SELECT * FROM {table} WHERE author = %(id)s """, {"id": user_id}
+        f"SELECT * FROM {table} WHERE author = %(id)s;",
+        {"id": user_id},
     )
     return cursor.fetchall()
 
@@ -208,7 +222,7 @@ def insert_tag(cursor, question_id, tag_text):
 def update_answer_acceptance(cursor, answer_id):
     parameter = get_acceptance(answer_id)["accepted"]
     cursor.execute(
-        f"UPDATE answer SET accepted = NOT %(parameter)s WHERE id = %(answer_id)s",
+        f"UPDATE answer SET accepted = NOT %(parameter)s WHERE id = %(answer_id)s;",
         {
             "answer_id": answer_id,
             "parameter": parameter,
@@ -219,7 +233,7 @@ def update_answer_acceptance(cursor, answer_id):
 @database_common.connection_handler
 def update_user_reputation(cursor, user_id, value):
     cursor.execute(
-        "UPDATE users SET reputation = reputation + %(value)s WHERE id = %(user_id)s",
+        "UPDATE users SET reputation = reputation + %(value)s WHERE id = %(user_id)s;",
         {"user_id": user_id, "value": value},
     )
 
@@ -227,7 +241,7 @@ def update_user_reputation(cursor, user_id, value):
 @database_common.connection_handler
 def get_author_id(cursor, question_id, table):
     cursor.execute(
-        f"SELECT author FROM {table} WHERE id = %(question_id)s",
+        f"SELECT author FROM {table} WHERE id = %(question_id)s;",
         {"question_id": question_id},
     )
     return cursor.fetchone()
@@ -236,20 +250,21 @@ def get_author_id(cursor, question_id, table):
 @database_common.connection_handler
 def get_user_id_by_username(cursor, username):
     cursor.execute(
-        "SELECT id FROM users WHERE username=%(username)s", {"username": username}
+        "SELECT id FROM users WHERE username = %(username)s",
+        {"username": username},
     )
     return cursor.fetchone()
 
 
 @database_common.connection_handler
 def get_tags(cursor):
-    cursor.execute(" SELECT DISTINCT name, count(tag.name) FROM tag GROUP BY tag.name")
+    cursor.execute("SELECT DISTINCT name, count(name) FROM tag GROUP BY name;")
     return cursor.fetchall()
 
 
 @database_common.connection_handler
 def count_edit_comments(cursor, comment_id):
     cursor.execute(
-        " UPDATE comment SET edited_count = edited_count + 1 WHERE id=%(comment_id)s ",
+        "UPDATE comment SET edited_count = edited_count + 1 WHERE id = %(comment_id)s",
         {"comment_id": comment_id},
     )

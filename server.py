@@ -14,7 +14,6 @@ from bonus_questions import SAMPLE_QUESTIONS
 import os
 from werkzeug.utils import secure_filename
 import util
-from flask_session import Session
 
 
 app = Flask(__name__)
@@ -25,10 +24,10 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route("/")
 def main_page():
+    logged_message = "You are not logged in"
     if "username" in session:
         logged_message = "Logged in as %s" % escape(session["username"])
-    else:
-        logged_message = "You are not logged in"
+
     return render_template(
         "main.html",
         list_question=data_processing.sorting_sql(
@@ -40,16 +39,19 @@ def main_page():
 
 @app.route("/list")
 def question_list():
+    logged_message = False
+    show_message = "You are not logged in"
+
     if "username" in session:
         logged_message = True
         show_message = "Logged in as %s" % escape(session["username"])
-    else:
-        logged_message = False
-        show_message = "You are not logged in"
+
     sort_by = request.args.get("sort-by")
     asc_desc = request.args.get("asc-desc")
     list_question = data_processing.sorting_sql(
-        data_processing.QUESITON, sort_by, asc_desc
+        data_processing.QUESITON,
+        sort_by,
+        asc_desc,
     )
 
     return render_template(
@@ -60,7 +62,7 @@ def question_list():
     )
 
 
-@app.route("/question/<question_id>", methods=["GET", "POST"])
+@app.route("/question/<int:question_id>", methods=["GET", "POST"])
 def answer_question(question_id):
     list_question = data_processing.get_all_dic(data_processing.QUESITON)
     good_answer_list_dic = data_processing.answer_for_question_sql(question_id)
@@ -71,7 +73,7 @@ def answer_question(question_id):
         "answer_question.html",
         good_answer_list_dic=good_answer_list_dic,
         list_question=list_question,
-        id=int(question_id),
+        id=question_id,
         comments_list=data_processing.get_all_dic(data_processing.COMMENT),
         tag_list_dic=tag_list_dic,
         used_tags=data_processing.get_all_tags(),
@@ -88,8 +90,8 @@ def add_question():
                 data_processing.get_all_dic(data_processing.QUESITON)
             )
             question_dic["submission_time"] = str(data_processing.today_day())
-            question_dic["view_number"] = str(0)
-            question_dic["vote_number"] = str(0)
+            question_dic["view_number"] = 0
+            question_dic["vote_number"] = 0
             question_dic[title] = request.form.get(title)
         if session:
             user_dic = data_processing.get_user_and_password(session["username"])
@@ -99,12 +101,10 @@ def add_question():
 
         except:
             question_dic["author"] = None
-        image = None
-        if request.files["File"]:
-            f = request.files["File"]
-            image = secure_filename(f.filename)
-            f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
-        question_dic["image"] = image
+
+        question_dic["image"] = data_processing.upload_file(
+            request, app.config["UPLOAD_FOLDER"]
+        )
 
         data_processing.add_to_sql(question_dic, data_processing.QUESITON)
         return redirect("/list")
@@ -130,11 +130,7 @@ def edit_question(question_id):
                 title,
                 request.form.get(title),
             )
-        image = None
-        if request.files["File"]:
-            f = request.files["File"]
-            image = secure_filename(f.filename)
-            f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
+        image = data_processing.upload_file(request, app.config["UPLOAD_FOLDER"])
         data_processing.update_sql(
             question_id,
             data_processing.QUESITON,
@@ -174,18 +170,14 @@ def add_answer_to_question(question_id):
             data_processing.update_user_interactions("answers_posted", user_dic["id"])
         except:
             answer_dic["author"] = None
-        image = None
-        if request.files["File"]:
-            f = request.files["File"]
-            image = secure_filename(f.filename)
-            f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
-        answer_dic["image"] = image
+            
+        answer_dic["image"] = data_processing.upload_file(request, app.config["UPLOAD_FOLDER"])
 
         data_processing.add_to_sql(answer_dic, data_processing.ANSWER)
         return redirect(url_for("answer_question", question_id=question_id))
 
     return render_template(
-        "add-answer.html", titles=data_processing.ANSWER_HEADER[4:], id=question_id
+        "add-answer.html", titles=data_processing.ANSWER_HEADER[4:], id=question_id,
     )
 
 
@@ -308,6 +300,7 @@ def add_question_comment(question_id):
             comment_dic["author"] = None
         data_processing.add_to_sql(comment_dic, data_processing.COMMENT)
         return redirect(url_for("answer_question", question_id=question_id))
+
     return render_template(
         "add-comment-question.html",
         id=question_id,
@@ -356,11 +349,7 @@ def edit_answer(answer_id):
         data_processing.update_sql(
             answer_id, data_processing.ANSWER, "message", request.form.get("message")
         )
-        image = "no_image.jpg"
-        if request.files["File"]:
-            f = request.files["File"]
-            image = secure_filename(f.filename)
-            f.save(os.path.join(app.config["UPLOAD_FOLDER"], image))
+        image = data_processing.upload_file(request, app.config["UPLOAD_FOLDER"])
         data_processing.update_sql(answer_id, data_processing.ANSWER, "image", image)
 
         return redirect(url_for("answer_question", question_id=question_id))
@@ -460,16 +449,14 @@ def login():
             if util.verify_password(request.form["password"], user["password"]):
                 session["username"] = request.form["username"]
                 return redirect(url_for("main_page"))
-            else:
-                not_alert = False
-        else:
             not_alert = False
+        not_alert = False
     return render_template("login.html", not_alert=not_alert)
 
 
 @app.route("/logout")
 def logout():
-    session.pop("username", None)
+    session.clear()
     return redirect(url_for("main_page"))
 
 
@@ -479,8 +466,8 @@ def users_list():
     return render_template("users_list.html", users_list=users_list)
 
 
-@app.route("/users/<user_id>")
-@app.route("/users/<user_id>/")
+@app.route("/users/<int:user_id>")
+@app.route("/users/<int:user_id>/")
 def user_page(user_id):
     user_details = data_processing.get_user_by_id(user_id)
     user_questions_posts = data_processing.get_user_posts(
@@ -492,7 +479,7 @@ def user_page(user_id):
     )
     return render_template(
         "user_page.html",
-        user_id=int(user_id),
+        user_id=user_id,
         user_details=user_details,
         user_questions_posts=user_questions_posts,
         user_answers_posts=user_answers_posts,
