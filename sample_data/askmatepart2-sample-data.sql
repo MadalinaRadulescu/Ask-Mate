@@ -163,6 +163,6 @@ ALTER TABLE answer
 ADD accepted bool;
 
 
-SELECT * from comment
+SELECT * from answer
 
 UPDATE comment SET edited_count = 0

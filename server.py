@@ -520,7 +520,11 @@ def tag_page():
 
 @app.route("/question/<question_id>/answer/<answer_id>/verified")
 def verify_answer(question_id, answer_id):
-    return jsonify(data_processing.update_answer_acceptance(answer_id))
+    user_name = data_processing.get_user_by_id(data_processing.get_author_id(question_id,data_processing.QUESITON)["author"])
+    if user_name["username"] == session["username"]:
+        data_processing.update_user_reputation(data_processing.get_author_id(answer_id,data_processing.ANSWER)["author"],15)
+        return jsonify(data_processing.update_answer_acceptance(answer_id))
+    return redirect(url_for('answer_question',question_id=question_id))
 
 
 if __name__ == "__main__":
