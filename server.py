@@ -298,7 +298,7 @@ def add_question_comment(question_id):
             "question_id": question_id,
             "answer_id": None,
             "message": request.form.get("message"),
-            "edited_count":0,
+            "edited_count": 0,
             "submission_time": data_processing.today_day(),
         }
         try:
@@ -393,9 +393,9 @@ def edit_comments(comment_id):
 @app.route("/answer/comment/<comment_id>/edit", methods=["GET", "POST"])
 def edit_answer_comment(comment_id):
     answer_id = data_processing.get_answer_id(comment_id)["answer_id"]
-    question_id = data_processing.get_question_id(answer_id,"answer")["question_id"]
+    question_id = data_processing.get_question_id(answer_id, "answer")["question_id"]
     if request.method == "POST":
-        
+
         data_processing.update_sql(
             comment_id, data_processing.COMMENT, "message", request.form.get("message")
         )
@@ -520,11 +520,16 @@ def tag_page():
 
 @app.route("/question/<question_id>/answer/<answer_id>/verified")
 def verify_answer(question_id, answer_id):
-    user_name = data_processing.get_user_by_id(data_processing.get_author_id(question_id,data_processing.QUESITON)["author"])
+    user_name = data_processing.get_user_by_id(
+        data_processing.get_author_id(question_id, data_processing.QUESITON)["author"]
+    )
     if user_name["username"] == session["username"]:
-        data_processing.update_user_reputation(data_processing.get_author_id(answer_id,data_processing.ANSWER)["author"],15)
+        data_processing.update_user_reputation(
+            data_processing.get_author_id(answer_id, data_processing.ANSWER)["author"],
+            15,
+        )
         return jsonify(data_processing.update_answer_acceptance(answer_id))
-    return redirect(url_for('answer_question',question_id=question_id))
+    return redirect(url_for("answer_question", question_id=question_id))
 
 
 if __name__ == "__main__":

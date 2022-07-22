@@ -243,18 +243,13 @@ def get_user_id_by_username(cursor, username):
 
 @database_common.connection_handler
 def get_tags(cursor):
-    cursor.execute(
-        " SELECT DISTINCT name, count(tag.name) FROM tag GROUP BY tag.name"
-    )
+    cursor.execute(" SELECT DISTINCT name, count(tag.name) FROM tag GROUP BY tag.name")
     return cursor.fetchall()
 
 
 @database_common.connection_handler
-def count_edit_comments(cursor,comment_id):
+def count_edit_comments(cursor, comment_id):
     cursor.execute(
         " UPDATE comment SET edited_count = edited_count + 1 WHERE id=%(comment_id)s ",
-        {"comment_id":comment_id},
+        {"comment_id": comment_id},
     )
-
-
-
