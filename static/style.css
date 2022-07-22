@@ -3,93 +3,160 @@ table {
   font-family: monospace;
   font-size: 110%;
 }
+
 body {
   width: 99vw;
   height: 99vh;
 }
 
-table {
-    width: 100%;
+.button-container, .question-and-answer {
+  justify-content: space-evenly;
+}
+
+.header-question-right, .message-logged {
+  text-align: right;
+}
+
+.button-container-question-details, .users-only-buttons, .position, .container-buttons-question-list,
+.main-buttons, .button-container, .question-and-answer {
+  flex-direction: row;
+}
+
+.question,
+.answer, .login-box, #story-img {
+  box-sizing: border-box;
+}
+
+.login-box form a, .login-box .user-box, .logo-photo {
+  position: relative;
+}
+
+.login-box form a span:nth-child(3), .login-box form a span:nth-child(1), .login-box .user-box input, table {
+  width: 100%;
+}
+
+.main, th {
+  background-color: #4b4949;
+}
+
+.button-container-question-details, .users-only-buttons, .position, .button-container, .login-box h2, .logo-photo, tr, th, #vote-button-down, #vote-button-up {
+  text-align: center;
+}
+
+.login-box form a, #add-href, a, #vote-button-down, #vote-button-up {
+  text-decoration: none;
+}
+
+.login-box .user-box input, #vote-button-down, #vote-button-up {
+  border: 0;
+}
+
+.login-box form a, .login-box .user-box label, .login-box .user-box input:focus ~ label, .login-box .user-box input:valid ~ label, .login-box .user-box input, .login-box h2, #add-href, #vote-button-down, #vote-button-up {
+  color: #fff;
+}
+
+.dark-mode,
+.dark-mode tr, .button-container-question-details a, .button-container a {
+  color: whitesmoke;
+}
+
+.button-container-question-details a, tr {
+  background-color: whitesmoke;
+}
+
+.main, #vote-button-down, #vote-button-up {
+  cursor: pointer;
+}
+
+.login-box form a span, .login-box .user-box label, .login-box, #story-img, #add-href, .position {
+  position: absolute;
+}
+
+.login-box form a, .login-box .user-box label, .login-box .user-box input {
+  font-size: 16px;
+}
+
+.login-box form a span:nth-child(2), .position {
+  right: 0;
+}
+
+.main::after, .main {
+  width: 140px;
+}
+
+.login-box .user-box input:focus ~ label, .login-box .user-box input:valid ~ label, .main {
+  font-size: 12px;
+}
+
+.main::after, .main {
+  transition: 0.3s;
+}
+
+.button-container-question-details, .header-question-right, .users-only-buttons, .position, .container-buttons-question-list,
+.main-buttons, .button-container, .question-and-answer, .main {
+  display: flex;
+}
+
+.main::after, .main {
+  height: 20px;
+}
+
+.login-box form a span:nth-child(1), .login-box .user-box label, #story-img, .main::after {
+  top: 0;
+}
+
+.login-box form a span:nth-child(4), .login-box .user-box label, .login-box .user-box input:focus ~ label, .login-box .user-box input:valid ~ label, .main::after {
+  left: 0;
+}
+
+.login-box .user-box label, .login-box .user-box input {
+  padding: 10px 0;
+}
+
+#vote-button-down, #vote-button-up {
+  padding: 2px 4px;
+  font-size: 10px;
+  margin: 4px 2px;
+}
+
+.question,
+.answer, .login-box {
+  border-radius: 10px;
 }
 
 th {
-  background-color: #4b4949;
   color: #daded4;
-  text-align: center;
-}
-
-tr {
-  background-color: whitesmoke;
-  text-align: center;
 }
 
 a {
   color: black;
-  text-decoration: none;
 }
 
 #vote-button-up {
   background-color: #b6c48e;
-  border: none;
-  color: white;
-  padding: 2px 4px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 10px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-#vote-button-down {
-  background-color: #ff1d58;
-  border: none;
-  color: white;
-  padding: 2px 4px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 10px;
-  margin: 4px 2px;
-  cursor: pointer;
 }
 
-.position{ 
-  position: absolute;
+#vote-button-down {
+  background-color: #ff1d58;
+}
+
+.position {
   margin-top: 20px;
   margin-right: 20px;
   top: 60px;
-  right: 0;
 }
 
 .main {
-  width: 140px;
-  height: 20px;
   font-weight: bold;
-  font-size: 12px;
-  background-color: #4b4949;
-  cursor: pointer;
   box-shadow: 5px 5px 0 0;
-  transition: 0.3s;
-  display: flex;
   justify-content: center;
   align-items: center;
   min-height: 20px;
 }
-#add-href {
-  position: absolute;
-  text-decoration: none;
-  color: white;
-  z-index: 1000;
-}
 .main::after {
   content: "";
-  top: 0;
-  left: 0;
-  width: 140px;
-  height: 20px;
   background: linear-gradient(to right, #e5e1ee, #4b4949);
   opacity: 0;
-  transition: 0.3s;
 }
 .main:hover {
   box-shadow: -5px -5px 0 0;
@@ -99,268 +166,166 @@ a {
   opacity: 1;
 }
 
-#story-img {
-  position: absolute;
-  top: 0px;
-  right: 150px;
-  width: 500px;
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-  
+#add-href {
+  z-index: 1000;
 }
 
-.logo-photo{
-  position: relative;
+#story-img {
+  right: 150px;
+  width: 500px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+}
+
+.logo-photo {
   top: 10px;
-  text-align: center;
 }
 
 .login-box {
-  position: absolute;
   top: 50%;
   left: 50%;
   width: 400px;
   padding: 40px;
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
 }
-
 .login-box h2 {
   margin: 0 0 30px;
   padding: 0;
-  color: #fff;
-  text-align: center;
 }
-
-.login-box .user-box {
-  position: relative;
-}
-
 .login-box .user-box input {
-  width: 100%;
-  padding: 10px 0;
-  font-size: 16px;
-  color: #fff;
   margin-bottom: 30px;
-  border: none;
   border-bottom: 1px solid #fff;
   outline: none;
   background: transparent;
 }
+.login-box .user-box input:focus ~ label, .login-box .user-box input:valid ~ label {
+  top: -20px;
+}
 .login-box .user-box label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 10px 0;
-  font-size: 16px;
-  color: #fff;
   pointer-events: none;
   transition: 0.5s;
 }
-
-.login-box .user-box input:focus ~ label,
-.login-box .user-box input:valid ~ label {
-  top: -20px;
-  left: 0;
-  color: white;
-  /* font color after click username or pass */
-
-  font-size: 12px;
-}
-
 .login-box form a {
-  position: relative;
-  display: inline-block;
   padding: 10px 20px;
-  color: white;
-  /* font color  submit */
-  font-size: 16px;
-  text-decoration: none;
   text-transform: uppercase;
   overflow: hidden;
   transition: 0.5s;
   margin-top: 40px;
   letter-spacing: 4px;
 }
-
-.login-box a:hover {
-  /* after hoover COLORS */
+.login-box form a:hover {
   background: white;
   color: #4b4949;
   border-radius: 5px;
-  /* after hoover AURA color */
-  box-shadow: 0 0 5px whitesmoke, 0 0 25px whitesmoke, 0 0 50px whitesmoke,
-    0 0 100px whitesmoke;
+  box-shadow: 0 0 5px whitesmoke, 0 0 25px whitesmoke, 0 0 50px whitesmoke, 0 0 100px whitesmoke;
 }
-
-.login-box a span {
-  position: absolute;
+.login-box form a span {
   display: block;
 }
-
-.login-box a span:nth-child(1) {
-  /* bara sus color */
-  top: 0;
-  left: -100%;
-  width: 100%;
+.login-box form a span:nth-child(1), .login-box form a span:nth-child(3) {
   height: 2px;
+}
+.login-box form a span:nth-child(2), .login-box form a span:nth-child(4) {
+  width: 2px;
+  height: 100%;
+}
+.login-box form a span:nth-child(1) {
+  left: -100%;
   background: linear-gradient(90deg, transparent, whitesmoke);
   animation: btn-anim1 1s linear infinite;
+}
+.login-box form a span:nth-child(2) {
+  top: -100%;
+  background: linear-gradient(180deg, transparent, whitesmoke);
+  animation: btn-anim2 1s linear infinite;
+  animation-delay: 0.25s;
+}
+.login-box form a span:nth-child(3) {
+  bottom: 0;
+  right: -100%;
+  background: linear-gradient(270deg, transparent, whitesmoke);
+  animation: btn-anim3 1s linear infinite;
+  animation-delay: 0.5s;
+}
+.login-box form a span:nth-child(4) {
+  bottom: -100%;
+  background: linear-gradient(360deg, transparent, whitesmoke);
+  animation: btn-anim4 1s linear infinite;
+  animation-delay: 0.75s;
 }
 
 @keyframes btn-anim1 {
   0% {
     left: -100%;
   }
-  50%,
-  100% {
+  50%, 100% {
     left: 100%;
   }
 }
-
-.login-box a span:nth-child(2) {
-  top: -100%;
-  right: 0;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(180deg, transparent, whitesmoke);
-  animation: btn-anim2 1s linear infinite;
-  animation-delay: 0.25s;
-}
-
 @keyframes btn-anim2 {
   0% {
     top: -100%;
   }
-  50%,
-  100% {
+  50%, 100% {
     top: 100%;
   }
 }
-
-.login-box a span:nth-child(3) {
-  bottom: 0;
-  right: -100%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(270deg, transparent, whitesmoke);
-  animation: btn-anim3 1s linear infinite;
-  animation-delay: 0.5s;
-}
-
 @keyframes btn-anim3 {
   0% {
     right: -100%;
   }
-  50%,
-  100% {
+  50%, 100% {
     right: 100%;
   }
 }
-
-.login-box a span:nth-child(4) {
-  bottom: -100%;
-  left: 0;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(360deg, transparent, whitesmoke);
-  animation: btn-anim4 1s linear infinite;
-  animation-delay: 0.75s;
-}
-
 @keyframes btn-anim4 {
   0% {
     bottom: -100%;
   }
-  50%,
-  100% {
+  50%, 100% {
     bottom: 100%;
   }
 }
-
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
   transition: background-color 600000s 0s, color 600000s 0s;
 }
 
-.question-and-answer{
+.question-and-answer {
   margin-top: 80px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
   padding-bottom: 50px;
-  
 }
 
-.question,.answer{
+.question,
+.answer {
   max-width: 45vw;
   padding: 20px;
   background: whitesmoke;
-  box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
 }
 
-.button-container{
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.button-container a{
-  color: whitesmoke;
-}
-
-
-.container-buttons-question-list,.main-buttons  {
+.container-buttons-question-list,
+.main-buttons {
   padding-left: 20px;
-  display: flex;
-  flex-direction: row;
 }
 
-.position{ 
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-}
-
-.message-logged{
-  text-align: right;
+.message-logged {
   padding-right: 20px;
 }
 
-.users-only-buttons{
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-}
-
-.header-question-right{
-  display: flex;
+.header-question-right {
   flex-direction: column;
-  text-align: right;
   padding-right: 20px;
 }
 
-
-.button-container-question-details{
-  display: flex;
-  flex-direction: row;
-  text-align: center;
+.button-container-question-details {
   padding-left: 18vw;
-  
 }
 
-.button-container-question-details a{
-  color: whitesmoke;
-}
-
-.dark-mode, .dark-mode tr {
+.dark-mode,
+.dark-mode tr {
   background-color: #121212;
-  color: whitesmoke;
 }
 
+/*# sourceMappingURL=style.css.map */

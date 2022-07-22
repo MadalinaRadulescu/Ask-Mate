@@ -1,0 +1,470 @@
+body,
+table {
+    font-family: monospace;
+    font-size: 110%;
+}
+
+body {
+    width: 99vw;
+    height: 99vh;
+}
+
+%jcse {
+    justify-content: space-evenly;
+}
+
+%tright {
+    text-align: right;
+}
+
+%frow {
+    flex-direction: row;
+}
+
+%bbox {
+    box-sizing: border-box;
+}
+
+%posrel {
+    position: relative;
+}
+
+%w100 {
+    width: 100%;
+}
+
+%bggri {
+    background-color: #4b4949;
+}
+
+%center {
+    text-align: center;
+}
+
+%underline {
+    text-decoration: none;
+}
+
+%noborder {
+    border: 0;
+}
+
+%white {
+    color: #fff;
+}
+
+%whitesmoke {
+    color: whitesmoke;
+}
+%whitesmoke2 {
+    background-color: whitesmoke;
+}
+
+%dib {
+    @extend %dib;
+}
+
+%cursor {
+    cursor: pointer;
+}
+
+%posabs {
+    position: absolute;
+}
+
+%f16 {
+    font-size: 16px;
+}
+
+%r0 {
+    right: 0;
+}
+
+%w140 {
+    width: 140px;
+}
+
+%f12 {
+    font-size: 12px;
+}
+
+%sec03 {
+    transition: 0.3s;
+}
+
+%flex {
+    display: flex;
+}
+
+%h20 {
+    height: 20px;
+}
+
+%t0 {
+    top: 0;
+}
+
+%l0 {
+    left: 0;
+}
+
+%p100 {
+    padding: 10px 0;
+}
+
+%votebtn {
+    @extend %noborder;
+    @extend %white;
+    @extend %center;
+    @extend %underline;
+    @extend %cursor;
+    @extend %dib;
+    padding: 2px 4px;
+    font-size: 10px;
+    margin: 4px 2px;
+}
+
+%br10 {
+    border-radius: 10px;
+}
+
+table {
+    @extend %w100;
+}
+
+th {
+    @extend %bggri;
+    @extend %center;
+    color: #daded4;
+}
+
+tr {
+    @extend %whitesmoke2;
+    @extend %center;
+}
+
+a {
+    color: black;
+    @extend %underline;
+}
+
+#vote-button-up {
+    @extend %votebtn;
+    background-color: #b6c48e;
+}
+#vote-button-down {
+    @extend %votebtn;
+    background-color: #ff1d58;
+}
+
+.position {
+    @extend %posabs;
+    @extend %r0;
+    margin-top: 20px;
+    margin-right: 20px;
+    top: 60px;
+}
+
+.main {
+    @extend %cursor;
+    @extend %bggri;
+    @extend %w140;
+    @extend %f12;
+    @extend %sec03;
+    @extend %h20;
+    @extend %flex;
+    font-weight: bold;
+    box-shadow: 5px 5px 0 0;
+    justify-content: center;
+    align-items: center;
+    min-height: 20px;
+
+    &::after {
+        @extend %w140;
+        @extend %h20;
+        @extend %sec03;
+        @extend %t0;
+        @extend %l0;
+        content: "";
+        background: linear-gradient(to right, #e5e1ee, #4b4949);
+        opacity: 0;
+    }
+
+    &:hover {
+        box-shadow: -5px -5px 0 0;
+        transform: scale(0.9);
+
+        &::after {
+            opacity: 1;
+        }
+    }
+}
+#add-href {
+    @extend %posabs;
+    @extend %underline;
+    @extend %white;
+    z-index: 1000;
+}
+
+#story-img {
+    @extend %posabs;
+    @extend %t0;
+    @extend %bbox;
+    right: 150px;
+    width: 500px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+}
+
+.logo-photo {
+    @extend %posrel;
+    @extend %center;
+    top: 10px;
+}
+
+.login-box {
+    @extend %posabs;
+    @extend %bbox;
+    @extend %br10;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+
+    h2 {
+        @extend %white;
+        @extend %center;
+        margin: 0 0 30px;
+        padding: 0;
+    }
+    .user-box {
+        @extend %posrel;
+
+        input {
+            @extend %w100;
+            @extend %white;
+            @extend %noborder;
+            @extend %f16;
+            @extend %p100;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #fff;
+            outline: none;
+            background: transparent;
+
+            &:focus ~ label,
+            &:valid ~ label {
+                @extend %f12;
+                @extend %white;
+                @extend %l0;
+                top: -20px;
+            }
+        }
+
+        label {
+            @extend %posabs;
+            @extend %t0;
+            @extend %l0;
+            @extend %white;
+            @extend %f16;
+            @extend %p100;
+            pointer-events: none;
+            transition: 0.5s;
+        }
+    }
+
+    form a {
+        @extend %posrel;
+        @extend %dib;
+        @extend %white;
+        @extend %underline;
+        @extend %f16;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        overflow: hidden;
+        transition: 0.5s;
+        margin-top: 40px;
+        letter-spacing: 4px;
+
+        &:hover {
+            background: white;
+            color: #4b4949;
+            border-radius: 5px;
+            box-shadow: 0 0 5px whitesmoke, 0 0 25px whitesmoke,
+                0 0 50px whitesmoke, 0 0 100px whitesmoke;
+        }
+
+        span {
+            @extend %posabs;
+            display: block;
+
+            &:nth-child(1),
+            &:nth-child(3) {
+                height: 2px;
+            }
+
+            &:nth-child(2),
+            &:nth-child(4) {
+                width: 2px;
+                height: 100%;
+            }
+
+            &:nth-child(1) {
+                @extend %w100;
+                @extend %t0;
+                left: -100%;
+                background: linear-gradient(90deg, transparent, whitesmoke);
+                animation: btn-anim1 1s linear infinite;
+            }
+
+            &:nth-child(2) {
+                @extend %r0;
+                top: -100%;
+                background: linear-gradient(180deg, transparent, whitesmoke);
+                animation: btn-anim2 1s linear infinite;
+                animation-delay: 0.25s;
+            }
+
+            &:nth-child(3) {
+                @extend %w100;
+                bottom: 0;
+                right: -100%;
+                background: linear-gradient(270deg, transparent, whitesmoke);
+                animation: btn-anim3 1s linear infinite;
+                animation-delay: 0.5s;
+            }
+
+            &:nth-child(4) {
+                @extend %l0;
+                bottom: -100%;
+                background: linear-gradient(360deg, transparent, whitesmoke);
+                animation: btn-anim4 1s linear infinite;
+                animation-delay: 0.75s;
+            }
+        }
+    }
+}
+
+@keyframes btn-anim1 {
+    0% {
+        left: -100%;
+    }
+    50%,
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes btn-anim2 {
+    0% {
+        top: -100%;
+    }
+    50%,
+    100% {
+        top: 100%;
+    }
+}
+
+@keyframes btn-anim3 {
+    0% {
+        right: -100%;
+    }
+    50%,
+    100% {
+        right: 100%;
+    }
+}
+
+@keyframes btn-anim4 {
+    0% {
+        bottom: -100%;
+    }
+    50%,
+    100% {
+        bottom: 100%;
+    }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.question-and-answer {
+    @extend %flex;
+    @extend %frow;
+    @extend %jcse;
+    margin-top: 80px;
+    padding-bottom: 50px;
+}
+
+.question,
+.answer {
+    @extend %bbox;
+    @extend %br10;
+    max-width: 45vw;
+    padding: 20px;
+    background: whitesmoke;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+}
+
+.button-container {
+    @extend %center;
+    @extend %flex;
+    @extend %frow;
+    @extend %jcse;
+}
+
+.button-container a {
+    @extend %whitesmoke;
+}
+
+.container-buttons-question-list,
+.main-buttons {
+    @extend %flex;
+    @extend %frow;
+    padding-left: 20px;
+}
+
+.position {
+    @extend %flex;
+    @extend %frow;
+    @extend %center;
+}
+
+.message-logged {
+    @extend %tright;
+    padding-right: 20px;
+}
+
+.users-only-buttons {
+    @extend %flex;
+    @extend %frow;
+    @extend %center;
+}
+
+.header-question-right {
+    @extend %flex;
+    @extend %tright;
+    flex-direction: column;
+    padding-right: 20px;
+}
+
+.button-container-question-details {
+    @extend %flex;
+    @extend %frow;
+    @extend %center;
+    padding-left: 18vw;
+}
+
+.button-container-question-details a {
+    @extend %whitesmoke;
+    @extend %whitesmoke2;
+}
+
+.dark-mode,
+.dark-mode tr {
+    @extend %whitesmoke;
+    background-color: #121212;
+}
