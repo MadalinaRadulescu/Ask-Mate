@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Edit answer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-</head>
-    <body>
-        <img 
-            src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400" 
-            alt="" 
-            style="height: 50px;"
-        >
-        <h1>
-            answer
-        </h1>
-        <img 
-            src="https://lh3.googleusercontent.com/IbHhHO_tRocLJIPR9bB5qmdzlNRJehLFnKA8pGcMULf5tapxvYfIJQ74Iz4rru-AJQO7dOcnpMKtLmmk9kmhBX2e4f1-izYKJLzilEIjIJC-L35VCS8scGOsvaPRpfwmRBuLbW2K=w2400" 
-            id="story-img"
-        >
-        <br> 
-        <br>
-            {% for dic in list_dic_answers %}
-                {% if dic.id  == answer_id|int %}
-                    {{headers[4]}}
-                    <br>
-                    <form action="{{ url_for('edit_answer',answer_id=answer_id) }}" method="post" enctype="multipart/form-data">
-                        <textarea name="message" id="" cols="30" rows="10">{{ dic.message }}</textarea>
-                    
-                    <br>
-                    {{headers[5]}}
-                    <label for="file"></label><br>
-                        <input type="file" name="File" id="file"> <br><br>
-                    <br>
-                        <button type="submit">Submit updated answer</button>
-                    </form>
-            {% endif %}
-    
-        {% endfor %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <img
+      src="https://lh3.googleusercontent.com/MDXjjMf86932TEsH20IGPFkBvTy0J8uwT22pWt9xSuhnmVvCyE-wrQ0qWrJQDutXEpBIuGUyukN1HSSw47JhKziEJBg-XDMZSB4TdsVCOBrhMAhRv6KrQXEasPPMYG7-2LdfIHGW=w2400"
+      alt=""
+      style="height: 50px"
+    />
+    <h1>answer</h1>
+    <img
+      src="https://lh3.googleusercontent.com/IbHhHO_tRocLJIPR9bB5qmdzlNRJehLFnKA8pGcMULf5tapxvYfIJQ74Iz4rru-AJQO7dOcnpMKtLmmk9kmhBX2e4f1-izYKJLzilEIjIJC-L35VCS8scGOsvaPRpfwmRBuLbW2K=w2400"
+      id="story-img"
+    />
+    <br />
+    <br />
+    {% for dic in list_dic_answers %} {% if dic.id == answer_id|int %}
+    {{headers[4]}}
+    <br />
+    <form
+      action="{{ url_for('edit_answer',answer_id=answer_id) }}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <textarea name="message" id="" cols="30" rows="10">
+{{ dic.message }}</textarea
+      >
 
-        
-    </body>
+      <br />
+      {{headers[5]}}
+      <label for="file"></label><br />
+      <input type="file" name="File" id="file" /> <br /><br />
+      <br />
+      <button type="submit">Submit updated answer</button>
+    </form>
+    {% endif %} {% endfor %}
+  </body>
 </html>
