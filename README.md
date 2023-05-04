@@ -36,3 +36,6 @@ Ask Mate is a web application for asking and answering questions. It provides an
 **Login Page**
 
 <img width="582" alt="Login page" src="https://user-images.githubusercontent.com/101947079/236156414-8f47487f-f27e-4893-a2af-cd7bb98281e5.png">
+
+# License
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
