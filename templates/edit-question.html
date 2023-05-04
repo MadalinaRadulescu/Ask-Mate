@@ -25,7 +25,7 @@
       enctype="multipart/form-data"
     >
       {% for title in titles %}
-      <label for="{{" title }}>
+      <label for={{ title }}>
         {{title.replace("_"," ").capitalize()}}
         <br />
       </label>
@@ -34,7 +34,7 @@
       <label for="file"></label><br />
       <input type="file" name="File" id="file" /> <br /><br />
       {% else %}
-      <textarea name="{{" title }} rows="4" cols="40">
+      <textarea name={{ title }} rows="4" cols="40">
 {{ question_dic[title]|safe }}</textarea
       ><br />
       {% endif %} {% endfor %}
